@@ -1,0 +1,16 @@
+cores pro jogo
+
+1 - vermelho - 255 0 0
+2 - azul - 0 0 255
+3 - preto - 0 0 0
+4 - rosa - 255 0 127
+azul-verde - 0 255 255
+amarelo - 255 255 0
+verde - 0 255 0 
+roxo - 204 0 204
+jade - 0 255 128
+laranja - 255 128 0
+
+cor = ['vermelho','azul','preto','rosa','azul-verde','amarelo','verde','roxo','jade','laranja'];
+val = [[1 0 0],[0 0 1],[0 0 0],[1 0 0.5],[0 1 1],[1 1 0],[0 1 0],[0.8 0 0.8],[0 1 0.5],[1 0.5 0]]; 
+  

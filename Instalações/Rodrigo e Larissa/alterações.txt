@@ -1,0 +1,29 @@
+Notas Gerais 
+-Se em algum momento o projeto exceder a carga de 63A bifásico existente, sinta se livre para aumentar o valor da carga, e utilizando o projeto como justificativa eu posso fazer a requisição junto a CEMIG. Só lembrando que trifásico é inviável nessa propriedade.
+-Localização mais precisa de onde o padrão se encontra em relação às edificações:
+
+Projeto Dados
+!Não acho que seja necessário um ponto para interfone, dado a natureza do local. 
+!A caixa de passagem embutida está atrás de um painel/móvel. Seria interessante alinhar com os arquitetos se faz mais sentido ela ficar deslocada para mais próximo do corredor, ou então o móvel ter uma “porta oculta” ou acesso para essa caixa. 
+^Coloquei mais próxima do corredor
+!Não identifiquei nenhum ponto de entrada para antena nem para internet. Ambos os itens devem ser instalados na parte externa. Imagino que uma caixa 4x4 no local indicado abaixo deve ser suficiente. 
+!Vou instalar um sistema de câmeras de segurança (bullet/IP), e preciso de pontos de dados externos nos lugares que  pretendo colocar câmera. Adicionei no projeto de dados abaixo os pontos que tenho interesse em adicionar cada câmera. 
+!Em geral, as câmeras não utilizam ponto de energia (alimentados por PoE), então provavelmente pontos de rede não serão necessários.
+!Possivelmente, com a nova quantidade de pontos de rede, o diâmetro dos eletrodutos não seja suficiente.
+
+Projeto Elétrico
+CASA
+!Pelo projeto, a tomada do fogão está no circuito 6. Entretanto, devo utilizar um fogão a indução 220V 7000W, e devido a carga ele deve estar em um circuito independente que suporte sua demanda. Pode usar esse modelo como referência nos cálculos de carga: https://loja.fischer.com.br/fog-o-cooktop-fischer-4q-por-induc-o-mesa-vitroceramica-220v/p 
+!O QDC está em um local de difícil acesso. Gostaria de ter ele em uma área comum e de fácil acesso (principalmente por questões de segurança). Seria possível mover ele para próximo a cozinha ou o corredor? 
+-No diagrama unifilar, vi que você adicionou um DPS classe 2.  Como lá é zona rural e em lugar alto e descampado, me pergunto se faz sentido ter DPS classe 1 e 2, ao invés de somente classe 2.
+!Gostaria de adicionar um ponto de luz para ficar dentro da churrasqueira, pois a noite pode ficar muito escuro. 
+!Acho que algumas regiões da Varanda 01 estão com baixa iluminação (somente 3 arandelas 18W do lado maior). Acho que faz sentido adicionar  alguns pontos de pendente ou plafon nesses pontos que indiquei na figura abaixo: 
+!Gostaria de ter alguns refletores de Led (30W ou 50W) nas bordas da casa, para poder iluminar o contorno. Tinha pensado em algo próximo ao seguinte:
+GARAGEM
+!O QDC está em um local de difícil acesso, possivelmente ficaria atrás de alguma bancada ou equipamento. Gostaria de ter ele próximo a entrada, do lado direito como na figura abaixo:
+!Preciso de um circuito 220V na oficina para um par de tomadas 20A + 10A
+!Pode alterar os dois plafons leds (21c) de 18W da sala de exercício para ser somente um de 24W.
+!Adicionar dois refletores de 50W nas diagonais da garagem, como indicado abaixo: 
+!Nota: planejo adicionar um projeto de geração por energia fotovoltaica, seria interessante manter espaço de reserva suficiente no QDC da garagem para tal. Além disso, uma caixa de passagem na altura do telhado com eletroduto para acesso ao QDC.
+
+
