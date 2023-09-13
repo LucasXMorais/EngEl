@@ -41,9 +41,9 @@ def calcularAngulos(vetorB, vetorP, barraReferencia):
     vetorThetaAux = np.dot(-1*np.linalg.inv(vetorB),vetorP)
 
     for i in range(len(vetorTheta)):
-        if i+1 < barraReferencia: vetorTheta[i] = vetorThetaAux[i];  
-        if i+1 == barraReferencia: vetorTheta[i] = 0;  
-        if i+1 > barraReferencia: vetorTheta[i] = vetorThetaAux[i-1];  
+        if i+1 < barraReferencia: vetorTheta[i] = vetorThetaAux[i]
+        if i+1 == barraReferencia: vetorTheta[i] = 0
+        if i+1 > barraReferencia: vetorTheta[i] = vetorThetaAux[i-1]
 
     return vetorTheta 
 
@@ -165,6 +165,10 @@ def calcularFluxoPorBarra(matrizY, vetorTensaoAngulos):
 
 # infoLinhas = [barra de, barra para, resistencia km, reatancia km, susceptancia shuntkm/2, tapkm, defasagemkm]
 
+# infoLinhas = np.array([ [1, 2, 0.01, 0.1, 0.0, 0.98, 0.0],
+#                         [1, 3, 0.02, 0.2, 0.0, 1.0, 30.0],
+#                         [2, 3, 0.03, 0.6, 0.05, 1.0, 0.0]])
+
 infoLinhas = np.array([ [1, 2, 0.006, 0.032, 0.005, 1.0, 0.0],
                         [1, 3, 0.012, 0.064, 0.010, 1.0, 0.0],
                         [2, 3, 0.036, 0.192, 0.030, 1.0, 0.0]])
@@ -188,10 +192,14 @@ tensoesAngulosBarras = np.array([[1, 1.05, -0.01733025],
 # tolerancia = 0.001
 # maxIter = 10
 
+# infoLinhas = np.array([[1, 2, 0.2, 1.0, 0.02, 1.0, 0.0]])
+
+
 matrizY = np.copy(matAdm(infoLinhas))
 
-calcularFluxoPorBarra(matrizY, tensoesAngulosBarras)
-
+print(matrizY)
+print(matrizY.real)
+print(matrizY.imag)
 
 
 
