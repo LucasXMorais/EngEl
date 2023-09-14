@@ -3,7 +3,7 @@
 # SEP I - Engenharia Elétrica (UFSJ)
 import numpy as np
 
-
+# Construção da matriz admitancia Y completa
 def matAdm(infoLinhas):
     Max = int(infoLinhas[np.argmax(infoLinhas,axis=0)[0]][np.argmax(infoLinhas,axis=1)[0]])
     matrizY = np.zeros((Max,Max),dtype=np.complex_)
@@ -22,6 +22,53 @@ def matAdm(infoLinhas):
     
     return matrizY
 
+# Funcão para montar os vetores com todos os ângulos e tensões do sistema
+# para os angulos incógnitas o valor inicial é definido como 0 e para as tensões é 1
+def vetoresAngulosTensoes(infoBarras):
+    angulos = np.zeros((np.shape(infoBarras)[0],1))
+    tensoes = np.zeros((np.shape(infoBarras)[0],1))
+    c = 0
+    for barra in infoBarras:
+        if (barra[3] == '-') : 
+            angulos[c] = 0.0 
+        else :
+            angulos[c] = float(barra[3])
+        if (barra[2] == '-') : 
+            tensoes[c] = 1.0 
+        else :
+            tensoes[c] = float(barra[2])
+        c += 1
+
+    return angulos, tensoes
+
+# Definindo vetores dos indices das incognitas para auxiliar o código
+def vetoresIndices(infoBarras, nPV, nPQ):
+    size = nPV + 2*nPQ
+    indices = np.zeros((size,1))
+    a = 0
+    t = nPV+nPQ 
+    for barra in infoBarras:
+        if barra[1] == 'PV': 
+            indices[a] = int(barra[0])
+            a += 1
+        if barra[1] == 'PQ': 
+            indices[a] = int(barra[0]) 
+            indices[t] = int(barra[0])
+            a += 1
+            t += 1
+    # Para facilitar o código, separando os vetores em 2, um para os indices dos angulos e outro para os indices das tensoes
+    indicesAngulos = [] 
+    indicesTensoes = []
+    c = 0
+    for i in indices:
+        if (c < (nPV+nPQ)): indicesAngulos.append(int(i[0]))
+        if (c >= (nPV+nPQ)): indicesTensoes.append(int(i[0]))
+        c += 1
+
+    return indices, indicesAngulos, indicesTensoes
+
+# Calcular as potenicas esperadas e agrupá-las em dois vetores, um para 
+# potencias ativas e outro para potencias reativas
 def calcularPotenciasEsp(infoBarras):
     ativaEsp = np.zeros((np.shape(infoBarras)[0],1))
     reativaEsp = np.zeros((np.shape(infoBarras)[0],1))
@@ -32,14 +79,14 @@ def calcularPotenciasEsp(infoBarras):
         c += 1
     return ativaEsp, reativaEsp 
 
+# Funcao para o calculo de potencias (Pcalc) a cada iteração
 def calcularPotenciasCalc(matrizY, angulos, tensoes):
     G = np.copy(matrizY.real)
     B = np.copy(matrizY.imag)
     ativasKCalculada = np.zeros(np.shape(angulos))
     reativasKCalculada = np.zeros(np.shape(angulos))
 
-    k = 0
-    for potencia in ativasKCalculada:
+    for k in range(len(tensoes)):
         for m in range(len(tensoes)):
             Gkm = G[k][m]
             Bkm = B[k][m]
@@ -48,12 +95,12 @@ def calcularPotenciasCalc(matrizY, angulos, tensoes):
             cosThetakm = np.cos(angulokm)
             sinThetakm = np.sin(angulokm)
 
-            potencia += tensaokm * ( (Gkm * cosThetakm) + (Bkm * sinThetakm) )
+            ativasKCalculada[k] += tensaokm * ( (Gkm * cosThetakm) + (Bkm * sinThetakm) )
             reativasKCalculada[k] += tensaokm * ( (Gkm * sinThetakm) - (Bkm * cosThetakm) )
-        k += 1
 
     return ativasKCalculada, reativasKCalculada
 
+# Calculo do vetor H (dP/dTheta)
 def dPdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos):
     G = np.copy(matrizY.real)
     B = np.copy(matrizY.imag)
@@ -67,11 +114,12 @@ def dPdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos):
             m = indicesAngulos[coluna] - 1
             Gkm = G[k][m]
             Bkm = B[k][m]
-            angulokm = angulos[k] - angulos[m]
-            tensaokm = tensoes[k]*tensoes[m]
+            angulokm = angulos[k][0] - angulos[m][0]
+            tensaokm = tensoes[k][0]*tensoes[m][0]
             cosThetakm = np.cos(angulokm)
             sinThetakm = np.sin(angulokm)
 
+            # Verificando se está iterando sobre a diagonal onde o calculo é diferente
             if (k != m):
                 jacobianoH[linha][coluna] = tensaokm * ( (Gkm * sinThetakm) - (Bkm * cosThetakm) )
                 continue
@@ -79,8 +127,8 @@ def dPdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos):
             for mAux in range(len(angulos)):
                 GkmAux = G[k][mAux]
                 BkmAux = B[k][mAux]
-                angulokmAux = angulos[k] - angulos[mAux]
-                tensaokmAux = tensoes[k]*tensoes[mAux]
+                angulokmAux = angulos[k][0] - angulos[mAux][0]
+                tensaokmAux = tensoes[k][0]*tensoes[mAux][0]
                 cosThetakmAux = np.cos(angulokmAux)
                 sinThetakmAux = np.sin(angulokmAux)
 
@@ -88,7 +136,8 @@ def dPdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos):
 
     return jacobianoH
 
-def dPdV(matrizY, angulos, tensoes, nPV, nPQ, indicesTensoes):
+# Calculo do vetor N (dP/dV)
+def dPdV(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos, indicesTensoes):
     G = np.copy(matrizY.real)
     B = np.copy(matrizY.imag)
 
@@ -96,31 +145,33 @@ def dPdV(matrizY, angulos, tensoes, nPV, nPQ, indicesTensoes):
     
     for linha in range(nPV+nPQ):
         # Indice atual é o indice do angulo - 1 para poder iterar sorbe a array
-        k = indicesTensoes[linha] - 1
+        k = indicesAngulos[linha] - 1
         for coluna in range(nPQ):
             m = indicesTensoes[coluna] - 1
             Gkm = G[k][m]
             Bkm = B[k][m]
-            angulokm = angulos[k] - angulos[m]
+            angulokm = angulos[k][0] - angulos[m][0]
             cosThetakm = np.cos(angulokm)
             sinThetakm = np.sin(angulokm)
 
+            # Verificando se está iterando sobre a diagonal onde o calculo é diferente
             if (k != m):
-                jacobianoN[linha][coluna] = tensoes[k] * ( (Gkm * cosThetakm) + (Bkm * sinThetakm) )
+                jacobianoN[linha][coluna] = tensoes[k][0] * ( (Gkm * cosThetakm) + (Bkm * sinThetakm) )
                 continue
-            jacobianoN[linha][coluna] = tensoes[k]*Gkm            
+            jacobianoN[linha][coluna] = tensoes[k][0]*Gkm            
             for mAux in range(len(angulos)):
                 GkmAux = G[k][mAux]
                 BkmAux = B[k][mAux]
-                angulokmAux = angulos[k] - angulos[mAux]
+                angulokmAux = angulos[k][0] - angulos[mAux][0]
                 cosThetakmAux = np.cos(angulokmAux)
                 sinThetakmAux = np.sin(angulokmAux)
 
-                jacobianoN[linha][coluna] += tensoes[mAux] * ( (GkmAux * cosThetakmAux) + (BkmAux * sinThetakmAux) )
+                jacobianoN[linha][coluna] += tensoes[mAux][0] * ( (GkmAux * cosThetakmAux) + (BkmAux * sinThetakmAux) )
 
     return jacobianoN
 
-def dQdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos):
+# Calculo do vetor M (dQ/dTheta)
+def dQdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos, indicesTensoes):
     G = np.copy(matrizY.real)
     B = np.copy(matrizY.imag)
 
@@ -128,16 +179,17 @@ def dQdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos):
     
     for linha in range(nPQ):
         # Indice atual é o indice do angulo - 1 para poder iterar sorbe a array
-        k = indicesAngulos[linha] - 1
+        k = indicesTensoes[linha] - 1
         for coluna in range(nPV+nPQ):
             m = indicesAngulos[coluna] - 1
             Gkm = G[k][m]
             Bkm = B[k][m]
-            angulokm = angulos[k] - angulos[m]
-            tensaokm = tensoes[k]*tensoes[m]
+            angulokm = angulos[k][0] - angulos[m][0]
+            tensaokm = tensoes[k][0]*tensoes[m][0]
             cosThetakm = np.cos(angulokm)
             sinThetakm = np.sin(angulokm)
 
+            # Verificando se está iterando sobre a diagonal onde o calculo é diferente
             if (k != m):
                 jacobianoM[linha][coluna] = (-1*tensaokm) * ( (Gkm * cosThetakm) + (Bkm * sinThetakm) )
                 continue
@@ -145,8 +197,8 @@ def dQdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos):
             for mAux in range(len(angulos)):
                 GkmAux = G[k][mAux]
                 BkmAux = B[k][mAux]
-                angulokmAux = angulos[k] - angulos[mAux]
-                tensaokmAux = tensoes[k]*tensoes[mAux]
+                angulokmAux = angulos[k][0] - angulos[mAux][0]
+                tensaokmAux = tensoes[k][0]*tensoes[mAux][0]
                 cosThetakmAux = np.cos(angulokmAux)
                 sinThetakmAux = np.sin(angulokmAux)
 
@@ -154,6 +206,7 @@ def dQdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos):
 
     return jacobianoM
 
+# Calculo do vetor L (dQ/dV)
 def dQdV(matrizY, angulos, tensoes, nPV, nPQ, indicesTensoes):
     G = np.copy(matrizY.real)
     B = np.copy(matrizY.imag)
@@ -167,69 +220,62 @@ def dQdV(matrizY, angulos, tensoes, nPV, nPQ, indicesTensoes):
             m = indicesTensoes[coluna] - 1
             Gkm = G[k][m]
             Bkm = B[k][m]
-            angulokm = angulos[k] - angulos[m]
-            tensaokm = tensoes[k]*tensoes[m]
+            angulokm = angulos[k][0] - angulos[m][0]
             cosThetakm = np.cos(angulokm)
             sinThetakm = np.sin(angulokm)
 
+            # Verificando se está iterando sobre a diagonal onde o calculo é diferente
             if (k != m):
-                jacobianoL[linha][coluna] = tensoes[k] * ( (Gkm * sinThetakm) - (Bkm * cosThetakm) )
+                jacobianoL[linha][coluna] = tensoes[k][0] * ( (Gkm * sinThetakm) - (Bkm * cosThetakm) )
                 continue
-            jacobianoL[linha][coluna] = -1*tensoes[k]*Bkm            
+            jacobianoL[linha][coluna] = -1*tensoes[k][0]*Bkm            
             for mAux in range(len(angulos)):
                 GkmAux = G[k][mAux]
                 BkmAux = B[k][mAux]
-                angulokmAux = angulos[k] - angulos[mAux]
-                tensaokmAux = tensoes[k]*tensoes[mAux]
+                angulokmAux = angulos[k][0] - angulos[mAux][0]
                 cosThetakmAux = np.cos(angulokmAux)
                 sinThetakmAux = np.sin(angulokmAux)
 
-                jacobianoL[linha][coluna] += tensoes[mAux] * ( (GkmAux * sinThetakmAux) - (BkmAux * cosThetakmAux) )
+                jacobianoL[linha][coluna] += tensoes[mAux][0] * ( (GkmAux * sinThetakmAux) - (BkmAux * cosThetakmAux) )
 
     return jacobianoL 
 
-def calcularJacobiano(matrizY, angulos, tensoes, indices, nPV, nPQ):
-
-    size = nPV + 2*nPQ
-    jacobiano = np.zeros((size,size))
-
-    indicesAngulos = np.zeros((nPV+nPQ,1))
-    indicesTensoes = np.zeros((nPQ,1))
-    c = 0
-    for i in indices:
-        if (c < (nPV+nPQ)): indicesAngulos[c] = i
-        if (c >= (nPV+nPQ)): indicesTensoes[c-nPV-nPQ] = i
-        c += 1
-
+# Função simples para montar a matriz jacobiano montando primeiro as componentes H, N, M e L
+def montarJacobiano(matrizY, angulos, tensoes, indicesAngulos, indicesTensoes, nPV, nPQ):
+    #Primeiro são feitas as componentes H, N, M e L
     jacobianoH = np.copy(dPdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos))
-    jacobianoN = np.copy(dPdV(matrizY, angulos, tensoes, nPV, nPQ, indicesTensoes))
-    jacobianoM = np.copy(dQdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos))
+    jacobianoN = np.copy(dPdV(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos, indicesTensoes))
+    jacobianoM = np.copy(dQdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos, indicesTensoes))
     jacobianoL = np.copy(dQdV(matrizY, angulos, tensoes, nPV, nPQ, indicesTensoes))
 
-    return 1
+    #Essas 2 linhas são para juntar as matrizes H, N e M, L, respectivamente
+    jacobianoAuxP = np.concatenate((jacobianoH, jacobianoN), axis=1)
+    jacobianoAuxQ = np.concatenate((jacobianoM, jacobianoL), axis=1)
 
-def metodoNewton(infoBarras, matrizY, angulos, tensoes):
-    #Determinando as matrizes do problema g = -J . dx 
-    nPV = 0
-    nPQ = 0
-    for barra in infoBarras:
-        if barra[1] == 'PV':
-            nPV += 1
-        if barra[1] == 'PQ':
-            nPQ += 1
-    size = nPV + 2*nPQ
-    variacoesPotencia = np.zeros((size,1))
-    jacobiano = np.zeros((size,size))
-    deltax = np.zeros((size,1))
-    indices = np.zeros((size,1))
+    #Finalmente, juntar todas as matrizes para finalizar o jacobiano
+    jacobiano = np.concatenate((jacobianoAuxP, jacobianoAuxQ), axis=0)
 
-    #Calcular as potencias esperadas
-    ativaEsp, reativaEsp = calcularPotenciasEsp(infoBarras)
+    return jacobiano
 
-    #Calcular as potencias para valores iniciais
-    ativasKCalculada, reativasKCalculada = calcularPotenciasCalc(matrizY, angulos, tensoes)
+# Função simples para montar a matriz jacobiano para o método de newton desacoplado
+# onde as componentes N e M são desprezadas
+def montarJacobianoDesacoplado(matrizY, angulos, tensoes, indicesAngulos, indicesTensoes, nPV, nPQ):
+    #Primeiro são feitas as componentes H, N, M e L
+    jacobianoH = np.copy(dPdTheta(matrizY, angulos, tensoes, nPV, nPQ, indicesAngulos))
+    jacobianoN = np.zeros((nPV+nPQ, nPQ    ))
+    jacobianoM = np.zeros((    nPQ, nPV+nPQ))
+    jacobianoL = np.copy(dQdV(matrizY, angulos, tensoes, nPV, nPQ, indicesTensoes))
 
-    return 1
+    #Essas 2 linhas são para juntar as matrizes H, N e M, L, respectivamente
+    jacobianoAuxP = np.concatenate((jacobianoH, jacobianoN), axis=1)
+    jacobianoAuxQ = np.concatenate((jacobianoM, jacobianoL), axis=1)
+
+    #Finalmente, juntar todas as matrizes para finalizar o jacobiano
+    jacobiano = np.concatenate((jacobianoAuxP, jacobianoAuxQ), axis=0)
+
+    return jacobiano
+
+# ----------------- TESTE 7 -----------------
 
 # infoLinhas = [barra de, barra para, resistencia km, reatancia km, susceptancia shuntkm/2, tapkm, defasagemkm]
 
@@ -247,30 +293,77 @@ infoBarras = np.array([ [1, 'PV', 1.05, '-', 0.5, 0.0, 0.0, 0.0],
 matrizY = np.copy(matAdm(infoLinhas))
 
 #Construcao dos vetores de angulos e tensoes do sistema
-#e definindo os valores iniciais dos angulos desconhecidos como 0 e tensoes como 1
-angulos = np.zeros((np.shape(infoBarras)[0],1))
-tensoes = np.zeros((np.shape(infoBarras)[0],1))
-c = 0
+angulos, tensoes = vetoresAngulosTensoes(infoBarras)
+
+# Definindo o número de barras PV e PQ
+nPV = 0
+nPQ = 0
 for barra in infoBarras:
-    if (barra[3] == '-') : 
-        angulos[c] = 0.0 
-    else :
-        angulos[c] = float(barra[3])
+    if barra[1] == 'PV': nPV += 1
+    if barra[1] == 'PQ': nPQ += 1
 
-    if (barra[2] == '-') : 
-        tensoes[c] = 1.0 
-    else :
-        tensoes[c] = float(barra[2])
-    c += 1
+# Montando vetores para armazenar os indices das incognitas do problema
+indices, indicesAngulos, indicesTensoes = vetoresIndices(infoBarras, nPV, nPQ)
 
+#Calcular as potencias esperadas
+ativaEsp, reativaEsp = calcularPotenciasEsp(infoBarras)
 
+# Definindo parâmetros iniciais do método de newton
+maxIter = 100
+iter = 0
+tol = 0.03
+fimP = 0
+fimQ = 0
 
+while iter < maxIter :
+    # Calculando pcalc para valores iniciais
+    ativasKCalculada, reativasKCalculada = calcularPotenciasCalc(matrizY, angulos, tensoes)
 
+    #Calculando deltaP e deltaQ
+    deltaPks = np.zeros((nPV+nPQ,1))
+    deltaQks = np.zeros((nPQ,1))
+    c = 0
+    for i in indicesAngulos:
+        deltaPks[c] = ativaEsp[i-1] + ativasKCalculada[i-1]
+        c += 1
+    c = 0
+    for i in indicesTensoes:
+        deltaQks[c] = reativaEsp[i-1] + reativasKCalculada[i-1]
+        c += 1
 
+    # Testando convergência
+    if np.max(np.abs(deltaPks)) < tol: fimP = 1
+    if np.max(np.abs(deltaQks)) < tol: fimQ = 1
+    if fimP and fimQ: print('Convergiu em ', iter, ' iterações'); break
 
+    # Montando um vetor com as variações de potência 
+    deltaPotencias = np.concatenate((deltaPks, deltaQks), axis=0)
 
+    #Montando o jacobiano da iteração
+    # jacobiano = np.copy(montarJacobiano(matrizY, angulos, tensoes, indicesAngulos, indicesTensoes, nPV, nPQ))
+    jacobiano = np.copy(montarJacobianoDesacoplado(matrizY, angulos, tensoes, indicesAngulos, indicesTensoes, nPV, nPQ))
 
+    # Fazendo dx = -J^(-1) * g
+    deltaX = np.zeros(( len(indicesAngulos) + len(indicesTensoes) ,1))
+    deltaX = (-1)*np.dot(np.linalg.inv(jacobiano) , deltaPotencias) 
 
+    # Atualizando os ângulos
+    c = 0
+    for a in indicesAngulos:
+        angulos[a-1] += deltaX[c]
+        c += 1
+    for t in indicesTensoes:
+        tensoes[t-1] += deltaX[c]
+        c += 1
+
+    iter += 1
+
+# print('Jacobiano Normal')
+print('Jacobiano Desacoplado')
+print('Angulos finais')
+print(angulos)
+print('Tensoes finais')
+print(tensoes)
 
 
 
