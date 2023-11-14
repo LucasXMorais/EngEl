@@ -154,10 +154,11 @@ correntesDesequilibradasGerador = np.dot( tranformacaoT, correntesComponentesCom
 # Passando de pu para a base na barra
 correnteBase = (100*(10**6)) / (13*(10**3))
 correntesDesequilibradasGerador = correntesDesequilibradasGerador * correnteBase
+# Como a falta foi na fase C, a corrente encontrada em a, é a corrente em c. Portanto será feita uma rotação dos valores encontrados
 print(" --- GERADOR 1 --- ")
-print(f'Corrente A: {np.absolute(correntesDesequilibradasGerador[0])[0]} , fase: {np.angle(correntesDesequilibradasGerador[0],deg=True)[0]}')
-print(f'Corrente B: {np.absolute(correntesDesequilibradasGerador[1])[0]} , fase: {np.angle(correntesDesequilibradasGerador[1],deg=True)[0]}')
-print(f'Corrente C: {np.absolute(correntesDesequilibradasGerador[2])[0]} , fase: {np.angle(correntesDesequilibradasGerador[2],deg=True)[0]}')
+print(f'Corrente A: {np.absolute(correntesDesequilibradasGerador[1])[0]} , fase: {np.angle(correntesDesequilibradasGerador[1],deg=True)[0]}')
+print(f'Corrente B: {np.absolute(correntesDesequilibradasGerador[2])[0]} , fase: {np.angle(correntesDesequilibradasGerador[2],deg=True)[0]}')
+print(f'Corrente C: {np.absolute(correntesDesequilibradasGerador[0])[0]} , fase: {np.angle(correntesDesequilibradasGerador[0],deg=True)[0]}')
 
 #Gerador 2
 tensaoBarraZero = tensoesDesequilibradas[4][0][0]
@@ -179,9 +180,9 @@ correntesDesequilibradasGerador = np.dot( tranformacaoT, correntesComponentesCom
 correnteBase = (100*(10**6)) / (13*(10**3))
 correntesDesequilibradasGerador = correntesDesequilibradasGerador * correnteBase
 print(" --- GERADOR 2 --- ")
-print(f'Corrente A: {np.absolute(correntesDesequilibradasGerador[0])[0]} , fase: {np.angle(correntesDesequilibradasGerador[0],deg=True)[0]}')
-print(f'Corrente B: {np.absolute(correntesDesequilibradasGerador[1])[0]} , fase: {np.angle(correntesDesequilibradasGerador[1],deg=True)[0]}')
-print(f'Corrente C: {np.absolute(correntesDesequilibradasGerador[2])[0]} , fase: {np.angle(correntesDesequilibradasGerador[2],deg=True)[0]}')
+print(f'Corrente A: {np.absolute(correntesDesequilibradasGerador[1])[0]} , fase: {np.angle(correntesDesequilibradasGerador[1],deg=True)[0]}')
+print(f'Corrente B: {np.absolute(correntesDesequilibradasGerador[2])[0]} , fase: {np.angle(correntesDesequilibradasGerador[2],deg=True)[0]}')
+print(f'Corrente C: {np.absolute(correntesDesequilibradasGerador[0])[0]} , fase: {np.angle(correntesDesequilibradasGerador[0],deg=True)[0]}')
 
 
 
