@@ -48,7 +48,7 @@ tranformacaoT = np.array( [ [1,      1,      1],
 # Parâmetros do exercício
 
 # Definindo a barra do curto 
-barraCurto = 2
+barraCurto = 1
 
 # Definicao da fases do curto fase-fase
 # 1 : falta BC; 2 : falta CA; 3 : falta AB
@@ -76,8 +76,10 @@ infoLinhasNeg = np.array([  [1, 1, 0.0, 0.28, 0.0, 1.0, 0.0],
                             [2, 2, 0.0, 0.28, 0.0, 1.0, 0.0]])
 
 infoLinhasZero = np.array([ [1, 1, 0.0, 0.08, 0.0, 1.0, 0.0],
-                            [1, 2, 0.0, 0.50, 0.0, 1.0, 0.0],
-                            [2, 2, 0.0, 0.08, 0.0, 1.0, 0.0]])
+                            [1, 2, 0.0, 0.50, 0.0, 1.0, 0.0]])
+                            # [2, 2, 0.0, 0.08, 0.0, 1.0, 0.0]])
+# #DETALHE IMPORTANTE:SE A IMPEDANCIA NAO ESTA CONECTADA< NAO COLOCAR ELA NA MATRIZ
+# COLOCAR APENAS AS QUE ESTAO CONECTADAS A TERRA
 
 # infoLinhasPos = np.array([  [1, 1, 0.0, 0.20, 0.0, 1.0, 0.0],
 #                             [1, 2, 0.0, 0.20, 0.0, 1.0, 0.0],
@@ -130,24 +132,32 @@ barra = barraCurto - 1
 ZPos  = impedanciaPos[barra][barra]
 ZNeg  = impedanciaNeg[barra][barra]
 ZZero = impedanciaZero[barra][barra]
+# ic(ZPos)
+# ic(ZNeg)
+# ic(ZZero)
 
 # Para as correntes de falta na barra de curto considerando pre-falta como 1/_0
-# IaPos = ( 1/_0 ) / ( ZPos + ZNeg )
-# IaNeg = - IaPos
-# IaZero = 0/_0
-ZEq = ZPos + ZNeg
+# IaPos = ( 1/_0 ) / ( ZPos + ZNeg + ZZero )
+ZEq = ZPos + ZNeg + ZZero
 correntePos = 1 / ZEq
-correnteNeg = -correntePos
-correnteZero = 0+(1j*0)
+# Ia = IaPos + IaNeg + IaZero
+# MAS IaPos = IaNeg = IaZero
+correnteNeg = correntePos
+correnteZero = correntePos
 # Fazendo um vetor para as correntes complexas e desequilibradas
 correntesComponentesComplexas = np.array( [ [correnteZero], [correntePos], [correnteNeg] ] )
 correntesDesequilibradasPonto = np.dot( tranformacaoT, correntesComponentesComplexas )
+# ic(correntesComponentesComplexas)
+# ic(correntesDesequilibradasPonto)
 
 # Calculo das tensoes nas barras
 barra = barraCurto - 1
 numeroBarras = matrizYPos.shape[0]
 
-tensoesBarrasZero = np.zeros((numeroBarras,1),dtype=np.complex_)
+vetorAuxCorrente = np.zeros((numeroBarras,1),dtype=np.complex_)
+vetorAuxCorrente[barra] = -correnteZero
+vetorAuxTensao = np.zeros((numeroBarras,1))
+tensoesBarrasZero = vetorAuxTensao + np.dot(impedanciaZero, vetorAuxCorrente)
 
 vetorAuxCorrente = np.zeros((numeroBarras,1),dtype=np.complex_)
 vetorAuxCorrente[barra] = -correntePos
@@ -168,22 +178,32 @@ for barra in range(numeroBarras):
     vetorAux = np.array([ [compZero], [compPos], [compNeg] ])
     vetorTensoesFasoriais = np.dot( tranformacaoT, vetorAux )
     tensoesDesequilibradas.append(vetorTensoesFasoriais)
-# ic(tensoesDesequilibradas)
-# ---------- FIM ANALISE FASE-FASE-TERRA ----------
+
+for bar in tensoesDesequilibradas:
+    print('BARRA')
+    for fase in bar:
+        print(f'TENSAO : {np.absolute(fase[0])} , fase: {np.angle(fase[0],deg=True)}')
+
+# ---------- FIM ANALISE FASE-TERRA ----------
 # Daqui pra baixo e feita a análise do exercicio
-# No exercicio abaixo, o objeitvo era calcular as coorrentes nos 
-# geradores localizados nas barras 1 e 5
-# A analise acima e a analise base
-# Os geradores 1 e 2 estao nas barras 1 e 5 respectivamente
+
+#Tensoes no ponto de falha
+tensaoAB = tensoesDesequilibradas[0][0][0] - tensoesDesequilibradas[0][1][0]
+tensaoBC = tensoesDesequilibradas[0][1][0] - tensoesDesequilibradas[0][2][0]
+tensaoCA = tensoesDesequilibradas[0][2][0] - tensoesDesequilibradas[0][0][0]
+print(" --- TENSOES --- ")
+print(f'TENSAO AB: {np.absolute(tensaoAB)} , fase: {np.angle(tensaoAB,deg=True)}')
+print(f'TENSAO BC: {np.absolute(tensaoBC)} , fase: {np.angle(tensaoBC,deg=True)}')
+print(f'TENSAO CA: {np.absolute(tensaoCA)} , fase: {np.angle(tensaoCA,deg=True)}')
 
 #Gerador 1
 correnteGeradorZero = 0
 
-tensaoPontoPos = tensoesBarrasPos[0][0]
+tensaoPontoPos = tensoesBarrasPos[0][0].real
 admitanciaBarraPos = 1j*0.28
 correnteGeradorPos = (1-tensaoPontoPos) / admitanciaBarraPos
 
-tensaoPontoNeg = tensoesBarrasNeg[0][0]
+tensaoPontoNeg = tensoesBarrasNeg[0][0].real
 admitanciaBarraNeg = 1j*0.28
 correnteGeradorNeg = (-tensaoPontoNeg) / admitanciaBarraNeg 
 
@@ -202,11 +222,11 @@ print(f'Corrente C: {np.absolute(correntesDesequilibradasGerador[2])[0]} , fase:
 #Gerador 2
 correnteGeradorZero = 0
 
-tensaoPontoPos = tensoesBarrasPos[1][0]
+tensaoPontoPos = tensoesBarrasPos[1][0].real
 admitanciaBarraPos = 1j*0.28
 correnteGeradorPos = (1-tensaoPontoPos) / admitanciaBarraPos
 
-tensaoPontoNeg = tensoesBarrasNeg[1][0]
+tensaoPontoNeg = tensoesBarrasNeg[1][0].real
 admitanciaBarraNeg = 1j*0.28
 correnteGeradorNeg = (-tensaoPontoNeg) / admitanciaBarraNeg 
 
@@ -225,11 +245,11 @@ print(f'Corrente C: {np.absolute(correntesDesequilibradasGerador[2])[0]} , fase:
 #Linha 
 correnteGeradorZero = 0
 
-tensaoPontoPos = tensoesBarrasPos[0][0] - tensoesBarrasPos[1][0]
+tensaoPontoPos = tensoesBarrasPos[0][0].real - tensoesBarrasPos[1][0].real
 admitanciaBarraPos = 1j*0.15
 correnteGeradorPos = (1-tensaoPontoPos) / admitanciaBarraPos
 
-tensaoPontoNeg = tensoesBarrasNeg[0][0] - tensoesBarrasNeg[1][0]
+tensaoPontoNeg = tensoesBarrasNeg[0][0].real - tensoesBarrasNeg[1][0].real
 admitanciaBarraNeg = 1j*0.15
 correnteGeradorNeg = (-tensaoPontoNeg) / admitanciaBarraNeg 
 
