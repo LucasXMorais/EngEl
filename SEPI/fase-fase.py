@@ -236,6 +236,7 @@ correnteGeradorNeg = (-tensaoPontoNeg) / admitanciaBarraNeg
 # Fazendo um vetor para as correntes complexas e desequilibradas
 correntesComponentesComplexasGerador = np.array( [ [correnteGeradorZero], [correnteGeradorPos], [correnteGeradorNeg] ] )
 correntesDesequilibradasGerador = np.dot( tranformacaoT, correntesComponentesComplexasGerador )
+ic(correntesDesequilibradasGerador)
 # Passando de pu para a base na barra
 # correnteBase = (100*(10**6)) / (13*(10**3))
 # correntesDesequilibradasGerador = correntesDesequilibradasGerador * correnteBase
