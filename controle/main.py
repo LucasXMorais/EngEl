@@ -4,6 +4,7 @@ num = [1.0]
 den = [1.0, 3.0, 1.0, 1.0]
 lti = signal.lti(num, den)
 t, y = signal.step(lti)
+print("Hello world!")
 plt.plot(t, y)
 plt.xlabel('Time [s]')
 plt.ylabel('Amplitude')
