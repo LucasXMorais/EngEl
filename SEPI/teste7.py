@@ -279,15 +279,15 @@ def montarJacobianoDesacoplado(matrizY, angulos, tensoes, indicesAngulos, indice
 
 # infoLinhas = [barra de, barra para, resistencia km, reatancia km, susceptancia shuntkm total, tapkm, defasagemkm]
 
-infoLinhas = np.array([ [1, 2, 0.006, 0.032, 0.010, 1.0, 0.0],
-                        [1, 3, 0.012, 0.064, 0.020, 1.0, 0.0],
-                        [2, 3, 0.036, 0.192, 0.060, 1.0, 0.0]])
+infoLinhas = np.array([ [1, 2, 0.000, 0.040, 0.000, 1.0, 0.0],
+                        [1, 3, 0.000, 0.230, 0.000, 1.0, 0.0],
+                        [2, 3, 0.000, 0.110, 0.060, 1.0, 0.0]])
 
 # infoBarras = [barra , tipo, tensao, angulo, P.Ativa Geracao (PG), P.Reativa Geracao (QG), P.Ativa Carga (PL), P.Reativa Carga (QL) ]
 
-infoBarras = np.array([ [1, 'PV', 1.05, '-', 0.5, 0.0, 0.0, 0.0],
-                        [2, 'V0', 1.00, 0.0, 0.0, 0.0, 1.0, 0.3],
-                        [3, 'PQ', '-' , '-', 0.0, 0.0, 0.5, 0.2] ])
+infoBarras = np.array([ [1, 'V0', 1.00, 0.0, 0.0, 0.0, 0.0, 0.00],
+                        [2, 'PV', 1.00, '-', 0.8, 0.0, 0.5, 0.16],
+                        [3, 'PQ', '-' , '-', 0.0, 0.0, 1.0, 0.44]])
 
 #Construcao da matriz admitania do sistema
 matrizY = np.copy(matAdm(infoLinhas))

@@ -1,0 +1,5 @@
+Bus
+Number,Name,Area Name,Nom kV,PU Volt,Volt (kV),Angle (Deg),Load MW,Load Mvar,Gen MW,Gen Mvar,Switched Shunts Mvar,Act G Shunt MW,Act B Shunt Mvar,Area Num,Zone Num
+1,1,1,138.00,1.00000,138.000,0.00,,,70.00,17.88,,0.00,0.00,1,1
+2,2,1,138.00,1.00000,138.000,-0.78,50.00,16.00,80.00,52.20,,0.00,0.00,1,1
+3,3,1,138.00,0.96299,132.893,-4.96,100.00,44.00,,,,0.00,0.00,1,1
