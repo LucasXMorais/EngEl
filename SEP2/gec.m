@@ -348,9 +348,9 @@ while abs(max(DeltaPQ))>tolerancia
 
     % Calculando x e delta x
 
-    x = [DBAR(:,7);DBAR(:,6)]
-    Deltax = inv(J)*DeltaPQ
-    x = x + Deltax
+    x = [DBAR(:,7);DBAR(:,6)];
+    Deltax = inv(J)*DeltaPQ;
+    x = x + Deltax;
 
     % Modificando os valores de Theta e V na matriz de valores
 
@@ -422,8 +422,6 @@ while abs(max(DeltaPQ))>tolerancia
     end
 end
 
-x
-
 %% Calculando o fluxo de pot�ncia
 
 for i=1:nlin
@@ -462,12 +460,12 @@ end
 
 PerdasPtot = sum(PerdasP);
 PerdasQtot = sum(PerdasQ);
-Pger = DBAR(:,2)+Pesp';
-Qger = DBAR(:,3)+Qesp';
+Pger = DBAR(:,2)+Pesp'
+Qger = DBAR(:,3)+Qesp'
 
 for i = 1:nbus
 
-    Sger(i) = abs(Pger(i)+1j*Qger(i));
+    Sger(i) = abs(Pger(i)+1j*Qger(i))
 
 end
 

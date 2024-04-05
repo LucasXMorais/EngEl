@@ -4,6 +4,7 @@
 
 def lerDados(arquivo):
     dbarras = []; dcircuitos = []
+    print(f'Lendo {arquivo}')
     with open(arquivo, 'rb') as f:
         infoType = 1
         for line in f:
@@ -16,7 +17,6 @@ def lerDados(arquivo):
             if l[0].isnumeric():
                 match infoType:
                     case 1:
-                        # ['BARRA', 'PD(PU)', 'QD(PU)', 'Bsh(PU)', 'TIPO', 'Vesp(PU)', 'Oesp(�)', 'PGesp(PU)', 'Cus($/MW)', 'CGmin(PU)', 'CGmax(PU)\r\n']
                         barra = {
                             'BARRA' : int(l[0]),
                             'PD(PU)' : float(l[1]),
@@ -32,7 +32,6 @@ def lerDados(arquivo):
                         }
                         dbarras.append(barra)
                     case 2:
-                        # BDE  BPARA  NCIR  RES(PU) REAT(PU) SUCsh(PU)  TAP(PU) DEF(GRAUS) LIG(L)DESL(D)   CAP(PU)
                         circuito = {
                             'BDE' : int(l[0]),
                             'BPARA' : int(l[1]),

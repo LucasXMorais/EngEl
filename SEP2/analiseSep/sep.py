@@ -53,13 +53,9 @@ def calcularFluxoKM(matrizY, angulos, tensoes):
             ativasKCalculada[k] += tensaokm * ( (Gkm * cosThetakm) + (Bkm * sinThetakm) )
             reativasKCalculada[k] += tensaokm * ( (Gkm * sinThetakm) - (Bkm * cosThetakm) )
 
-            # ativasKCalculada[k] += tensoes[m] * ( (Gkm * cosThetakm) + (Bkm * sinThetakm) )
-            # reativasKCalculada[k] += tensoes[m] * ( (Gkm * sinThetakm) - (Bkm * cosThetakm) )
-        # ativasKCalculada[k] *= tensoes[k]
-        # reativasKCalculada[k] *= tensoes[k]
-
     return ativasKCalculada, reativasKCalculada
 
+# Montando a matriz Jacobiana
 def jacobian(matrizY, angulos, tensoes, dbarras):
 
     nbarras = len(angulos)
@@ -138,6 +134,7 @@ def jacobian(matrizY, angulos, tensoes, dbarras):
 
     return jacobiano 
 
+# Funcao para imprimir matrizes para debugar com o octave
 def printToOcatve(mat, name='mat'):
     print(f'{name} = [')
     for i in mat:
@@ -151,10 +148,11 @@ def printToOcatve(mat, name='mat'):
 
         st += ';'
         print(st)
-    print(']')
+    print('];')
 
     return 1
 
+# Calculando os angulos e tensoes do problema de fluxo
 def calcularAngulosTensoes(matrizY, dbarras):
 
     # Obtendo parâmetros 
@@ -165,18 +163,8 @@ def calcularAngulosTensoes(matrizY, dbarras):
     nbarras = len(dbarras)
     angulos = np.zeros((nbarras,1))
     tensoes = np.ones((nbarras,1))
-    c = 0
-    for barra in dbarras:
-        if (barra['TIPO'] == 'PV' or barra['TIPO'] == 'SW') : tensoes[c] = barra['Vesp(PU)']
-        c += 1
-    angTen = np.concatenate((angulos, tensoes), axis=0)
-
-    # Definindo o número de barras PV e PQ
-    nPV = 0
-    nPQ = 0
-    for barra in dbarras:
-        if barra['TIPO'] == 'PV': nPV += 1
-        if barra['TIPO'] == 'PQ': nPQ += 1
+    for barra, v in zip(dbarras, tensoes):
+        if (barra['TIPO'] == 'PV' or barra['TIPO'] == 'SW') : v[0] = barra['Vesp(PU)']
 
     # Calcular as potencias esperadas e agrupá-las em dois vetores, um para
     # potencias ativas e outro para potencias reativas
@@ -189,9 +177,8 @@ def calcularAngulosTensoes(matrizY, dbarras):
     # ativaEsp, reativaEsp = calcularFluxoKM(matrizY, angulos, tensoes)
 
     # Definindo parâmetros iniciais do método de newton
-    maxIter = int(config['NEWTON']['maxIter'])
-    tol = float(config['NEWTON']['tolerancia'])
-    desacoplado = int(config['NEWTON']['desacoplado'])
+    maxIter = int(config['NEWTON']['MAX_ITER'])
+    tol = float(config['NEWTON']['TOLERANCIA'])
     iter = 1
     fimP = 0
     fimQ = 0
@@ -210,12 +197,16 @@ def calcularAngulosTensoes(matrizY, dbarras):
     # Montando um vetor com as variações de potência
     deltaPotencias = np.concatenate((deltaPks, deltaQks), axis=0)
 
+    # Calculando a maior diferenca
+    dPk = np.max(np.abs(deltaPks))
+    dQk = np.max(np.abs(deltaQks))
+
     while iter <= maxIter :
 
         # Testando convergência
-        if np.max(np.abs(deltaPks)) < tol: fimP = 1
-        if np.max(np.abs(deltaQks)) < tol: fimQ = 1
-        if fimP and fimQ: print('Convergiu em ', iter, ' iterações'); break
+        if dPk < tol: fimP = 1
+        if dQk < tol: fimQ = 1
+        if fimP and fimQ: print(f'Convergiu em {iter-1} iterações'); break
 
         # Matriz Jacobiana
         jacobiano = jacobian(matrizY, angulos, tensoes, dbarras)
@@ -242,6 +233,7 @@ def calcularAngulosTensoes(matrizY, dbarras):
         for esp, calc, dq in zip(reativaEsp, reativasKCalculada, deltaQks):
             dq[0] = esp - calc
 
+
         # Resetando as potencias nas barras SW e PV
         for barra, dp, dq in zip(dbarras, deltaPks, deltaQks):
             if barra['TIPO'] != 'PQ':
@@ -249,14 +241,17 @@ def calcularAngulosTensoes(matrizY, dbarras):
             if barra['TIPO'] == 'SW':
                 dp[0] = 0
 
+        # Calculando a maior diferenca
+        dPk = np.max(np.abs(deltaPks))
+        dQk = np.max(np.abs(deltaQks))
+
         # Montando um vetor com as variações de potência
         deltaPotencias = np.concatenate((deltaPks, deltaQks), axis=0)
 
         # Imprimindo progresso
-        print(iter, maxIter)
+        print(f'{iter} / {maxIter} || {(iter/maxIter)*100:.2f}% || diff P = {dPk - tol:.6f} ; diff Q = {dQk - tol:.6f} ; ')
 
         iter += 1
-
 
     if iter >= maxIter: print("Nao convergiu")
 
@@ -264,6 +259,8 @@ def calcularAngulosTensoes(matrizY, dbarras):
     tensoes = [t[0] for t in tensoes]
 
     return angulos, tensoes
+
+# Calculando os fluxos nos circuitos do sistema
 def calcularFluxoBarras(angulos, tensoes, dcircuitos):
 
     ncirc = len(dcircuitos)
@@ -271,6 +268,8 @@ def calcularFluxoBarras(angulos, tensoes, dcircuitos):
     fluxoPmk = np.zeros((ncirc,1))
     fluxoQkm = np.zeros((ncirc,1))
     fluxoQmk = np.zeros((ncirc,1))
+    fluxoSkm = np.zeros((ncirc,1))
+    fluxoSmk = np.zeros((ncirc,1))
 
     for c, pkm, pmk, qkm, qmk in zip(dcircuitos, fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk):
         if c['LIG(L)DESL(D)'] != 'L' : continue
@@ -282,6 +281,7 @@ def calcularFluxoBarras(angulos, tensoes, dcircuitos):
         gkm = admitancia.real
         bkm = admitancia.imag
         bshunt = 1j*c['SUCsh(PU)']/2
+        bshunt = bshunt.imag
         tap = c['TAP(PU)']
         defasagem = c['DEF(GRAUS)']*np.pi/180
         vk = tensoes[k]
@@ -299,7 +299,53 @@ def calcularFluxoBarras(angulos, tensoes, dcircuitos):
         qkm[0] = (-1*((tap*vk)**2)*(bkm + bshunt)) + (tap*vkm*bkm*np.cos(thetakm+defasagem)) - (tap*vkm*gkm*np.sin(thetakm+defasagem)) 
         qmk[0] = (-1*(vm**2)*(bkm+ bshunt)) + (tap*vkm*bkm*np.cos(thetamk-defasagem)) - (tap*vkm*gkm*np.sin(thetamk-defasagem)) 
 
-    return fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk
+    for pkm, qkm, skm in zip(fluxoPkm, fluxoQkm, fluxoSkm):
+        skm[0] = np.sqrt( (pkm**2) + (qkm**2) )
+    for pmk, qmk, smk in zip(fluxoPmk, fluxoQmk, fluxoSmk):
+        smk[0] = np.sqrt( (pmk**2) + (qmk**2) )
+
+    return fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk, fluxoSkm, fluxoSmk
+
+# Calculando as perdas no sistema
+def calcularPerdas(fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk):
+    nbarras = len(fluxoPkm)
+    perdasP = np.zeros((nbarras,1))
+    perdasQ = np.zeros((nbarras,1))
+    perdasAtivasTotais = 0
+    perdasReativasTotais = 0
+
+    for pkm, pmk, perP in zip(fluxoPkm, fluxoPmk, perdasP):
+        perP[0] = pkm + pmk
+        perdasAtivasTotais += perP[0]
+    for qkm, qmk, qerQ in zip(fluxoQkm, fluxoQmk, perdasQ):
+        qerQ[0] = qkm + qmk
+        perdasReativasTotais += qerQ[0]
+
+    return perdasP, perdasQ, perdasAtivasTotais, perdasReativasTotais
+
+# Calculando as perdas no sistema
+def potencias(matrizY, angulos, tensoes, dbarras):
+    nbarras = len(angulos)
+    pG = np.zeros((nbarras,1))
+    qG = np.zeros((nbarras,1))
+    sG = np.zeros((nbarras,1))
+    pCalc = np.zeros((nbarras,1))
+    qCalc = np.zeros((nbarras,1))
+
+    # Calculando pcalc para a próxima iteração
+    pCalc, qCalc = calcularFluxoKM(matrizY, angulos, tensoes)
+
+    for barra, pg, pc in zip(dbarras, pG, pCalc):
+        pg[0] = barra['PD(PU)'] + pc
+    for barra, qg, qc in zip(dbarras, qG, qCalc):
+        qg[0] = barra['QD(PU)'] + qc
+    for pg, qg, sg in zip(pG, qG, sG):
+        sg[0] = np.abs(pg[0] + (1j*qg[0]))
+
+    return pG, qG, sG
+
+
+
 
 
 
