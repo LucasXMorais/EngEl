@@ -5,8 +5,26 @@ import numpy as np
 from icecream import ic
 import configparser
 
+# Funcao para imprimir matrizes para debugar com o octave
+def printToOcatve(mat, name='mat') -> None:
+    print(f'{name} = [')
+    for i in mat:
+        st = ''
+        for j in i:
+            if j == 0 :
+                s = str(int(j)) 
+            else: 
+                s = f'{j:.6f}'
+            st += s + ' '
+
+        st += ';'
+        print(st)
+    print('];')
+
+    return None
+
 # Construção da matriz admitancia Y completa
-def matrizAdmitancia(dbarras, dcircuitos):
+def matrizAdmitancia(dbarras: list[dict], dcircuitos: list[dict]) -> np.ndarray:
     nbar = len(dbarras)
     matrizY = np.zeros((nbar,nbar),dtype=np.complex_)
 
@@ -35,7 +53,7 @@ def matrizAdmitancia(dbarras, dcircuitos):
     return matrizY
 
 # Funcao para o calculo de potencias (Pcalc) a cada iteração
-def calcularFluxoKM(matrizY, angulos, tensoes):
+def calcularFluxoKM(matrizY: np.ndarray, angulos: np.ndarray, tensoes: np.ndarray) -> (np.ndarray, np.ndarray) :
     G = np.copy(matrizY.real)
     B = np.copy(matrizY.imag)
     ativasKCalculada = np.zeros(np.shape(angulos))
@@ -53,10 +71,10 @@ def calcularFluxoKM(matrizY, angulos, tensoes):
             ativasKCalculada[k] += tensaokm * ( (Gkm * cosThetakm) + (Bkm * sinThetakm) )
             reativasKCalculada[k] += tensaokm * ( (Gkm * sinThetakm) - (Bkm * cosThetakm) )
 
-    return ativasKCalculada, reativasKCalculada
+    return (ativasKCalculada, reativasKCalculada)
 
 # Montando a matriz Jacobiana
-def jacobian(matrizY, angulos, tensoes, dbarras):
+def jacobian(matrizY: np.ndarray, angulos: np.ndarray, tensoes: np.ndarray, dbarras: list[dict]) -> np.ndarray :
 
     nbarras = len(angulos)
     G = np.copy(matrizY.real)
@@ -134,26 +152,92 @@ def jacobian(matrizY, angulos, tensoes, dbarras):
 
     return jacobiano 
 
-# Funcao para imprimir matrizes para debugar com o octave
-def printToOcatve(mat, name='mat'):
-    print(f'{name} = [')
-    for i in mat:
-        st = ''
-        for j in i:
-            if j == 0 :
-                s = str(int(j)) 
-            else: 
-                s = f'{j:.6f}'
-            st += s + ' '
+# Calculando os fluxos nos circuitos do sistema
+def calcularFluxoBarras(angulos: np.ndarray, tensoes: np.ndarray, dcircuitos: list[dict]) -> (np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray) :
 
-        st += ';'
-        print(st)
-    print('];')
+    ncirc = len(dcircuitos)
+    fluxoPkm = np.zeros((ncirc,1))
+    fluxoPmk = np.zeros((ncirc,1))
+    fluxoQkm = np.zeros((ncirc,1))
+    fluxoQmk = np.zeros((ncirc,1))
+    fluxoSkm = np.zeros((ncirc,1))
+    fluxoSmk = np.zeros((ncirc,1))
 
-    return 1
+    for c, pkm, pmk, qkm, qmk in zip(dcircuitos, fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk):
+        if c['LIG(L)DESL(D)'] != 'L' : continue
+        k = c['BDE'] - 1
+        m = c['BPARA'] - 1
+        resistencia = c['RES(PU)']
+        reatancia = c['REAT(PU)']
+        admitancia = 1/(resistencia + (1j*reatancia))
+        gkm = admitancia.real
+        bkm = admitancia.imag
+        bshunt = 1j*c['SUCsh(PU)']/2
+        bshunt = bshunt.imag
+        tap = c['TAP(PU)']
+        defasagem = c['DEF(GRAUS)']*np.pi/180
+        vk = tensoes[k]
+        vm = tensoes[m]
+        vkm = tensoes[k]*tensoes[m]
+        thetakm = angulos[k] - angulos[m]
+        thetamk = angulos[m] - angulos[k]
+        cosThetakmPos = np.cos(thetakm + defasagem)
+        cosThetakmNeg = np.cos(thetakm - defasagem)
+        sinThetakmPos = np.sin(thetakm + defasagem)
+        sinThetakmNeg = np.sin(thetakm - defasagem)
+
+        pkm[0] = (((tap*vk)**2)*gkm) - (tap*vkm*gkm*np.cos(thetakm+defasagem)) - (tap*vkm*bkm*np.sin(thetakm+defasagem)) 
+        pmk[0] = ((vm**2)*gkm) - (tap*vkm*gkm*np.cos(thetamk-defasagem)) - (tap*vkm*bkm*np.sin(thetamk-defasagem)) 
+        qkm[0] = (-1*((tap*vk)**2)*(bkm + bshunt)) + (tap*vkm*bkm*np.cos(thetakm+defasagem)) - (tap*vkm*gkm*np.sin(thetakm+defasagem)) 
+        qmk[0] = (-1*(vm**2)*(bkm+ bshunt)) + (tap*vkm*bkm*np.cos(thetamk-defasagem)) - (tap*vkm*gkm*np.sin(thetamk-defasagem)) 
+
+    for pkm, qkm, skm in zip(fluxoPkm, fluxoQkm, fluxoSkm):
+        skm[0] = np.sqrt( (pkm**2) + (qkm**2) )
+    for pmk, qmk, smk in zip(fluxoPmk, fluxoQmk, fluxoSmk):
+        smk[0] = np.sqrt( (pmk**2) + (qmk**2) )
+
+    return (fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk, fluxoSkm, fluxoSmk)
+
+# Calculando as perdas no sistema
+def calcularPerdas(fluxoPkm: np.ndarray, fluxoPmk: np.ndarray, fluxoQkm: np.ndarray, fluxoQmk: np.ndarray) -> (np.ndarray, np.ndarray, np.ndarray, np.ndarray) :
+    nbarras = len(fluxoPkm)
+    perdasP = np.zeros((nbarras,1))
+    perdasQ = np.zeros((nbarras,1))
+    perdasAtivasTotais = 0
+    perdasReativasTotais = 0
+
+    for pkm, pmk, perP in zip(fluxoPkm, fluxoPmk, perdasP):
+        perP[0] = pkm + pmk
+        perdasAtivasTotais += perP[0]
+    for qkm, qmk, qerQ in zip(fluxoQkm, fluxoQmk, perdasQ):
+        qerQ[0] = qkm + qmk
+        perdasReativasTotais += qerQ[0]
+
+    return (perdasP, perdasQ, perdasAtivasTotais, perdasReativasTotais)
+
+# Calculando as perdas no sistema
+def potencias(matrizY: np.ndarray, angulos: np.ndarray, tensoes: np.ndarray, dbarras: list[dict]) -> (np.ndarray, np.ndarray, np.ndarray) :
+    nbarras = len(angulos)
+    pG = np.zeros((nbarras,1))
+    qG = np.zeros((nbarras,1))
+    sG = np.zeros((nbarras,1))
+    pCalc = np.zeros((nbarras,1))
+    qCalc = np.zeros((nbarras,1))
+
+    # Calculando pcalc para a próxima iteração
+    pCalc, qCalc = calcularFluxoKM(matrizY, angulos, tensoes)
+
+    for barra, pg, pc in zip(dbarras, pG, pCalc):
+        pg[0] = barra['PD(PU)'] + pc
+    for barra, qg, qc in zip(dbarras, qG, qCalc):
+        qg[0] = barra['QD(PU)'] + qc
+    for pg, qg, sg in zip(pG, qG, sG):
+        sg[0] = np.abs(pg[0] + (1j*qg[0]))
+
+    return (pG, qG, sG)
 
 # Calculando os angulos e tensoes do problema de fluxo
-def calcularAngulosTensoes(matrizY, dbarras):
+def calcularAngulosTensoes(matrizY: np.ndarray, dbarras: list[dict]) -> (np.ndarray, np.ndarray):
 
     # Obtendo parâmetros 
     config = configparser.ConfigParser()
@@ -258,93 +342,7 @@ def calcularAngulosTensoes(matrizY, dbarras):
     angulos = [a[0] for a in angulos]
     tensoes = [t[0] for t in tensoes]
 
-    return angulos, tensoes
-
-# Calculando os fluxos nos circuitos do sistema
-def calcularFluxoBarras(angulos, tensoes, dcircuitos):
-
-    ncirc = len(dcircuitos)
-    fluxoPkm = np.zeros((ncirc,1))
-    fluxoPmk = np.zeros((ncirc,1))
-    fluxoQkm = np.zeros((ncirc,1))
-    fluxoQmk = np.zeros((ncirc,1))
-    fluxoSkm = np.zeros((ncirc,1))
-    fluxoSmk = np.zeros((ncirc,1))
-
-    for c, pkm, pmk, qkm, qmk in zip(dcircuitos, fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk):
-        if c['LIG(L)DESL(D)'] != 'L' : continue
-        k = c['BDE'] - 1
-        m = c['BPARA'] - 1
-        resistencia = c['RES(PU)']
-        reatancia = c['REAT(PU)']
-        admitancia = 1/(resistencia + (1j*reatancia))
-        gkm = admitancia.real
-        bkm = admitancia.imag
-        bshunt = 1j*c['SUCsh(PU)']/2
-        bshunt = bshunt.imag
-        tap = c['TAP(PU)']
-        defasagem = c['DEF(GRAUS)']*np.pi/180
-        vk = tensoes[k]
-        vm = tensoes[m]
-        vkm = tensoes[k]*tensoes[m]
-        thetakm = angulos[k] - angulos[m]
-        thetamk = angulos[m] - angulos[k]
-        cosThetakmPos = np.cos(thetakm + defasagem)
-        cosThetakmNeg = np.cos(thetakm - defasagem)
-        sinThetakmPos = np.sin(thetakm + defasagem)
-        sinThetakmNeg = np.sin(thetakm - defasagem)
-
-        pkm[0] = (((tap*vk)**2)*gkm) - (tap*vkm*gkm*np.cos(thetakm+defasagem)) - (tap*vkm*bkm*np.sin(thetakm+defasagem)) 
-        pmk[0] = ((vm**2)*gkm) - (tap*vkm*gkm*np.cos(thetamk-defasagem)) - (tap*vkm*bkm*np.sin(thetamk-defasagem)) 
-        qkm[0] = (-1*((tap*vk)**2)*(bkm + bshunt)) + (tap*vkm*bkm*np.cos(thetakm+defasagem)) - (tap*vkm*gkm*np.sin(thetakm+defasagem)) 
-        qmk[0] = (-1*(vm**2)*(bkm+ bshunt)) + (tap*vkm*bkm*np.cos(thetamk-defasagem)) - (tap*vkm*gkm*np.sin(thetamk-defasagem)) 
-
-    for pkm, qkm, skm in zip(fluxoPkm, fluxoQkm, fluxoSkm):
-        skm[0] = np.sqrt( (pkm**2) + (qkm**2) )
-    for pmk, qmk, smk in zip(fluxoPmk, fluxoQmk, fluxoSmk):
-        smk[0] = np.sqrt( (pmk**2) + (qmk**2) )
-
-    return fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk, fluxoSkm, fluxoSmk
-
-# Calculando as perdas no sistema
-def calcularPerdas(fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk):
-    nbarras = len(fluxoPkm)
-    perdasP = np.zeros((nbarras,1))
-    perdasQ = np.zeros((nbarras,1))
-    perdasAtivasTotais = 0
-    perdasReativasTotais = 0
-
-    for pkm, pmk, perP in zip(fluxoPkm, fluxoPmk, perdasP):
-        perP[0] = pkm + pmk
-        perdasAtivasTotais += perP[0]
-    for qkm, qmk, qerQ in zip(fluxoQkm, fluxoQmk, perdasQ):
-        qerQ[0] = qkm + qmk
-        perdasReativasTotais += qerQ[0]
-
-    return perdasP, perdasQ, perdasAtivasTotais, perdasReativasTotais
-
-# Calculando as perdas no sistema
-def potencias(matrizY, angulos, tensoes, dbarras):
-    nbarras = len(angulos)
-    pG = np.zeros((nbarras,1))
-    qG = np.zeros((nbarras,1))
-    sG = np.zeros((nbarras,1))
-    pCalc = np.zeros((nbarras,1))
-    qCalc = np.zeros((nbarras,1))
-
-    # Calculando pcalc para a próxima iteração
-    pCalc, qCalc = calcularFluxoKM(matrizY, angulos, tensoes)
-
-    for barra, pg, pc in zip(dbarras, pG, pCalc):
-        pg[0] = barra['PD(PU)'] + pc
-    for barra, qg, qc in zip(dbarras, qG, qCalc):
-        qg[0] = barra['QD(PU)'] + qc
-    for pg, qg, sg in zip(pG, qG, sG):
-        sg[0] = np.abs(pg[0] + (1j*qg[0]))
-
-    return pG, qG, sG
-
-
+    return (angulos, tensoes)
 
 
 

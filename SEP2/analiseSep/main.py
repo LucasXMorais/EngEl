@@ -57,6 +57,8 @@ def main() -> None:
 
     exportacao.exportarSistema(output, sistema)
 
+    return None
+
 if __name__ == '__main__':
     main()
 

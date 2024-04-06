@@ -2,7 +2,7 @@
 # Leitura e processamento de dados para SEP
 # SEP II - Engenharia Elétrica (UFSJ)
 
-def lerDados(arquivo):
+def lerDados(arquivo: str) -> (list[dict], list[dict]) :
     dbarras = []; dcircuitos = []
     print(f'Lendo {arquivo}')
     with open(arquivo, 'rb') as f:
@@ -47,6 +47,6 @@ def lerDados(arquivo):
                         dcircuitos.append(circuito)
                     case 3:
                         break
-        return dbarras, dcircuitos
+        return (dbarras, dcircuitos)
 
 

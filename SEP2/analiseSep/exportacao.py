@@ -3,7 +3,7 @@
 # SEP II - Engenharia Elétrica (UFSJ)
 from datetime import datetime
 
-def exportarSistema(fileOutput, sistema) -> None:
+def exportarSistema(output: str, sistema: dict) -> None:
 
     # Organizando as informacoes do sistema
     dbarras = sistema['BARRAS']
@@ -27,14 +27,14 @@ def exportarSistema(fileOutput, sistema) -> None:
     fluxoSkm = sistema['fluxoSkm']
     fluxoSmk = sistema['fluxoSmk']
 
-    with open(fileOutput, 'w') as f:
+    with open(output, 'w') as f:
         # Cabecalho
         f.write(f'{100*'='}\n')
         now: datetime = datetime.now()
         now = f'{now:%c}'
         f.write(f'{now:^100}\n')
         f.write(f'{100*'='}\n\n')
-        f.write(f'{'Relatório do Sistema em Questão':^100}\n\n')
+        f.write(f'{'Relatório do Sistema do Estudo de Caso 1':^100}\n\n')
         f.write(f'{100*'='}\n')
         f.write(f'{'Autores:':^25} {'Cássia':^25} {'Gabriel':^25} {'Lucas X. Morais':^25}\n')
         f.write(f'{'Matrícula:':^25} {'Cássia':^25} {'Gabriel':^25} {'190950011':^25}\n')
@@ -174,19 +174,21 @@ def exportarSistema(fileOutput, sistema) -> None:
 
         f.write(f'{100*'-'}\n')
 
-        f.write(f'{'BARRA':^13}{'PG':^29}{'Carga Máxima':^29}{'Carga Mínima':^29}\n')
-        f.write(f'{'#':^13}{'(PU)':^29}{'(PU)':^29}{'(PU)':^29}\n')
+        f.write(f'{'BARRA':^12}{'PG':^22}{'Carga Máxima':^22}{'Carga Mínima':^22}{'Carga aceitável?':^22}\n')
+        f.write(f'{'#':^12}{'(PU)':^22}{'(PU)':^22}{'(PU)':^22}{'S / N':^22}\n')
 
         f.write(f'{100*'-'}\n')
 
         for b in range(nbarras):
-            f.write(f'{dbarras[b]['BARRA']:^13}')
+            f.write(f'{dbarras[b]['BARRA']:^12}')
             pg = f'{pG[b][0]:.8f}'
-            f.write(f'{pg:^29}')
+            f.write(f'{pg:^22}')
             cgmax = f'{dbarras[b]['CGmax(PU)']:.8f}'
-            f.write(f'{cgmax:^29}')
+            f.write(f'{cgmax:^22}')
             cgmin = f'{dbarras[b]['CGmin(PU)']:.8f}'
-            f.write(f'{cgmin:^29}')
+            f.write(f'{cgmin:^22}')
+            aceit = 'S' if ( ( pG[b][0] > dbarras[b]['CGmin(PU)'] ) and ( pG[b][0] < dbarras[b]['CGmax(PU)'] ) ) else 'N'
+            f.write(f'{aceit:^22}')
             f.write('\n')
 
         f.write(f'{100*'-'}\n')
@@ -221,35 +223,58 @@ def exportarSistema(fileOutput, sistema) -> None:
 
         f.write(f'{100*'-'}\n')
 
-        f.write(f'{'Relatório das potências nos circuitos em PU':^100}\n')
+        f.write(f'{'Relatório das potências nos circuitos km em PU':^100}\n')
 
         f.write(f'{100*'-'}\n')
 
-        f.write(f'{'BARRA':^10}{'PKM':^15}{'QKM':^15}{'SKM':^15}{'PMK':^15}{'QMK':^15}{'SMK':^15}\n')
-        f.write(f'{'DE':^5}{'PARA':^5}{'['+(41*'_'):42}{' (PU) ':^6}{(41*'_')+']':42}\n')
+        f.write(f'{'BARRA':^10}{'PKM':^18}{'QKM':^18}{'SKM':^18}{'Capacidade':^18}{'Pode operar?':^18}\n')
+        f.write(f'{'DE':^5}{'PARA':^5}{'['+(32*'_'):33}{' (PU) ':^6}{(32*'_')+']':36}{'S / N':^18}\n')
 
         f.write(f'{100*'-'}\n')
 
         for b in range(nbarras):
             f.write(f'{dcircuitos[b]['BDE']:^5}')
             f.write(f'{dcircuitos[b]['BPARA']:^5}')
-            pkm = f'{fluxoPkm[b][0]*basePu:.6f}'
-            f.write(f'{pkm:^15}')
-            qkm = f'{fluxoQkm[b][0]*basePu:.6f}'
-            f.write(f'{qkm:^15}')
-            skm = f'{fluxoSkm[b][0]*basePu:.6f}'
-            f.write(f'{skm:^15}')
-            pmk = f'{fluxoPmk[b][0]*basePu:.6f}'
-            f.write(f'{pmk:^15}')
-            qmk = f'{fluxoQmk[b][0]*basePu:.6f}'
-            f.write(f'{qmk:^15}')
-            smk = f'{fluxoSmk[b][0]*basePu:.6f}'
-            f.write(f'{smk:^15}')
+            pkm = f'{fluxoPkm[b][0]:.6f}'
+            f.write(f'{pkm:^18}')
+            qkm = f'{fluxoQkm[b][0]:.6f}'
+            f.write(f'{qkm:^18}')
+            skm = f'{fluxoSkm[b][0]:.6f}'
+            f.write(f'{skm:^18}')
+            f.write(f'{dcircuitos[b]['CAP(PU)']:^18}')
+            podeOp = 'S' if ( (dcircuitos[b]['CAP(PU)'] - fluxoSkm[b][0]) > 0) else 'N'
+            f.write(f'{podeOp:^18}')
+            f.write('\n')
+
+        f.write(f'{100*'-'}\n')
+
+        f.write(f'{'Relatório das potências nos circuitos mk em PU':^100}\n')
+
+        f.write(f'{100*'-'}\n')
+
+        f.write(f'{'BARRA':^10}{'PMK':^18}{'QMK':^18}{'SMK':^18}{'Capacidade':^18}{'Pode operar?':^18}\n')
+        f.write(f'{'DE':^5}{'PARA':^5}{'['+(32*'_'):33}{' (PU) ':^6}{(32*'_')+']':36}{'S / N':^18}\n')
+
+        f.write(f'{100*'-'}\n')
+
+        for b in range(nbarras):
+            f.write(f'{dcircuitos[b]['BDE']:^5}')
+            f.write(f'{dcircuitos[b]['BPARA']:^5}')
+            pmk = f'{fluxoPmk[b][0]:.6f}'
+            f.write(f'{pmk:^18}')
+            qmk = f'{fluxoQmk[b][0]:.6f}'
+            f.write(f'{qmk:^18}')
+            smk = f'{fluxoSmk[b][0]:.6f}'
+            f.write(f'{smk:^18}')
+            f.write(f'{dcircuitos[b]['CAP(PU)']:^18}')
+            podeOp = 'S' if ( (dcircuitos[b]['CAP(PU)'] - fluxoSmk[b][0]) > 0) else 'N'
+            f.write(f'{podeOp:^18}')
             f.write('\n')
 
         f.close()
-        print(f'Dados gravados em {fileOutput}')
+        print(f'Dados gravados em {output}')
 
+        return None
 
 
 
