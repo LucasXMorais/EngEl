@@ -43,6 +43,7 @@ def main() -> None:
         'PerdasPTotais' : perdasAtivasTotais,
         'PerdasQTotais' : perdasReativasTotais,
         'angulos' : angulos,
+        'angulosDeg' : angDeg,
         'tensoes' : tensoes,
         'BASE' : float(config['PU']['BASE']),
         'pCalc' : pCalc,
