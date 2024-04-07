@@ -2,9 +2,9 @@
 # Análise de fluxo de potência
 # SEP II - Engenharia Elétrica (UFSJ)
 import numpy as np
-import sep , leitura, exportacao
+from modules import *
+# import module.sep , module.leitura, module.exportacao
 import configparser
-from icecream import ic
 
 def main() -> None:
     config = configparser.ConfigParser()

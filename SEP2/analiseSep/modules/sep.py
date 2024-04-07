@@ -2,7 +2,6 @@
 # Funções base para SEP
 # SEP II - Engenharia Elétrica (UFSJ)
 import numpy as np
-from icecream import ic
 import configparser
 
 # Funcao para imprimir matrizes para debugar com o octave
