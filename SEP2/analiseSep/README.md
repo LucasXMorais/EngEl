@@ -24,6 +24,9 @@ Foram feitos 3 módulos para facilitar a melhorar a rotina.
  - exportacao.py : Rotina que guarda os resultados
  - leitura.py : Rotina de leitura de dados
  - sep.py : Rotina com várias funções do cálculo do fluxo
+Foi feita também uma classe para organizar melhor as informações de cada sistema
+Isso foi feito em preparação para solucionar os problemas que virão ainda no curso
+ - sistema.py : Classe do sistema 
 
 
 

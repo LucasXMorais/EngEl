@@ -7,30 +7,29 @@ from datetime import datetime
 def exportarSistema(output: str, sistema: dict) -> None:
 
     # Organizando as informacoes do sistema
-    dbarras = sistema['BARRAS']
-    dcircuitos = sistema['CIRCUITOS']
-    pG = sistema['PG']
-    qG = sistema['QG']
-    sG = sistema['SG']
-    perdasP = sistema['perdasP']
-    perdasQ = sistema['perdasQ']
-    perdasAtivasTotais = sistema['PerdasPTotais']
-    perdasReativasTotais = sistema['PerdasQTotais']
-    angulos = sistema['angulos']
-    angDeg = sistema['angulosDeg']
-    tensoes = sistema['tensoes']
-    basePu = sistema['BASE']
-    pCalc = sistema['pCalc']
-    qCalc = sistema['qCalc']
-    fluxoPkm = sistema['fluxoPkm']
-    fluxoPmk = sistema['fluxoPmk']
-    fluxoQkm = sistema['fluxoQkm']
-    fluxoQmk = sistema['fluxoQmk']
-    fluxoSkm = sistema['fluxoSkm']
-    fluxoSmk = sistema['fluxoSmk']
-
-    nbarras = len(dbarras)
-    ncircuitos = len(dcircuitos)
+    dbarras = sistema.dbarras
+    dcircuitos = sistema.dcircuitos
+    pG = sistema.pG
+    qG = sistema.qG
+    sG = sistema.sG
+    perdasP = sistema.perdasP
+    perdasQ = sistema.perdasQ
+    perdasAtivasTotais = sistema.perdasAtivasTotais
+    perdasReativasTotais = sistema.perdasReativasTotais
+    angulos = sistema.angulos
+    angDeg = sistema.angulosGrau
+    tensoes = sistema.tensoes
+    basePu = sistema.base
+    pCalc = sistema.pCalc
+    qCalc = sistema.qCalc
+    fluxoPkm = sistema.fluxoPkm
+    fluxoPmk = sistema.fluxoPmk
+    fluxoQkm = sistema.fluxoQkm
+    fluxoQmk = sistema.fluxoQmk
+    fluxoSkm = sistema.fluxoSkm
+    fluxoSmk = sistema.fluxoSmk
+    nbarras = sistema.nbarras
+    ncircuitos = sistema.ncircuitos
 
     with open(output, 'w') as f:
         # Cabecalho

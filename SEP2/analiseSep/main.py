@@ -3,7 +3,6 @@
 # SEP II - Engenharia Elétrica (UFSJ)
 import numpy as np
 from modules import *
-# import module.sep , module.leitura, module.exportacao
 import configparser
 
 def main() -> None:
@@ -13,50 +12,21 @@ def main() -> None:
     print('Iniciando Leitura de dados')
     arquivo = config['FILE']['DATA_FILE_NAME']
     dbarras, dcircuitos = leitura.lerDados(arquivo)
-
-    print('Montando a matrizY')
-    matrizY = sep.matrizAdmitancia(dbarras, dcircuitos)
+    base = float(config['PU']['BASE'])
+    # Armazenando os dados do sistema na classe Sistema
+    sistemaInicial = Sistema(dbarras, dcircuitos, arquivo, base)
 
     print('Calculando as variáveis')
-    angulos, tensoes = sep.calcularAngulosTensoes(matrizY, dbarras)
-    angDeg = [(a*180/np.pi) for a in angulos]
+    sistemaInicial.resolverFluxo()
 
     print('Calculando as potências e fluxos de potência:')
-    fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk, fluxoSkm, fluxoSmk = sep.calcularFluxoBarras(angulos, tensoes, dcircuitos)
-    perdasP, perdasQ, perdasAtivasTotais, perdasReativasTotais = sep.calcularPerdas(fluxoPkm, fluxoPmk, fluxoQkm, fluxoQmk)
-    pG, qG, sG = sep.potencias(matrizY, angulos, tensoes, dbarras)
-    nbarras = len(dbarras)
-    pCalc = np.zeros((nbarras,1))
-    qCalc = np.zeros((nbarras,1))
-    pCalc, qCalc = sep.calcularFluxoKM(matrizY, angulos, tensoes)
+    # Aqui as potências, fluxos e etc, são calculads dentro da classe para limpar o código e já gaurdar essas informações
+    sistemaInicial.calcularPotencias()
 
     output = config['FILE']['OUTPUT_FILE']
     print(f'Montando o arquivo {output}')
-    sistema = {
-        'BARRAS' : dbarras,
-        'CIRCUITOS' : dcircuitos,
-        'PG' : pG,
-        'QG' : qG,
-        'SG' : sG,
-        'perdasP' : perdasP,
-        'perdasQ' : perdasQ,
-        'PerdasPTotais' : perdasAtivasTotais,
-        'PerdasQTotais' : perdasReativasTotais,
-        'angulos' : angulos,
-        'angulosDeg' : angDeg,
-        'tensoes' : tensoes,
-        'BASE' : float(config['PU']['BASE']),
-        'pCalc' : pCalc,
-        'qCalc' : qCalc,
-        'fluxoPkm' : fluxoPkm,
-        'fluxoPmk' : fluxoPmk,
-        'fluxoQkm' : fluxoQkm,
-        'fluxoQmk' : fluxoQmk,
-        'fluxoSkm' : fluxoSkm,
-        'fluxoSmk' : fluxoSmk
-    }
 
-    exportacao.exportarSistema(output, sistema)
+    exportacao.exportarSistema(output, sistemaInicial)
 
     return None
 
