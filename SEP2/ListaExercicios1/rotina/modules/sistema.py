@@ -17,7 +17,7 @@ class Sistema:
     def calcularMatrizes(self) -> None:
         __matrizY = sep.matrizAdmitancia(self.dbarras, self.dcircuitos)
         self.matrizY = np.copy(__matrizY)
-        self.matrizZ = np.copy(np.linalg.inv(__matrizY))
+        self.matrizZ = np.copy(np.linalg.pinv(__matrizY))
 
     # Resolvendo o problema de fluxo de potencia e calculando os angulos e tensoes
     def resolverFluxo(self, silent: bool=False) -> None:
