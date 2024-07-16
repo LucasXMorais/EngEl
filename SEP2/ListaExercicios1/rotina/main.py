@@ -1,16 +1,16 @@
 # 25/03/24 - Lucas Xavier de Morais 
 # Análise de fluxo de potência
 # SEP II - Engenharia Elétrica (UFSJ)
+import configparser
 import numpy as np
 import copy
 from modules import *
-import configparser
 
 def main() -> None:
     exercicio1e2()
     exercicio3e4()
 
-def exercicio1e2() -> None:
+def exercicio1e2():
     config = configparser.ConfigParser()
     config.read('config.ini')
 
@@ -37,6 +37,7 @@ def exercicio1e2() -> None:
     barra = int(config['ALTERNADOS']['BARRA_TENSAO_12']) - 1
     alpha = float(config['ALTERNADOS']['ALPHA_12'])
     i = 1
+    correcoes1 = []
     while i <= maxIter:
         erro = objetivo - sistema1.tensoes[barra]  
 
@@ -48,6 +49,7 @@ def exercicio1e2() -> None:
 
         sistema1.dbarras[0]['Vesp(PU)'] += correcao
         sistema1.dbarras[1]['Vesp(PU)'] += correcao
+        correcoes1.append([correcao, sistema1.dbarras[0]['Vesp(PU)']])
     
         sistema1.calcularMatrizes()
         sistema1.resolverFluxo(True)
@@ -82,16 +84,21 @@ def exercicio1e2() -> None:
     output1 = config['ALTERNADOS']['OUTPUT_FILE_1']
     output2 = config['ALTERNADOS']['OUTPUT_FILE_2']
     output2banco = config['ALTERNADOS']['OUTPUT_FILE_2_BANCO']
-    print(f'Montando os arquivos')
+    print('Montando os arquivos')
 
     exportacao.exportarSistema(outputInicial, sistemaInicial)
     exportacao.exportarSistema(output1, sistema1)
     exportacao.exportarSistema(output2, sistema2)
     exportacao.exportarSistema(output2banco, sistema2banco)
 
+    latex.exportarLatex('latexFileInicial1.txt', sistemaInicial, correcoes1)
+    latex.exportarLatex('latexFile1.txt', sistema1, correcoes1)
+    latex.exportarLatex('latexFile2.txt', sistema2, correcoes1)
+    latex.exportarLatex('latexFile2banco.txt', sistema2banco, correcoes1)
+
     return None
 
-def exercicio3e4() -> None:
+def exercicio3e4():
     config = configparser.ConfigParser()
     config.read('config.ini')
 
@@ -120,6 +127,7 @@ def exercicio3e4() -> None:
     i = 1
     tapInicial = sistema3.dcircuitos[1]['TAP(PU)']
     print(f'Tap Inicial: {tapInicial:.6f}')
+    correcoes3 = []
     while i <= maxIter:
         erro = objetivo - sistema3.tensoes[barra]  
 
@@ -129,6 +137,7 @@ def exercicio3e4() -> None:
         print(f'Correcao no tap: {correcao:.6f}')
 
         sistema3.dcircuitos[1]['TAP(PU)'] += correcao
+        correcoes3.append([correcao, sistema3.dcircuitos[1]['TAP(PU)']])
     
         sistema3.calcularMatrizes()
         sistema3.resolverFluxo(True)
@@ -153,6 +162,7 @@ def exercicio3e4() -> None:
     i = 1
     defInicial = sistema4.dcircuitos[1]['DEF(GRAUS)']
     print(f'Defasagem Inicial: {defInicial:.6f}')
+    correcoes4 = []
     while i <= maxIter:
         erro = objetivo - sistema4.fluxoPkm[circuito][0]
 
@@ -162,6 +172,7 @@ def exercicio3e4() -> None:
         print(f'Correcao na defasagem: {correcao:.6f}')
 
         sistema4.dcircuitos[1]['DEF(GRAUS)'] += correcao
+        correcoes4.append([correcao, sistema4.dcircuitos[1]['DEF(GRAUS)']])
     
         sistema4.calcularMatrizes()
         sistema4.resolverFluxo(True)
@@ -178,13 +189,16 @@ def exercicio3e4() -> None:
     outputInicial = config['FILE']['OUTPUT_FILE_3_E_4']
     output3 = config['ALTERNADOS']['OUTPUT_FILE_3']
     output4 = config['ALTERNADOS']['OUTPUT_FILE_4']
-    print(f'Montando os arquivos')
+    print('Montando os arquivos')
 
     exportacao.exportarSistema(outputInicial, sistemaInicial)
     exportacao.exportarSistema(output3, sistema3)
     exportacao.exportarSistema(output4, sistema4)
 
-    return None
+    latex.exportarLatex('latexFileInicial.txt', sistemaInicial, correcoes4)
+    latex.exportarLatex('latexFile3.txt', sistema3, correcoes3)
+    latex.exportarLatex('latexFile4.txt', sistema4, correcoes4)
+
 
 if __name__ == '__main__':
     main()

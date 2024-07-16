@@ -1,0 +1,72 @@
+\begin{table}[h]
+\centering
+\begin{tabular}{|| c  c  c ||}
+ \hline
+ Barra & Ângulo & Tensão \\
+   & grau & pu \\
+ \hline
+ 1 & -0.0000 & 1.0000 \\
+ \hline
+ 2 & 0.8548 & 1.0000 \\
+ \hline
+ 3 & 1.5709 & 0.9641 \\
+ \hline
+ 4 & -0.4495 & 0.9691 \\
+ \hline
+\end{tabular}
+\caption{Tabela de tensão e defasagem por barra}
+\label{table:1}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|| c  c  c  c ||}
+ \hline
+ Barra & PG & QG & SG \\
+   & MW & Mvar & MVA \\
+ \hline
+ 1 & 0.7000 & 0.2902 & 0.7578 \\
+ \hline
+ 2 & 0.8000 & 0.4438 & 0.9148 \\
+ \hline
+ 3 & -0.0000 & 0.0000 & 0.0000 \\
+ \hline
+ 4 & 0.0000 & 0.0000 & 0.0000 \\
+ \hline
+\end{tabular}
+\caption{Potência de geração}
+\label{table:2}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|| c  c  c ||}
+ \hline
+ Iteração & Correção & Valor atualizado \\
+ \hline
+ 0 & 4.387457 & 4.387457 \\
+ \hline
+ 1 & 2.179106 & 6.566563 \\
+ \hline
+ 2 & 1.085063 & 7.651626 \\
+ \hline
+ 3 & 0.541277 & 8.192903 \\
+ \hline
+ 4 & 0.270294 & 8.463197 \\
+ \hline
+ 5 & 0.135049 & 8.598246 \\
+ \hline
+ 6 & 0.067495 & 8.665741 \\
+ \hline
+ 7 & 0.033737 & 8.699478 \\
+ \hline
+ 8 & 0.016865 & 8.716343 \\
+ \hline
+\end{tabular}
+\caption{Correções aplicadas}
+\label{table:3}
+\end{table}
+
+

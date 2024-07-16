@@ -1,0 +1,103 @@
+\begin{table}[h]
+\centering
+\begin{tabular}{|| c  c  c ||}
+ \hline
+ Barra & Ângulo & Tensão \\
+   & grau & pu \\
+ \hline
+ 1 & 0.0000 & 1.0345 \\
+ \hline
+ 2 & -0.7242 & 1.0345 \\
+ \hline
+ 3 & -4.6189 & 0.9990 \\
+ \hline
+\end{tabular}
+\caption{Tabela de tensão e defasagem por barra}
+\label{table:1}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|| c  c  c  c ||}
+ \hline
+ Barra & PG & QG & SG \\
+   & MW & Mvar & MVA \\
+ \hline
+ 1 & 70.0000 & 17.6296 & 72.1859 \\
+ \hline
+ 2 & 80.0000 & 51.7473 & 95.2774 \\
+ \hline
+ 3 & 0.0000 & 0.0000 & 0.0000 \\
+ \hline
+\end{tabular}
+\caption{Potência de geração}
+\label{table:2}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|| c  c  c  c  c  c ||}
+ \hline
+ Barra & Ângulo & Tensão & PG & QG & SG \\
+   & grau & pu & MW & Mvar & MVA \\
+ \hline
+ 1 & 0.0000 & 1.0345 & 70.0000 & 17.6296 & 72.1859 \\
+ \hline
+ 2 & -0.7242 & 1.0345 & 80.0000 & 51.7473 & 95.2774 \\
+ \hline
+ 3 & -4.6189 & 0.9990 & 0.0000 & 0.0000 & 0.0000 \\
+ \hline
+\end{tabular}
+\caption{Ângulos, Tensões e Potências de geração por barra}
+\label{table:3}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|| c  c  c ||}
+ \hline
+ Iteração & Correção & Valor atualizado \\
+ \hline
+ 0 & 0.012953 & 1.012953 \\
+ \hline
+ 1 & 0.008212 & 1.021166 \\
+ \hline
+ 2 & 0.005210 & 1.026376 \\
+ \hline
+ 3 & 0.003307 & 1.029683 \\
+ \hline
+ 4 & 0.002100 & 1.031783 \\
+ \hline
+ 5 & 0.001333 & 1.033116 \\
+ \hline
+ 6 & 0.000847 & 1.033963 \\
+ \hline
+ 7 & 0.000538 & 1.034500 \\
+ \hline
+\end{tabular}
+\caption{Correções aplicadas}
+\label{table:4}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|| c  c  c  c ||}
+ \hline
+ Barra de & Barra para & PKM (PU) & PMK (PU) \\
+ \hline
+ 1 & 2 & 33.8157 & -33.8157 \\
+ \hline
+ 1 & 3 & 36.1843 & -36.1843 \\
+ \hline
+ 2 & 3 & 63.8157 & -63.8157 \\
+ \hline
+\end{tabular}
+\caption{Fluxos de potência ativa}
+\label{table:5}
+\end{table}
+
+
