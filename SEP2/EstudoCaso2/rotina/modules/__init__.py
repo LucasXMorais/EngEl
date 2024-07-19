@@ -7,4 +7,5 @@ from .alternados import *
 from .limites import *
 from .exibir import *
 from .modificar import *
+from .compara import *
 from .app import *

@@ -20,11 +20,13 @@ def valorDicionario(dicionario: dict) -> tuple:
             if campo <= len(data):
                 key = data[campo][1]
                 valor = input(f'Novo valor do campo {key}: ')
+                if valor == 'q' or valor == 'Q': return ('q','q')
                 tipo = data[campo][2]
                 if isinstance(tipo, int): valor = int(valor)
                 if isinstance(tipo, float): valor = float(valor)
                 if isinstance(tipo, str): valor = str(valor)
-                dicionario[key] = valor
+                # dicionario[key] = valor
                 return (key, valor)
+        if campo == 'q' or campo == 'Q': return ('q','q')
 
 

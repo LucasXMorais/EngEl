@@ -3,13 +3,11 @@
 # SEP II - Engenharia Elétrica (UFSJ)
 import configparser
 import numpy as np
-import copy
 import os
 from modules import *
 from modules import limites
-import matplotlib.pyplot as plt
 
-def iniciarSistema() -> sistema.Sistema:
+def carregarSistema() -> sistema.Sistema:
     config = configparser.ConfigParser()
     config.read('config.ini')
 
@@ -39,9 +37,6 @@ def iniciarSistema() -> sistema.Sistema:
     # Calculando as variáveis - Com o argumento TRUE para rodar em modo silencioso
     sistema.resolverFluxo(True)
 
-    # Calculando as potências e fluxos de potência
-    sistema.calcularPotencias()
-
     # Saidas
     output = config['FILE']['OUTPUT_FILE']
     output = 'resultados/' + output
@@ -60,99 +55,54 @@ def iniciarSistema() -> sistema.Sistema:
 
 def menu(sis: sistema.Sistema):
     while True:
-        resposta = input('Mudar sistema? ( S / N / F ) ')
+        resposta = input('B / C / F / Q - ')
         match resposta:
-            case 's' | 'S':
+            case 'b' | 'B':
                 while True:
-                    print('1. Mudar dados de barra')
-                    print('2. Mudar dados de circuito')
-                    modo = input('')
-                    match modo:
-                        case '1':
-                            while True:
-                                numBarra = input('Alterar barra: ')
-                                if numBarra == 'q' or numBarra == 'Q':break
-                                if numBarra.isnumeric():
-                                    numBarra = int(numBarra)-1
-                                    if numBarra <= len(sis.dbarras):
-                                        exibir.mostrarDadosBarras(sis, numBarra)
+                    bar = input('Barra: ')
+                    if bar.isnumeric():
+                        bar = int(bar)-1
+                        if bar <= len(sis.dbarras):
+                            exibir.dadosBarras(sis, bar)
 
-                                        dados = modificar.valorDicionario(sis.dbarras[numBarra])
-                                        sis.dbarras[numBarra][dados[0]] = dados[1]
+                            dados = modificar.valorDicionario(sis.dbarras[bar])
+                            if dados[0] == 'q': break
+                            sis.dbarras[bar][dados[0]] = dados[1]
 
-                                        exibir.mostrarDadosBarras(sis, numBarra)
+                            exibir.dadosBarras(sis, bar)
 
-                                        # Salvando alterações
-                                        sis.calcularMatrizes()
-                                        exportacao.exportarSistema('dados_sistema_modificado.txt', sis)
-                                        break
+                            # Salvando alterações
+                            sis.calcularMatrizes()
+                            exportacao.exportarSistema('dados_sistema_modificado.txt', sis)
+
                             break
-                        case '2':
-                            while True:
-                                numCircuito = input('Alterar circuito: ')
-                                if numCircuito == 'q' or numCircuito == 'Q':break
-                                if numCircuito.isnumeric():
-                                    numCircuito = int(numCircuito)-1
-                                    if numCircuito <= len(sis.dcircuitos):
-
-                                        exibir.mostrarDadosCircuitos(sis, numCircuito)
-
-                                        dados = modificar.valorDicionario(sis.dcircuitos[numCircuito])
-                                        sis.dcircuitos[numCircuito][dados[0]] = dados[1]
-
-                                        exibir.mostrarDadosCircuitos(sis, numCircuito)
-
-                                        # Salvando alterações
-                                        sis.calcularMatrizes()
-                                        exportacao.exportarSistema('dados_sistema_modificado.txt', sis)
-                                        break
-                            break
-                        case 'q' | 'Q': break
-                        case _:
-                            print('Não encontrado')
-                # FIM WHILE
-            case 'n' | 'N':
+                    # FIm Barra
+                    if bar == 'q' or bar == 'Q': break
+                # Fim while
+            case 'c' | 'C':
                 while True:
-                    sair = False
-                    print('1. Rodar Fluxo')
-                    print('2. Sair')
-                    modo = input('')
-                    match modo:
-                        case '1':
-                            # Calculando as variáveis - Com o argumento TRUE para rodar em modo silencioso
-                            sis.resolverFluxo()
-                        
-                            # Calculando as potências e fluxos de potência
-                            sis.calcularPotencias()
-                        
-                            # Saidas
-                            output = 'resultadosModificados.txt'
-                            output = 'resultados/' + output
-                            print(f'Exportando as respostas do sis para {output}')
-                            exportacao.exportarSistema(output, sis)
-                        
-                            # Exportando tabelas para Latex
-                            correcoes1 = []
-                            tabelasLatex = 'latexmod.txt'
-                            tabelasLatex = 'resultados/' + tabelasLatex
-                            print(f'Exportando as respostas do sis para {tabelasLatex}')
-                            latex.exportarLatex(tabelasLatex, sis, correcoes1)
+                    circ = input('Circuito: ')
+                    if circ.isnumeric():
+                        circ = int(circ)-1
+                        if circ <= len(sis.dcircuitos):
+                            exibir.dadosCircuitos(sis, circ)
 
-                            exibir.resumoSistema(sis)
+                            dados = modificar.valorDicionario(sis.dcircuitos[circ])
+                            if dados[0] == 'q': break
+                            sis.dcircuitos[circ][dados[0]] = dados[1]
+
+                            exibir.dadosCircuitos(sis, circ)
+
+                            # Salvando alterações
+                            sis.calcularMatrizes()
+                            exportacao.exportarSistema('dados_sistema_modificado.txt', sis)
+
                             break
-                        case '2':
-                            print('Encerrando')
-                            sair = True
-                            break
-                        case _:
-                            print('Entrada inválida')
+                    # Fim Circuito
+                    if circ == 'q' or circ == 'Q':break
                 # Fim While
-                if sair: break
             case 'f' | 'F':
                 sis.resolverFluxo()
-            
-                # Calculando as potências e fluxos de potência
-                sis.calcularPotencias()
             
                 # Saidas
                 output = 'resultadosModificados.txt'
@@ -168,8 +118,168 @@ def menu(sis: sistema.Sistema):
                 latex.exportarLatex(tabelasLatex, sis, correcoes1)
 
                 exibir.resumoSistema(sis)
+            case 'a' | 'A':
+                print('1. Controle de tensão pelas barras PV')
+                print('2. Controle de tensão pelo TAP')
+                print('3. Controle de potência ativa pela defasagem')
+                ajuste = input('Ajuste: ')
+                match ajuste:
+                    case '1':
+                        default = False
+                        while True:
+                            valoresDefault = input('Usar parâmetros padrão: ')
+                            match valoresDefault:
+                                case 's' | 'S':
+                                    default = True
+                                    break
+                                case _:
+                                    pass
+                        # FIm While
+                        while True:
+                            parametrosTensao = {
+                                    "MAX_ITER_TENSAO" : 100,
+                                    "TOLERANCIA_TENSAO" : 0.001,
+                                    "ALPHA_TENSAO" : 0.7,
+                                    "BARRA_OBJETIVO_TENSAO" : 1,
+                                    "OBJETIVO_TENSAO" : 1.0,
+                                    "BARRAS_CONTROLE_TENSAO" : '1,2',
+                                    }
+                            parametrosTensao = alternados.pegarParametros(parametrosTensao, default)
+                            print(parametrosTensao)
+                            print('Estes valores estão corretos?') 
+                            while True:
+                                resposta = input('S / N')
+                                if resposta in ['s','S','q','Q','n','N']: break
+                            if resposta in ['s','S','q','Q']: break
+                        if resposta not in ['q','Q']: 
+                            correcoes = []
+                            sis, correcoes = alternados.controleTensao(sis, parametrosTensao)
+
+                            # Salvando alterações
+                            sis.calcularMatrizes()
+                            exportacao.exportarSistema('dados_sistema_modificado.txt', sis)
+                    case '2':
+                        default = False
+                        while True:
+                            valoresDefault = input('Usar parâmetros padrão: ')
+                            match valoresDefault:
+                                case 's' | 'S':
+                                    default = True
+                                    break
+                                case _:
+                                    pass
+                        # FIm While
+                        while True:
+                            parametrosTap = {
+                                    "MAX_ITER_TAP" : 100,
+                                    "TOLERANCIA_TAP" : 0.001,
+                                    "ALPHA_TAP" : 1.5,
+                                    "BARRA_OBJETIVO_TAP" : 2,
+                                    "OBJETIVO_TAP" : 1.01,
+                                    "CIRCUITOS_CONTROLE_TAP" : '2',
+                                    }
+                            parametrosTap = alternados.pegarParametros(parametrosTap, default)
+                            print(parametrosTap)
+                            print('Estes valores estão corretos?') 
+                            while True:
+                                resposta = input('S / N')
+                                if resposta in ['s','S','q','Q','n','N']: break
+                            if resposta in ['s','S','q','Q']: break
+                        if resposta not in ['q','Q']: 
+                            correcoes = []
+                            sis, correcoes = alternados.controleTap(sis, parametrosTap)
+
+                            # Salvando alterações
+                            sis.calcularMatrizes()
+                            exportacao.exportarSistema('dados_sistema_modificado.txt', sis)
+                    case '3':
+                        default = False
+                        while True:
+                            valoresDefault = input('Usar parâmetros padrão: ')
+                            match valoresDefault:
+                                case 's' | 'S':
+                                    default = True
+                                    break
+                                case _:
+                                    pass
+                        # FIm While
+                        while True:
+                            parametrosDefasagem = {
+                                    "MAX_ITER_DEFASAGEM" : 100,
+                                    "TOLERANCIA_DEFASAGEM" : 0.001,
+                                    "ALPHA_DEFASAGEM" : 1.5,
+                                    "BARRA_OBJETIVO_DEFASAGEM" : 4,
+                                    "OBJETIVO_DEFASAGEM" : 1.01,
+                                    "CIRCUITOS_CONTROLE_DEFASAGEM" : '4',
+                                    }
+                            parametrosDefasagem = alternados.pegarParametros(parametrosDefasagem, default)
+                            print(parametrosDefasagem)
+                            print('Estes valores estão corretos?') 
+                            while True:
+                                resposta = input('S / N')
+                                if resposta in ['s','S','q','Q','n','N']: break
+                            if resposta in ['s','S','q','Q']: break
+                        if resposta not in ['q','Q']: 
+                            correcoes = []
+                            sis, correcoes = alternados.controleTensao(sis, parametrosDefasagem)
+
+                            # Salvando alterações
+                            sis.calcularMatrizes()
+                            exportacao.exportarSistema('dados_sistema_modificado.txt', sis)
+                    case _:
+                        break
+            case 'q' | 'Q': print('Encerrando'); break
             case _:
                 print('Entrada inválida')
     # FIM WHILE
 # Fim menu
+
+def iniciar():
+    exibir.cabecalho()
+    print('Iniciando programa de analise de SEPs')
+    print('Comparar sistemas ou trabalhar em um SEP')
+    while True:
+        menu = input('(C)omparar / (S)EP - ')
+        match menu:
+            case 'c' | 'C':
+                while True:
+                    files = [f for f in os.listdir() if f.split('.')[-1] == 'txt']
+                    files = [f for f in os.listdir() if f.split('_')[0] == 'dados']
+                    arquivos = []
+                    c = 0
+                    while True:
+                        index = 0
+                        for f in files:
+                            index += 1
+                            print(f'{index} - {f}')
+                        importar = input(f'Selecionar arquivo {c+1} = ')
+                        if importar.isnumeric():
+                            importar = int(importar) - 1
+                            if importar <= len(files): 
+                                arq = files[importar]
+                                arquivos.append(files[importar])
+                                c += 1
+                        if c >= 2: break
+                    print(f'Iniciando Leitura de dados: {arquivos}')
+                    dadosSistemas = []
+                    dbarras, dcircuitos = leitura.lerDados(arquivos[0])
+                    dadosSistemas.append((dbarras, dcircuitos))
+                    dbarras, dcircuitos = leitura.lerDados(arquivos[1])
+                    dadosSistemas.append((dbarras, dcircuitos))
+
+                    compara.sistemas(dadosSistemas)
+                    break
+            case 's' | 'S':
+                break
+            case _:
+                pass
+    # Fim while
+# FIm funcao
+
+
+
+
+
+
+
 

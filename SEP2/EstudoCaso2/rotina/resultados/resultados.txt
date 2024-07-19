@@ -1,6 +1,6 @@
 DBAR
 ====================================================================================================
-BARRA  PD(PU)  QD(PU) Bsh(PU)  TIPO  Vesp(PU) Oesp() PGesp(PU) Cus($/MW) CGmin(PU) CGmax(PU)
+  BARRA       PD(PU)    QD(PU)    Bsh(PU)    TIPO    Vesp(PU)   Oesp()   PGesp(PU) Cus($/MW) CGmin(PU) CGmax(PU)
     1        0.0       0.0       0.0        PV       1.02      0.0       0.95      0.0       0.0       1.2    
     2       0.3174    0.087      0.0        PQ       1.0       0.0       0.0       0.0       0.0       0.0    
     3       0.532     0.092      0.0        SW       1.01      0.0       0.0       0.0       0.0       1.0    
@@ -17,7 +17,7 @@ BARRA  PD(PU)  QD(PU) Bsh(PU)  TIPO  Vesp(PU) Oesp() PGesp(PU) Cus($/MW) CGmin(P
 ####
 DCIR
 ====================================================================================================
- BDE  BPARA  NCIR  RES(PU) REAT(PU) SUCsh(PU)  TAP(PU) DEF(GRAUS) LIG(L)DESL(D)   CAP(PU)
+   BDE      BPARA     NCIR      RES(PU)  REAT(PU)  SUCsh(PU) TAP(PU)  DEF(GRAUS)   L/D     CAP(PU)
     1         2         1       0.0194    0.0592    0.0264     1.0       0.0        L        1.0    
     1         4         2       0.054     0.123     0.0246     1.0       0.0        L        1.0    
     2         3         3       0.047     0.198     0.0219     1.0       0.0        L        1.0    

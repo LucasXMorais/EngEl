@@ -27,12 +27,10 @@ class Sistema:
     # Resolvendo o problema de fluxo de potencia e calculando os angulos e tensoes
     def resolverFluxo(self, silent: bool=False):
         sep.calcularAngulosTensoes(self, silent)
-
-    # Calculando todas as potencias do problema, fluxop pk, perdas ... etc
-    def calcularPotencias(self):
         sep.calcularFluxoBarras(self)
         sep.calcularPerdas(self)
         sep.calcularFluxoKM(self)
         sep.potencias(self)
+
 
 

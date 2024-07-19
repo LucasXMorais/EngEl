@@ -3,11 +3,9 @@
 # SEP II - Engenharia Elétrica (UFSJ)
 import configparser
 import numpy as np
-import copy
 from modules import *
 
-
-def printarCabecalho():
+def cabecalho():
     print(f'{100*"="}')
     now: datetime = datetime.now()
     now = f'{now:%c}'
@@ -92,22 +90,20 @@ def resumoSistema(sep: sistema.Sistema):
     # FIM GERACAO
     
     # CIRCUITOS
-    print(f' {105*"-"}')
+    print(f' {108*"-"}')
     print(f'|{"NCIR":^5}{"BARRA DE/PARA":^10}{"SKM":^15}{"% de uso":^15}{"SMK":^15}{"% de uso":^15}{"Capacidade":^15}{"Respeita lim.?":^15}|')
-    print(f' {105*"-"}')
+    print(f' {108*"-"}')
 
     linhasAlerta = []
     for c, skm, smk in zip(sep.dcircuitos, sep.fluxoSkm, sep.fluxoSmk):
         string = '|'
-        string += f'{c["NCIR"]:^5}'
-        string += f'{c["BDE"]:^5}'
-        string += f'{c["BPARA"]:^5}'
-
-        capacidade = c["CAP(PU)"]
+        string += f'{str(c["NCIR"])+" |":^5}'
+        string += f'{c["BDE"]:^5}' + f'{"->":^2}' + f'{c["BPARA"]:^5}'
 
         stringSkm = f"{skm[0]:.4f}"
         string += f"{stringSkm:^15}"
 
+        capacidade = c["CAP(PU)"]
         pskm = skm[0] / capacidade
         stringpskm = f'{(pskm*100):.2f}'
         string += f"{stringpskm:^15}"
@@ -127,29 +123,33 @@ def resumoSistema(sep: sistema.Sistema):
             aceitavel = "NÃO"
         if aceitavel in ["NÃO", "ALE"] : linhasAlerta.append((c["BDE"], c["BPARA"]))
         string += f"{aceitavel:^15}"
-        string += '|'
+        string += ' |'
         print(string)
 
-    print(f' {105*"-"}')
+    print(f' {108*"-"}')
 
     if linhasAlerta : 
         print(f"Atenção para a(s) linhas(s) {linhasAlerta}") 
     else:
         print(f"Linhas operando dentro dos limites de potência") 
 
-    print(f' {105*"-"}')
+    print(f' {108*"-"}')
     # FIM CIRCUITOS
 # Fim sep
 
-def mostrarDadosBarras(sep: sistema.Sistema, numBarra: int):
+def dadosBarras(sep: sistema.Sistema, numBarra: int):
     print(f'{4*"|-+-|"}')
     barra = sep.dbarras[numBarra]
     for b in barra:
         print(f' {b:^10} : {barra[b]:^7}')
+    ten = f"{sep.tensoes[numBarra]:.4f}"
+    print(f' {"Tensão":^10} : {ten:^7}')
+    ang = f"{sep.angulosGrau[numBarra]:.2f}"
+    print(f' {"Angulo":^10} : {ang:^7}')
     print(f'{4*"|-+-|"}')
 # FIM BARRA
 
-def mostrarDadosCircuitos(sep: sistema.Sistema, numCircuito: int):
+def dadosCircuitos(sep: sistema.Sistema, numCircuito: int):
     print(f'{4*"|-+-|"}')
     circuito = sep.dcircuitos[numCircuito]
     for c in circuito:

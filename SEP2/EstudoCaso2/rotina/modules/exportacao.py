@@ -344,7 +344,7 @@ def exportarSistema(output: str, sis: sistema.Sistema):
     with open(output, 'w') as f:
         f.write(f'DBAR\n')
         f.write(f'{100*"="}\n')
-        cab = 'BARRA  PD(PU)  QD(PU) Bsh(PU)  TIPO  Vesp(PU) Oesp() PGesp(PU) Cus($/MW) CGmin(PU) CGmax(PU)'
+        cab = '  BARRA       PD(PU)    QD(PU)    Bsh(PU)    TIPO    Vesp(PU)   Oesp()   PGesp(PU) Cus($/MW) CGmin(PU) CGmax(PU)'
         f.write(f'{cab}\n')
         for b in sis.dbarras:
             f.write(f'{b["BARRA"]:^10}')
@@ -352,7 +352,8 @@ def exportarSistema(output: str, sis: sistema.Sistema):
             f.write(f'{b["QD(PU)"]:^10}')
             f.write(f'{b["Bsh(PU)"]:^10}')
             f.write(f'{b["TIPO"]:^10}')
-            f.write(f'{b["Vesp(PU)"]:^10}')
+            v = f'{b["Vesp(PU)"]:.5}'
+            f.write(f'{v:^10}')
             f.write(f'{b["Oesp"]:^10}')
             f.write(f'{b["PGesp(PU)"]:^10}')
             f.write(f'{b["Cus"]:^10}')
@@ -364,7 +365,7 @@ def exportarSistema(output: str, sis: sistema.Sistema):
 
         f.write(f'DCIR\n')
         f.write(f'{100*"="}\n')
-        cab = ' BDE  BPARA  NCIR  RES(PU) REAT(PU) SUCsh(PU)  TAP(PU) DEF(GRAUS) LIG(L)DESL(D)   CAP(PU)'
+        cab = '   BDE      BPARA     NCIR      RES(PU)  REAT(PU)  SUCsh(PU) TAP(PU)  DEF(GRAUS)   L/D     CAP(PU)'
         f.write(f'{cab}\n')
         for b in sis.dcircuitos:
             f.write(f'{b["BDE"]:^10}')
@@ -373,8 +374,10 @@ def exportarSistema(output: str, sis: sistema.Sistema):
             f.write(f'{b["RES(PU)"]:^10}')
             f.write(f'{b["REAT(PU)"]:^10}')
             f.write(f'{b["SUCsh(PU)"]:^10}')
-            f.write(f'{b["TAP(PU)"]:^10}')
-            f.write(f'{b["DEF(GRAUS)"]:^10}')
+            a = f'{b["TAP(PU)"]:.5}'
+            f.write(f'{a:^10}')
+            d = f'{b["DEF(GRAUS)"]:.5}'
+            f.write(f'{d:^10}')
             f.write(f'{b["LIG(L)DESL(D)"]:^10}')
             f.write(f'{b["CAP(PU)"]:^10}')
             f.write('\n')

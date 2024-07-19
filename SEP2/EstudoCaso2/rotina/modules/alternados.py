@@ -5,8 +5,16 @@ import numpy as np
 import configparser
 from modules import sistema
 
+# ---- CONTROLE POR TENSAO ----
 def controleTensao(sistema: sistema.Sistema, parametros: dict = None):
-
+#     parametrosTensao = {
+#             "MAX_ITER_TENSAO" : 100,
+#             "TOLERANCIA_TENSAO" : 0.001,
+#             "ALPHA_TENSAO" : 0.7,
+#             "OBJETIVO_TENSAO" : 1.0,
+#             "BARRA_OBJETIVO_TENSAO" : 3,
+#             "BARRAS_CONTROLE_TENSAO" : '1,2',
+#             }
     config = configparser.ConfigParser()
     config.read('config.ini')
 
@@ -16,6 +24,8 @@ def controleTensao(sistema: sistema.Sistema, parametros: dict = None):
         obetivoTensao = parametros["OBJETIVO_TENSAO"]
         barraObjetivo = parametros["BARRA_OBJETIVO_TENSAO"] - 1
         barrasControle = parametros["BARRAS_CONTROLE_TENSAO"]
+        barrasControle = barrasControle.split(',')
+        barrasControle = [ int(b)-1 for b in barrasControle ]
         numeroBarrasControle = len(barrasControle)
         alpha = parametros["ALPHA_TENSAO"]
     else:
@@ -53,16 +63,27 @@ def controleTensao(sistema: sistema.Sistema, parametros: dict = None):
 
     return sistema, correcoes
 
+# ---- CONTROLE POR TAP ----
 def controleTap(sistema: sistema.Sistema, parametros: dict = None):
+#     parametrosTap = {
+#             "MAX_ITER_TAP" : 100,
+#             "TOLERANCIA_TAP" : 0.001,
+#             "ALPHA_TAP" : 1.5,
+#             "OBJETIVO_TAP" : 1.01,
+#             "BARRA_OBJETIVO_TAP" : 2,
+#             "CIRCUITOS_CONTROLE_TAP" : '2',
+#             }
     config = configparser.ConfigParser()
     config.read('config.ini')
 
     if parametros:
         maxAlternadosIter = parametros["MAX_ITER_TAP"]
         tolerancia = parametros["TOLERANCIA_TAP"]
-        obetivoTensao = parametros["OBJETIVO_TAP"]
+        objetivoTap = parametros["OBJETIVO_TAP"]
         barraObjetivo = parametros["BARRA_OBJETIVO_TAP"] - 1
         circuitosControle = parametros["CIRCUITOS_CONTROLE_TAP"]
+        circuitosControle = circuitosControle.split(',')
+        circuitosControle = [ int(c)-1 for c in circuitosControle ]
         numeroCircuitosControle = len(circuitosControle)
         alpha = parametros["ALPHA_TAP"]
     else:
@@ -105,26 +126,36 @@ def controleTap(sistema: sistema.Sistema, parametros: dict = None):
     tapFinal = []
     for c,a in zip(circuitosControle,range(numeroCircuitosControle)):
         tapFinal.append(sistema.dcircuitos[c]['TAP(PU)'])
-        print(f'Tap Inicial: {tapInicial[a]:.6f}, Tap Final: {tapFinal[a]:.6f}, para uma diferença de {tapFinal[a] - tapInicial[a]:.6f} | Circuito: {c+1}')
 
     return sistema, correcoes
 
+# ---- CONTROLE POR DEFASAGEM ----
 def controleDefasagem(sistema: sistema.Sistema, parametros: dict = None):
+#     parametrosDefasagem = {
+#             "MAX_ITER_DEFASAGEM" : 100,
+#             "TOLERANCIA_DEFASAGEM" : 0.001,
+#             "ALPHA_DEFASAGEM" : 1.5,
+#             "OBJETIVO_DEFASAGEM" : 1.01,
+#             "BARRA_OBJETIVO_DEFASAGEM" : 4,
+#             "CIRCUITOS_CONTROLE_DEFASAGEM" : '4',
+#             }
     config = configparser.ConfigParser()
     config.read('config.ini')
 
     if parametros:
         maxAlternadosIter = parametros["MAX_ITER_DEFASAGEM"]
         tolerancia = parametros["TOLERANCIA_DEFASAGEM"]
-        obetivoTensao = parametros["OBJETIVO_DEFASAGEM"]
+        objetivoDefasagem = parametros["OBJETIVO_DEFASAGEM"]
         barraObjetivo = parametros["CIRCUITO_OBJETIVO_DEFASAGEM"] - 1
         circuitosControle = parametros["CIRCUITOS_CONTROLE_DEFASAGEM"]
+        circuitosControle = circuitosControle.split(',')
+        circuitosControle = [ int(c)-1 for c in circuitosControle ]
         numeroCircuitosControle = len(circuitosControle)
         alpha = parametros["ALPHA_DEFASAGEM"]
     else:
         maxAlternadosIter = int(config['ALTERNADOS']['MAX_ITER_DEFASAGEM'])
         tolerancia = float(config['ALTERNADOS']['TOLERANCIA_DEFASAGEM'])
-        objetivoTap = float(config['ALTERNADOS']['OBJETIVO_DEFASAGEM'])
+        objetivoDefasagem = float(config['ALTERNADOS']['OBJETIVO_DEFASAGEM'])
         circuitoObjetivo = int(config['ALTERNADOS']['CIRCUITO_OBJETIVO_DEFASAGEM']) - 1
         circuitosControle = str(config['ALTERNADOS']['CIRCUITOS_CONTROLE_DEFASAGEM']) 
         circuitosControle = circuitosControle.split(',')
@@ -139,7 +170,7 @@ def controleDefasagem(sistema: sistema.Sistema, parametros: dict = None):
         print(f'Tap Inicial: {defInicial[-1]:.6f} | Circuito: {c+1}')
     correcoes = []
     while i <= maxAlternadosIter:
-        erro = objetivoTap - sistema.fluxoPkm[circuitoObjetivo][0]
+        erro = objetivoDefasagem - sistema.fluxoPkm[circuitoObjetivo][0]
 
         if np.abs(erro) <= tolerancia: print(f'Convergiu em {i-1} iteracoes'); break
 
@@ -161,7 +192,35 @@ def controleDefasagem(sistema: sistema.Sistema, parametros: dict = None):
     defFinal = []
     for c,a in zip(circuitosControle,range(numeroCircuitosControle)):
         defFinal.append(sistema.dcircuitos[c]['TAP(PU)'])
-        print(f'Tap Inicial: {defInicial[a]:.6f}, Tap Final: {defFinal[a]:.6f}, para uma diferença de {defFinal[a] - defInicial[a]:.6f} | Circuito: {c+1}')
 
     return sistema, correcoes
+
+def pegarParametros(dicionario: dict, default: bool = None) -> dict:
+    saida = dicionario
+    for key in dicionario:
+        valor = False
+        while True:
+            if not default:
+                valor = input(f'Novo valor do campo {key}: ')
+            elif key.split('_')[0] not in ['MAX','TOLERANCIA']:
+                valor = input(f'Novo valor do campo {key}: ')
+            if not valor: break
+            tipo = dicionario[key]
+            if isinstance(tipo, int):
+                valor = int(valor)
+                saida[key] = valor
+                break
+            if isinstance(tipo, float):
+                valor = float(valor)
+                saida[key] = valor
+                break
+            if isinstance(tipo, str):
+                valor = str(valor)
+                saida[key] = valor
+                break
+            print('Valor Inválido')
+        # Fim while
+    # Fim for
+    return saida
+
 
