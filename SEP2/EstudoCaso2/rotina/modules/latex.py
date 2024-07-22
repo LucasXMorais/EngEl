@@ -38,24 +38,24 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
 
         # Criando tabelas de angulos e tensoes
         dados = []
-        cabecalho = ['Barra', 'Ângulo', 'Tensão']
+        cabecalho = ['Barra', 'Ângulo', 'Tensão (PU)', 'Base de tensão (kV)']
         dados.append(cabecalho)
         unidades = [' ', 'grau', 'pu']
         dados.append(unidades)
         for k, a, t in zip(sistema.dbarras, sistema.angulosGrau, sistema.tensoes):
-            dados.append([k['BARRA'], f'{a:.4f}', f'{t:.4f}'])
+            dados.append([k['BARRA'], f'{a:.4f}', f'{t:.4f}', k['VBase']])
         tabela(f, 2, dados, 'Tabela de tensão e defasagem por barra', 1)
 
         f.write('\n\n')
 
         # Criando tabela de potência de geração 
         dados = []
-        cabecalho = ['Barra', 'PG', 'QG', 'SG']
+        cabecalho = ['Barra', 'PG(PU)', 'CGmax(PU)']
         dados.append(cabecalho)
-        unidades = [' ', 'MW', 'Mvar', 'MVA']
+        unidades = [' ', 'PU', 'PU']
         dados.append(unidades)
         for k, p, q, s in zip(sistema.dbarras, sistema.pG, sistema.qG, sistema.sG):
-            dados.append( [ k['BARRA'], f'{p[0]*sistema.base:.4f}', f'{q[0]*sistema.base:.4f}', f'{s[0]*sistema.base:.4f}' ] )
+            dados.append( [ k['BARRA'], f'{p[0]:.2f}', f'{k["CGmax(PU)"]:.2f}' ] )
         tabela(f, 2, dados, 'Potência de geração', 2)
 
         f.write('\n\n')
@@ -84,11 +84,11 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
 
         # Criando tabela de fluox de potência ativa
         dados = []
-        cabecalho = ['Barra de', 'Barra para', 'PKM (PU)', 'PMK (PU)']
+        cabecalho = ['NCIR', 'BDE', 'BPARA', 'SKM(kVA)', 'SMK(kVA)', 'Cap. Máx.(kVA)']
         dados.append(cabecalho)
-        for c, k, m in zip(sistema.dcircuitos, sistema.fluxoPkm, sistema.fluxoPmk):
-            dados.append( [ c['BDE'], c['BPARA'], f'{k[0]*sistema.base:.4f}', f'{m[0]*sistema.base:.4f}'])
-        tabela(f, 1, dados, 'Fluxos de potência ativa', 5)
+        for c, k, m in zip(sistema.dcircuitos, sistema.fluxoSkm, sistema.fluxoSmk):
+            dados.append( [ c['NCIR'], c['BDE'], c['BPARA'], f'{k[0]*sistema.base:.2f}', f'{m[0]*sistema.base:.2f}', f'{c["CAP(PU)"]*sistema.base:.2f}' ])
+        tabela(f, 1, dados, 'Fluxos de potência', 5)
 
         f.write('\n\n')
 
