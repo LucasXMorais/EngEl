@@ -1,0 +1,8 @@
+# Bases de tensões em cada barra [kV]
+
+1 = 230
+2 = 230
+3 = 230
+4 = 230
+5 = 230
+6 = 230

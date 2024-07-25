@@ -1,0 +1,44 @@
+# Lucas Xavier de Morais
+# 09/04/24 - Criando uma classe para guardar as informações do sistema 
+# SEP II - Engenharia Elétrica (UFSJ)
+import numpy as np
+from modules import sep, leitura, newton
+
+class Sistema:
+    def __init__(self, dbarras: list[dict], dcircuitos: list[dict], arquivo: list[str], base: float):
+        self.dbarras = dbarras
+        self.dcircuitos = dcircuitos
+        self.dados = arquivo
+        self.nbarras = len(self.dbarras)
+        self.ncircuitos = len(self.dcircuitos)
+        self.base = base
+        self.calcularMatrizes()
+        self.lerTensaoBase()
+        self.convergiu = True
+
+    # Montando as matrizes admitancia e impedancia
+    def calcularMatrizes(self):
+        __matrizY = sep.matrizAdmitancia(self)
+        self.matrizY = np.copy(__matrizY)
+        self.matrizZ = np.copy(np.linalg.pinv(__matrizY))
+        __matYLinearizado = sep.matrizLinearizados(self)
+        self.matGkmLinear = np.copy(__matYLinearizado.real)
+        self.matBkmLinear = np.copy(__matYLinearizado.imag)
+        # print(__matYLinearizado)
+        # print(self.matGkmLinear)
+        # print(self.matBkmLinear)
+
+    # Obtendo as informaçẽos das tensões bases 
+    def lerTensaoBase(self):
+        leitura.tensoesBase(self)
+
+    # Resolvendo o problema de fluxo de potencia e calculando os angulos e tensoes
+    def resolverFluxo(self, silent: bool=False):
+        newton.calcularFluxoNewton(self, silent)
+        newton.calcularFluxoBarras(self)
+        newton.calcularPerdas(self)
+        newton.calcularFluxoKM(self)
+        newton.potencias(self)
+
+
+
