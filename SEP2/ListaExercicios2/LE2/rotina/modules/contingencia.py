@@ -51,10 +51,10 @@ def indiceContingencias(sis) -> float:
     return indice
 # Fim indice
 
-def analise(sis, nmenos: int) -> list:
+def calcularIndices(sis, k: int) -> list:
     contingencias = []
     circuitos = [c["NCIR"] for c in sis.dcircuitos]
-    combinacoesContingencias = listarCombinacoesNMenosk(circuitos, nmenos)
+    combinacoesContingencias = listarCombinacoesNMenosk(circuitos, k)
     totalCombinacoes = len(combinacoesContingencias)
 
     indices = []
@@ -70,22 +70,84 @@ def analise(sis, nmenos: int) -> list:
         indiceSobrecarga = indiceContingencias(copiaSistema)
 
         if not copiaSistema.convergiu: 
-            # print(f'Cálculo Newton não convergiu sem o circuito {combinacao}')
             indiceSobrecarga = 0
 
         indices.append( (combinacao, indiceSobrecarga) )
 
-        # message = f'{c} - Tirando o(s) circuitos {combinacao} - Indice: {indiceSobrecarga} | {c*100/totalCombinacoes:.2f}%'
         circs = ','.join([str(h) for h in combinacao])
-        # print(circs)
-        message = f'{c:^3} - {circs:^10} - Indice: {indiceSobrecarga:^20} | {c*100/totalCombinacoes:.2f} %'
+        message = f'{c:^3} - {circs:^6} - Indice: {indiceSobrecarga:^20} | {c*100/totalCombinacoes:.2f} %'
         print(message)
         c += 1
 
 
     return indices
 
+def ordenar(ranking):
         
+    def quicksort(lista):
+        if len(lista) <= 1:
+            return lista
+        pivot = lista.pop()
+
+        menor = []
+        maior = []
+        for l in lista:
+            lValue = l[1]
+            pivotValue = pivot[1]
+            if lValue < pivotValue:
+                menor.append(l)
+            else:
+                maior.append(l)
+        menor = quicksort(menor)
+        if not menor: menor = []
+        menor.append(pivot)
+        maior = quicksort(maior)
+        if not maior: maior = []
+        return menor + maior
+
+    ranking = quicksort(ranking)
+
+    return ranking
+
+def analiseNMenosK(sis, k: int) -> list:
+    indices = calcularIndices(sis, k)
+    ranking = []
+    zeros = []
+    # Tirando os indices zeros
+    for i in indices:
+        iD = i[1]
+        if iD == 0: 
+            zeros.append(i)
+            continue
+        ranking.append(i)
+
+    ranking = ordenar(ranking)
+    rankeados = ranking[::-1] + zeros
+
+    mostrarTopoRanking(rankeados)
+
+    return rankeados
+
+def mostrarTopoRanking(ranking):
+    c = 1
+    for r in ranking:
+        contingencia = r[0]
+        indice = r[1]
+        message = f'{c}° | Contingência: {contingencia} - Índice: {indice}'
+        print(message)
+        c += 1
+        if c >= 10: break
+
+
+
+
+
+
+
+
+
+
+
 
 
     

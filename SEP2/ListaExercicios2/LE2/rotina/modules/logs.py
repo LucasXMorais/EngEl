@@ -6,17 +6,16 @@ from datetime import datetime
 
 def getLogNumber():
     files = [f for f in os.listdir('logs/') if f.split('.')[-1] == 'log']
-    print(files)
     maxLog = 0
     for f in files:
         logN = f.split('_')[1]
         logN = logN.split('.')[0]
         logN = int(logN)
         if logN > maxLog: maxLog = logN
-    return maxLog+1
+    return maxLog
 
-def createNewFile(number):
-    number = str(number)
+def createNewFile():
+    number = str(getLogNumber() + 1)
     if len(number) == 1: number = '0' + number
     file = f'logs/log_{number}.log'
     with open(file, 'w') as f:
@@ -27,8 +26,8 @@ def createNewFile(number):
         f.write(f'{now}\n')
         f.write(f'{60*"-"}\n')
 
-def log(number, message, status):
-    number = str(number)
+def log(message, status):
+    number = str(getLogNumber())
     if len(number) == 1: number = '0' + number
     file = f'logs/log_{number}.log'
     with open(file, 'a') as f:
