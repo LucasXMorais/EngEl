@@ -389,6 +389,21 @@ def exportarSistema(output: str, sis: sistema.Sistema):
     # FIm WITH
 # FIM exportar sist
 
+def contingenciasRankeadas(output: str, ranking: list):
+    print(f'Gravando ranking de contigencias em {output}')
+    with open(output, 'w') as f:
+        c = 1
+        for r in ranking:
+            contingencia = ','.join([str(h) for h in r[0]])
+            indice = r[1]
+            sobrecargas = ';'.join([str(h) for h in r[2]])
+            message = f'{c}° | Contingência: {contingencia} - Índice: {indice} - Sobrecargas: {sobrecargas}\n'
+            f.write(message)
+            c += 1
+
+    
+
+
 
 
 

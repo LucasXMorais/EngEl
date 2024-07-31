@@ -33,16 +33,16 @@ def resumoSistema(sis: sistema.Sistema):
         string = '|'
         string += (f'{b["BARRA"]:^10}')
         string += ' | '
-        ten = f"{t:.4f}"
+        ten = f"{t:.4f}".replace('.',',')
         string += (f"{ten:^10}")
         string += ' | '
-        ang = f"{a:.4f}"
+        ang = f"{a:.4f}".replace('.',',')
         string += (f"{ang:^10}")
         string += ' | '
         kv = b["VBase"]
         string += (f"{kv:^10}")
         string += ' | '
-        aceitavel = limites.limiteTensao(kv, ten)
+        aceitavel = limites.limiteTensao(kv, t)
         string += (f"{aceitavel:^10}")
         string += '|'
         print(string)
@@ -59,18 +59,18 @@ def resumoSistema(sis: sistema.Sistema):
         if b["TIPO"] == "PQ": continue
         string = '|'
         string += f'{b["BARRA"]:^10}'
-        pg = f"{pGeracao[0]:.4f}"
+        pg = f"{pGeracao[0]:.4f}".replace('.',',')
         string += f"{pg:^18}"
         limiteMaximoPercentual = 1
         limiteMinimoPercentual = 0
-        cgmax = f'{b["CGmax(PU)"]:.2f}'
+        cgmax = f'{b["CGmax(PU)"]:.2f}'.replace('.',',')
         string += f"{cgmax:^18}"
-        cgmin = f'{b["CGmin(PU)"]:.2f}'
+        cgmin = f'{b["CGmin(PU)"]:.2f}'.replace('.',',')
         string += f"{cgmin:^18}"
         if b["CGmax(PU)"] > 0:
             limiteMinimoPercentual = b["CGmin(PU)"] / b["CGmax(PU)"]
         potenciaGeracaoPercentual = (pGeracao[0] / b["CGmax(PU)"]) 
-        stringPGerPerc = f'{(potenciaGeracaoPercentual*100):.2f}' 
+        stringPGerPerc = f'{(potenciaGeracaoPercentual*100):.2f}'.replace('.',',') 
         string += f"{stringPGerPerc:^18}"
         aceitavel = "SIM"
         if b["CGmax(PU)"] != 0:
@@ -101,19 +101,19 @@ def resumoSistema(sis: sistema.Sistema):
         string += f'{str(c["NCIR"])+" |":^5}'
         string += f'{c["BDE"]:^5}' + f'{"->":^2}' + f'{c["BPARA"]:^5}'
 
-        stringSkm = f"{skm[0]:.4f}"
+        stringSkm = f"{skm[0]:.4f}".replace('.',',')
         string += f"{stringSkm:^15}"
 
         capacidade = c["CAP(PU)"]
         pskm = skm[0] / capacidade
-        stringpskm = f'{(pskm*100):.2f}'
+        stringpskm = f'{(pskm*100):.2f}'.replace('.',',')
         string += f"{stringpskm:^15}"
 
-        stringSmk = f"{smk[0]:.4f}"
+        stringSmk = f"{smk[0]:.4f}".replace('.',',')
         string += f"{stringSmk:^15}"
         
         psmk = smk[0] / capacidade
-        stringpsmk = f'{(psmk*100):.2f}'
+        stringpsmk = f'{(psmk*100):.2f}'.replace('.',',')
         string += f"{stringpsmk:^15}"
 
         string += f'{c["CAP(PU)"]:^15}'

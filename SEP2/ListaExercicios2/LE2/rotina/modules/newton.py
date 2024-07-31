@@ -321,6 +321,7 @@ def calcularFluxoNewton(sis, silent: bool=False):
         iter += 1
     # Fim While
 
+    sis.convergiu = True
     if iter >= maxIter: 
         if not silent: print("Nao convergiu")
         sis.convergiu = False

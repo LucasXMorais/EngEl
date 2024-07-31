@@ -68,9 +68,11 @@ def menu(sis: sistema.Sistema):
 
                     dados = modificar.valorDicionario(sis.dbarras[bar])
                     if dados[0] == 'q': break
+                    campo = dados[0]
+                    valor = dados[1]
                     valorAntigo = sis.dbarras[bar][dados[0]]
-                    sis.dbarras[bar][dados[0]] = dados[1]
-                    message = f'Barra {bar+1} mudou {dados[0]} de {valorAntigo} para {dados[1]}'
+                    sis.alterarBarra(bar, campo, valor)
+                    message = f'Barra {bar+1} mudou {campo} de {valorAntigo} para {valor}'
                     logs.log(message, 'ALT')
 
                     exibir.dadosBarras(sis, bar)
@@ -95,9 +97,11 @@ def menu(sis: sistema.Sistema):
 
                     dados = modificar.valorDicionario(sis.dcircuitos[circ])
                     if dados[0] == 'q': break
+                    campo = dados[0]
+                    valor = dados[1]
                     valorAntigo = sis.dcircuitos[circ][dados[0]]
-                    sis.dcircuitos[circ][dados[0]] = dados[1]
-                    message = f'Circuito {circ+1} mudou {dados[0]} de {valorAntigo} para {dados[1]}'
+                    sis.alterarCircuito(circ, campo, valor)
+                    message = f'Circuito {circ+1} mudou {campo} de {valorAntigo} para {valor}'
                     logs.log(message, 'ALT')
 
                     exibir.dadosCircuitos(sis, circ)
@@ -307,8 +311,36 @@ def menu(sis: sistema.Sistema):
     # FIm menu comparacao
 
     def menuContingencias():
-        indices = analiseNMenosK(sis, 1)
+        while True:
+            k = input('Número máximo de contingências analisados: ')
+            if k.isnumeric():
+                k = int(k)
+                if k <= 3: break
+                print('Número alto de contingências')
+        ranking = analiseNMenosK(sis, k)
+        message = f'Foram analisadas {len(ranking)} contingencias'
+        logs.log(message, 'SIS')
+        exportacao.contingenciasRankeadas('resultados/contingencias.txt', ranking)
+        latex.contingenciasLatex('resultados/tabelasContingencias.txt', ranking)
     # FIm contingencias
+
+    def modoContingencia():
+        while True:
+            cont = input('Insira as contingencias separas por virgulas: ')
+            if cont in ['q','Q']: return
+            cont = cont.split(',')
+            contingencias = []
+            for c in cont:
+                if c.isnumeric(): 
+                    contingencias.append(int(c))
+            if len(contingencias): break
+        logs.log(f'Ativando modo contingencia para {contingencias}', 'SIS')
+        sis.entrarContingencia(contingencias)
+
+    def sairModoContingencia():
+        print('Saindo do modo contingencia')
+        logs.log(f'Saindo do modo de contingencia', 'SIS')
+        sis.sairContingencia()
 
     def inserirComentario():
         print('Comentário: ')
@@ -325,13 +357,16 @@ def menu(sis: sistema.Sistema):
         print('   A : Realiza Ajustes alternados')
         print('   M : Permite a comparação do sistema atual com um sistema na pasta dados')
         print('   G : Faz a análise de contingencias até n - k')
+        print('   J : Ativa o modo contingência')
         print('   I : Permite inserir um comentário no arquivo de logs')
+        print('   S : Sai do modo contingencia')
         print('   H : Exibe este menu de ajuda')
         print('   Q : Voltar ao menu ou sair')
     # Fim ajuda
 
     def options():
         while True:
+            if sis.emContingencia: print(f'Sistema em contingência nos circuitos {sis.contingencias}')
             resposta = input('H -> Ajuda | Q -> Sair : ')
             match resposta:
                 case 'b' | 'B':
@@ -346,6 +381,10 @@ def menu(sis: sistema.Sistema):
                     menuComparacao()
                 case 'g' | 'G':
                     menuContingencias()
+                case 'j' | 'J':
+                    modoContingencia()
+                case 's' | 'S':
+                    sairModoContingencia()
                 case 'i' | 'I':
                     inserirComentario()
                 case 'h' | 'H':

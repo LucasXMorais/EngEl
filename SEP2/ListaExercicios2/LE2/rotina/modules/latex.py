@@ -6,9 +6,9 @@ def tabela(f, cabecalho: int, dados: list, caption: str, numero: int):
 
     numCol = len(dados[0])
 
-    f.write('\\begin{table}[h]\n')
+    f.write('\\begin{table}\n')
     f.write('\\centering\n')
-    tabularEnv = '{||' + (' c '*numCol) + '||}\n' 
+    tabularEnv = '{' + (' c '*numCol) + '}\n' 
     f.write('\\begin{tabular}'+tabularEnv)
     f.write(' \\hline\n')
     count = 1
@@ -30,6 +30,20 @@ def tabela(f, cabecalho: int, dados: list, caption: str, numero: int):
     tableNum = f'table:{numero}'
     f.write('\label{' + tableNum + '}\n')
     f.write('\\end{table}\n')
+
+def contingenciasLatex(output: str, ranking: list):
+    with open(output, 'w') as f:
+        dados = []
+        cabecalho = ['\#', 'Contingência', 'Índice de Sobrecarga', 'Circuitos em sobrecarga']
+        dados.append(cabecalho)
+        c = 1
+        for r in ranking:
+            contingencia = ','.join([str(h) for h in r[0]])
+            indice = f'{r[1]:.6f}'.replace('.',',')
+            sobrecargas = ','.join([str(h) for h in r[2]])
+            dados.append([ str(c), contingencia, indice, sobrecargas ])
+            c += 1
+        tabela(f, 1, dados, 'Tabela de contingências', 1)
 
 
 def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
@@ -67,7 +81,7 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
         unidades = [' ', 'grau', 'pu', 'MW', 'Mvar', 'MVA']
         dados.append(unidades)
         for k, a, t, p, q, s in zip(sistema.dbarras, sistema.angulosGrau, sistema.tensoes, sistema.pG, sistema.qG, sistema.sG):
-            dados.append( [ k['BARRA'], f'{a:.4f}', f'{t:.4f}', f'{p[0]*sistema.base:.4f}', f'{q[0]*sistema.base:.4f}', f'{s[0]*sistema.base:.4f}' ] )
+            dados.append( [ k['BARRA'], f'{a:.4f}'.replace('.',','), f'{t:.4f}'.replace('.',','), f'{p[0]*sistema.base:.4f}'.replace('.',','), f'{q[0]*sistema.base:.4f}'.replace('.',','), f'{s[0]*sistema.base:.4f}'.replace('.',',') ] )
         tabela(f, 2, dados, 'Ângulos, Tensões e Potências de geração por barra', 3)
 
         f.write('\n\n')
@@ -87,7 +101,7 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
         cabecalho = ['NCIR', 'BDE', 'BPARA', 'SKM(kVA)', 'SMK(kVA)', 'Cap. Máx.(kVA)']
         dados.append(cabecalho)
         for c, k, m in zip(sistema.dcircuitos, sistema.fluxoSkm, sistema.fluxoSmk):
-            dados.append( [ c['NCIR'], c['BDE'], c['BPARA'], f'{k[0]*sistema.base:.2f}', f'{m[0]*sistema.base:.2f}', f'{c["CAP(PU)"]*sistema.base:.2f}' ])
+            dados.append( [ c['NCIR'], c['BDE'], c['BPARA'], f'{k[0]*sistema.base:.2f}'.replace('.',','), f'{m[0]*sistema.base:.2f}'.replace('.',','), f'{c["CAP(PU)"]*sistema.base:.2f}'.replace('.',',') ])
         tabela(f, 1, dados, 'Fluxos de potência', 5)
 
         f.write('\n\n')

@@ -15,6 +15,10 @@ class Sistema:
         self.calcularMatrizes()
         self.lerTensaoBase()
         self.convergiu = True
+        self.dbarrasBackup = self.dbarras
+        self.dcircuitosBackup = self.dcircuitos
+        self.emContingencia = False
+        self.contingencias = []
 
     # Montando as matrizes admitancia e impedancia
     def calcularMatrizes(self):
@@ -39,6 +43,31 @@ class Sistema:
         newton.calcularPerdas(self)
         newton.calcularFluxoKM(self)
         newton.potencias(self)
+
+    def entrarContingencia(self, contingencias: list):
+        self.dcircuitos = self.dcircuitosBackup.copy()
+        self.dcircuitosBackup = self.dcircuitos.copy()
+        self.contingencias = [int(c) for c in contingencias]
+        self.dcircuitos = [b for b in self.dcircuitos if b['NCIR'] not in contingencias]
+        self.emContingencia = True
+        self.calcularMatrizes()
+
+    def sairContingencia(self):
+        self.dcircuitos = self.dcircuitosBackup.copy()
+        self.emContingencia = False
+        self.calcularMatrizes()
+
+    def alterarCircuito(self, circuito: int, campo: str, valor):
+        self.dcircuitos[circuito][campo] = valor
+        self.dcircuitosBackup[circuito][campo] = valor
+
+    def alterarBarra(self, barra: int, campo: str, valor):
+        self.dbarras[barra][campo] = valor
+        self.dbarrasBackup[barra][campo] = valor
+
+
+
+
 
 
 

@@ -30,11 +30,12 @@ def combinacoes(lista, k) -> list:
 def listarCombinacoesNMenosk(circuitos, nmenos) -> list:
     lista = []
     for i in range(nmenos):
-        lista += combinacoes(circuitos, nmenos)
+        lista += combinacoes(circuitos, i+1)
     return lista
 
 def indiceContingencias(sis) -> float:
     indice = 0
+    sobrecargas = []
     for circ, km, mk in zip(sis.dcircuitos, sis.fluxoSkm, sis.fluxoSmk):
         skm = km[0]
         smk = mk[0]
@@ -45,10 +46,11 @@ def indiceContingencias(sis) -> float:
 
         if maiorFluxo > capacidade: 
             sobrecarga = (maiorFluxo - capacidade) / capacidade
+            sobrecargas.append(circ["NCIR"])
 
         indice += sobrecarga
     # Fim for
-    return indice
+    return indice, sobrecargas
 # Fim indice
 
 def calcularIndices(sis, k: int) -> list:
@@ -67,18 +69,20 @@ def calcularIndices(sis, k: int) -> list:
         copiaSistema.calcularMatrizes()
         copiaSistema.resolverFluxo(True)
 
-        indiceSobrecarga = indiceContingencias(copiaSistema)
+        indiceSobrecarga, circuitosSobrecarga = indiceContingencias(copiaSistema)
 
         if not copiaSistema.convergiu: 
             indiceSobrecarga = 0
+            circuitosSobrecarga = ['Não converigu']
 
-        indices.append( (combinacao, indiceSobrecarga) )
+        indices.append( (combinacao, indiceSobrecarga, circuitosSobrecarga) )
 
         circs = ','.join([str(h) for h in combinacao])
-        message = f'{c:^3} - {circs:^6} - Indice: {indiceSobrecarga:^20} | {c*100/totalCombinacoes:.2f} %'
+        indString = f'{indiceSobrecarga:.6f}'.replace('.',',')
+        percString = f'{c*100/totalCombinacoes:.2f}'
+        message = f'| {c: >3} / {totalCombinacoes: ^3} || {percString: >6} % || {circs:^9} - Indice: {indString:^12} |'
         print(message)
         c += 1
-
 
     return indices
 
@@ -121,6 +125,7 @@ def analiseNMenosK(sis, k: int) -> list:
             continue
         ranking.append(i)
 
+    print('Ordenando as contingencias')
     ranking = ordenar(ranking)
     rankeados = ranking[::-1] + zeros
 
@@ -131,12 +136,15 @@ def analiseNMenosK(sis, k: int) -> list:
 def mostrarTopoRanking(ranking):
     c = 1
     for r in ranking:
-        contingencia = r[0]
-        indice = r[1]
-        message = f'{c}° | Contingência: {contingencia} - Índice: {indice}'
+        contingencia = ','.join([str(h) for h in r[0]])
+        indice = f'{r[1]:.6f}'.replace('.',',')
+        circs = ','.join([str(h) for h in r[2]])
+        message = f'{c: >2}° | Contingência: {contingencia:^8} - Índice: {indice} - Sobrecargas: {circs:^8}'
         print(message)
         c += 1
-        if c >= 10: break
+        if c > 10: break
+
+
 
 
 
