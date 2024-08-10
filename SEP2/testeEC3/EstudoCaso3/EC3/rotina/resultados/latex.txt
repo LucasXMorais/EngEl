@@ -1,0 +1,101 @@
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c }
+ \hline
+ Barra & Ângulo & Tensão (PU) & Base de tensão (kV) \\
+   & grau & pu \\
+ \hline
+ 1 & 5,0212 & 1,0392 & 500 \\
+ \hline
+ 2 & 3,1023 & 1,0295 & 500 \\
+ \hline
+ 3 & -0,0000 & 1,0292 & 500 \\
+ \hline
+\end{tabular}
+\caption{Tabela de tensão e defasagem por barra}
+\label{table:1}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c }
+ \hline
+ Barra & PG(PU) & CGmax(PU) \\
+   & PU & PU \\
+ \hline
+ 1 & 0.60 & 1.20 \\
+ \hline
+ 2 & 0.00 & 0.00 \\
+ \hline
+ 3 & -0.04 & 1.00 \\
+ \hline
+\end{tabular}
+\caption{Potência de geração}
+\label{table:2}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c  c }
+ \hline
+ Barra & Ângulo & Tensão & PG & QG & SG \\
+   & grau & pu & MW & Mvar & MVA \\
+ \hline
+ 1 & 5,0212 & 1,0392 & 60,0054 & -2,9642 & 60,0786 \\
+ \hline
+ 2 & 3,1023 & 1,0295 & 0,0021 & 0,0133 & 0,0135 \\
+ \hline
+ 3 & -0,0000 & 1,0292 & -4,0679 & 9,8061 & 10,6163 \\
+ \hline
+\end{tabular}
+\caption{Ângulos, Tensões e Potências de geração por barra}
+\label{table:3}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c }
+ \hline
+ Iteração & Correção & Valor atualizado \\
+ \hline
+\end{tabular}
+\caption{Correções aplicadas}
+\label{table:4}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c  c  c }
+ \hline
+ NCIR & BDE & BPARA & SKM(kVA) & SMK(kVA) & Cap. Máx.(kVA) & \% de Sobrecarga \\
+ \hline
+ 1 & 1 & 2 & 60,08 & 59,40 & 100,00 & 0,00\% \\
+ \hline
+ 2 & 2 & 3 & 28,45 & 27,91 & 100,00 & 0,00\% \\
+ \hline
+\end{tabular}
+\caption{Fluxos de potência}
+\label{table:5}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c  c  c }
+ \hline
+ NCIR & BDE & BPARA & SKM(kVA) & SMK(kVA) & Cap. Máx.(kVA) & \% de uso \\
+ \hline
+ 1 & 1 & 2 & 60,08 & 59,40 & 100,00 & 60,08\% \\
+ \hline
+ 2 & 2 & 3 & 28,45 & 27,91 & 100,00 & 28,45\% \\
+ \hline
+\end{tabular}
+\caption{Fluxos de potência}
+\label{table:5}
+\end{table}
+
+

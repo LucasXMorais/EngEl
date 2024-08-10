@@ -1,0 +1,199 @@
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c }
+ \hline
+ Barra & Ângulo & Tensão (PU) & Base de tensão (kV) \\
+   & grau & pu \\
+ \hline
+ 1 & -0,0000 & 1,0392 & 500 \\
+ \hline
+ 2 & 0,0000 & 1,0000 & 500 \\
+ \hline
+ 3 & -0,0000 & 1,0292 & 500 \\
+ \hline
+ 4 & -0,0000 & 1,0000 & 500 \\
+ \hline
+ 5 & -0,0000 & 1,0000 & 500 \\
+ \hline
+ 6 & 0,0000 & 1,0292 & 500 \\
+ \hline
+ 7 & 0,0000 & 1,0000 & 345 \\
+ \hline
+ 8 & -0,0000 & 1,0000 & 345 \\
+ \hline
+ 9 & -0,0000 & 1,0000 & 345 \\
+ \hline
+ 10 & 0,0000 & 1,0000 & 345 \\
+ \hline
+ 11 & -0,0000 & 1,0000 & 345 \\
+ \hline
+ 12 & -0,0000 & 1,0000 & 345 \\
+ \hline
+\end{tabular}
+\caption{Tabela de tensão e defasagem por barra}
+\label{table:1}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c }
+ \hline
+ Barra & PG(PU) & CGmax(PU) \\
+   & PU & PU \\
+ \hline
+ 1 & 0.33 & 1.20 \\
+ \hline
+ 2 & 0.09 & 0.00 \\
+ \hline
+ 3 & 0.27 & 1.00 \\
+ \hline
+ 4 & 3.19 & 0.00 \\
+ \hline
+ 5 & 0.67 & 0.00 \\
+ \hline
+ 6 & -1.17 & 1.00 \\
+ \hline
+ 7 & -3.31 & 0.00 \\
+ \hline
+ 8 & -0.44 & 0.00 \\
+ \hline
+ 9 & 1.19 & 0.00 \\
+ \hline
+ 10 & 0.43 & 0.00 \\
+ \hline
+ 11 & 0.33 & 0.00 \\
+ \hline
+ 12 & 0.00 & 0.80 \\
+ \hline
+\end{tabular}
+\caption{Potência de geração}
+\label{table:2}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c  c }
+ \hline
+ Barra & Ângulo & Tensão & PG & QG & SG \\
+   & grau & pu & MW & Mvar & MVA \\
+ \hline
+ 1 & -0,0000 & 1,0392 & 32,5536 & 87,1523 & 93,0337 \\
+ \hline
+ 2 & 0,0000 & 1,0000 & 8,8311 & -71,4707 & 72,0143 \\
+ \hline
+ 3 & -0,0000 & 1,0292 & 26,6107 & 16,0582 & 31,0805 \\
+ \hline
+ 4 & -0,0000 & 1,0000 & 318,8468 & -4,8336 & 318,8834 \\
+ \hline
+ 5 & -0,0000 & 1,0000 & 66,9873 & -14,3391 & 68,5048 \\
+ \hline
+ 6 & 0,0000 & 1,0292 & -117,1456 & 100,7680 & 154,5227 \\
+ \hline
+ 7 & 0,0000 & 1,0000 & -330,5774 & 23,1162 & 331,3847 \\
+ \hline
+ 8 & -0,0000 & 1,0000 & -44,3080 & 7,2287 & 44,8938 \\
+ \hline
+ 9 & -0,0000 & 1,0000 & 119,1223 & -61,0826 & 133,8701 \\
+ \hline
+ 10 & 0,0000 & 1,0000 & 43,5000 & -4,4600 & 43,7280 \\
+ \hline
+ 11 & -0,0000 & 1,0000 & 32,7000 & 3,7200 & 32,9109 \\
+ \hline
+ 12 & -0,0000 & 1,0000 & 0,0000 & 0,0000 & 0,0000 \\
+ \hline
+\end{tabular}
+\caption{Ângulos, Tensões e Potências de geração por barra}
+\label{table:3}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c }
+ \hline
+ Iteração & Correção & Valor atualizado \\
+ \hline
+\end{tabular}
+\caption{Correções aplicadas}
+\label{table:4}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c  c  c }
+ \hline
+ NCIR & BDE & BPARA & SKM(kVA) & SMK(kVA) & Cap. Máx.(kVA) & \% de Sobrecarga \\
+ \hline
+ 1 & 1 & 2 & 64,04 & 64,18 & 100,00 & 0,00\% \\
+ \hline
+ 2 & 1 & 4 & 29,11 & 30,31 & 100,00 & 0,00\% \\
+ \hline
+ 3 & 2 & 3 & 15,42 & 13,64 & 100,00 & 0,00\% \\
+ \hline
+ 4 & 3 & 6 & 0,99 & 0,99 & 100,00 & 0,00\% \\
+ \hline
+ 5 & 4 & 7 & 331,38 & 331,38 & 80,00 & 314,23\% \\
+ \hline
+ 6 & 5 & 8 & 69,17 & 69,17 & 80,00 & 0,00\% \\
+ \hline
+ 7 & 5 & 6 & 20,46 & 21,06 & 80,00 & 0,00\% \\
+ \hline
+ 8 & 6 & 9 & 143,94 & 133,87 & 80,00 & 79,92\% \\
+ \hline
+ 9 & 7 & 8 & 0,00 & 0,00 & 50,00 & 0,00\% \\
+ \hline
+ 10 & 7 & 10 & 0,00 & 0,00 & 50,00 & 0,00\% \\
+ \hline
+ 11 & 8 & 11 & 0,00 & 0,00 & 50,00 & 0,00\% \\
+ \hline
+ 12 & 9 & 11 & 0,00 & 0,00 & 50,00 & 0,00\% \\
+ \hline
+ 13 & 10 & 11 & 0,00 & 0,00 & 50,00 & 0,00\% \\
+ \hline
+\end{tabular}
+\caption{Fluxos de potência}
+\label{table:5}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c  c  c }
+ \hline
+ NCIR & BDE & BPARA & SKM(kVA) & SMK(kVA) & Cap. Máx.(kVA) & \% de uso \\
+ \hline
+ 1 & 1 & 2 & 64,04 & 64,18 & 100,00 & 64,18\% \\
+ \hline
+ 2 & 1 & 4 & 29,11 & 30,31 & 100,00 & 30,31\% \\
+ \hline
+ 3 & 2 & 3 & 15,42 & 13,64 & 100,00 & 15,42\% \\
+ \hline
+ 4 & 3 & 6 & 0,99 & 0,99 & 100,00 & 0,99\% \\
+ \hline
+ 5 & 4 & 7 & 331,38 & 331,38 & 80,00 & 414,23\% \\
+ \hline
+ 6 & 5 & 8 & 69,17 & 69,17 & 80,00 & 86,46\% \\
+ \hline
+ 7 & 5 & 6 & 20,46 & 21,06 & 80,00 & 26,32\% \\
+ \hline
+ 8 & 6 & 9 & 143,94 & 133,87 & 80,00 & 179,92\% \\
+ \hline
+ 9 & 7 & 8 & 0,00 & 0,00 & 50,00 & 0,00\% \\
+ \hline
+ 10 & 7 & 10 & 0,00 & 0,00 & 50,00 & 0,00\% \\
+ \hline
+ 11 & 8 & 11 & 0,00 & 0,00 & 50,00 & 0,00\% \\
+ \hline
+ 12 & 9 & 11 & 0,00 & 0,00 & 50,00 & 0,00\% \\
+ \hline
+ 13 & 10 & 11 & 0,00 & 0,00 & 50,00 & 0,00\% \\
+ \hline
+\end{tabular}
+\caption{Fluxos de potência}
+\label{table:5}
+\end{table}
+
+
