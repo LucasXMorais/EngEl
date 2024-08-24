@@ -80,8 +80,20 @@ def main():
             eff += h["value"]**2
         return np.sqrt(eff)
 
+    def thd(harmonics: list, maxOrder=None):
+        eff = 0
+        tensao_fundamental = 0
+        c = 0
+        for h in harmonics:
+            if h["frequency"] == fundamental: tensao_fundamental = harmonics[0]["value"]**2
+            if h["frequency"]/fundamental <= 1: continue
+            if maxOrder and h["frequency"]/fundamental > maxOrder: break
+            eff += h["value"]**2
+        return np.sqrt(eff / tensao_fundamental)
+
     def eficaz(valor_max):
         return (valor_max / np.sqrt(2))
+
 
     param = argumentos(sys.argv)
     Vin = param["Vin"]
@@ -92,41 +104,55 @@ def main():
     lerArquivo()
     harmonicas_psim = lerHarmoincas()
 
-    print('--------')
+    print('============')
     print('TENSÃO TOTAL')
-    print('--------')
+    print('============')
+    print('')
     Vmax_medido  = calcularPico(harmonicas_psim, maxOrder)
     Veff_medido = eficaz(Vmax_medido)
     string = f'V_max = {Vmax_medido:.6f} V | V_eff = {Veff_medido:.6f} V'
-    print("VALORES PSIM")
+    print("--- VALORES PSIM ---")
     print(string)
 
+    print('')
     harmonicas_calculado = calcularHarmonicas(maxOrder)
     Vmax_calculado  = calcularPico(harmonicas_calculado, maxOrder)
     Veff_calculado = eficaz(Vmax_calculado)
     string = f'V_max = {Vmax_calculado:.6f} V | V_eff = {Veff_calculado:.6f} V'
-    print("VALORES CALCULADOS")
+    print("--- VALORES CALCULADOS ---")
     print(string)
 
+    print('')
+    print("--- THD ---")
+    thd_psim = thd(harmonicas_psim, maxOrder)
+    thd_calculado = thd(harmonicas_calculado, maxOrder)
+    print(f'THD_PSIM = {thd_psim*100:.8f} % | THD_CALCULADO = {thd_calculado*100:.8f} %')
+
+    print('')
     string = f'Diferença PSIM e Cálculos: {np.abs(Veff_medido - Veff_calculado):.8f}'
     print(string)
 
-    print('--------')
+    print('')
+
+    print('==================')
     print('TENSÃO FUNDAMENTAL')
-    print('--------')
+    print('==================')
+    print('')
     Vmax_psim_fundamental  = calcularPico(harmonicas_psim, 1)
     Veff_psim_fundamental = eficaz(Vmax_psim_fundamental)
     string = f'V_max = {Vmax_psim_fundamental:.6f} V | V_eff = {Veff_psim_fundamental:.6f} V'
-    print("VALORES PSIM")
+    print("--- VALORES PSIM ---")
     print(string)
 
+    print('')
     harmonicas_fundamental_calc = calcularHarmonicas(1)
     Vmax_fundamental_calc  = calcularPico(harmonicas_fundamental_calc, 1)
     Veff_fundamental_calc = eficaz(Vmax_fundamental_calc)
     string = f'V_max = {Vmax_fundamental_calc:.6f} V | V_eff = {Veff_fundamental_calc:.6f} V'
-    print("VALORES CALCULADOS")
+    print("--- VALORES CALCULADOS ---")
     print(string)
 
+    print('')
     string = f'Diferença PSIM e Cálculos: {np.abs(Veff_psim_fundamental - Veff_fundamental_calc):.8f}'
     print(string)
 
