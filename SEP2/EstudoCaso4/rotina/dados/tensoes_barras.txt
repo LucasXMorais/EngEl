@@ -1,0 +1,6 @@
+# Bases de tensões em cada barra [kV]
+
+1 = 500
+2 = 500
+3 = 500
+4 = 500

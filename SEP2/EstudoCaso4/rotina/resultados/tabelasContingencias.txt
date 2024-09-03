@@ -1,0 +1,38 @@
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c }
+ \hline
+ \# & Contingência & Índice de Sobrecarga & Circuitos em sobrecarga \\
+ \hline
+ 1 & 2 & 0,966235 & 5,9 \\
+ \hline
+ 2 & 4 & 0,737157 & 6,10 \\
+ \hline
+ 3 & 5 & 0,692463 & 9 \\
+ \hline
+ 4 & 6 & 0,294421 & 9 \\
+ \hline
+ 5 & 7 & 0,294421 & 9 \\
+ \hline
+ 6 & 3 & 0,251236 & 9 \\
+ \hline
+ 7 & 8 & 0,205368 & 12 \\
+ \hline
+ 8 & 10 & 0,114867 & 9 \\
+ \hline
+ 9 & 1 & 0,000000 &  \\
+ \hline
+ 10 & 9 & 0,000000 &  \\
+ \hline
+ 11 & 11 & 0,000000 &  \\
+ \hline
+ 12 & 12 & 0,000000 &  \\
+ \hline
+ 13 & 13 & 0,000000 & Não converigu \\
+ \hline
+ 14 & 14 & 0,000000 &  \\
+ \hline
+\end{tabular}
+\caption{Tabela de contingências}
+\label{table:1}
+\end{table}

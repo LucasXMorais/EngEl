@@ -1,0 +1,14 @@
+1° | Contingência: 2 - Índice: 0.9662346555756667 - Sobrecargas: 5;9
+2° | Contingência: 4 - Índice: 0.7371567431283633 - Sobrecargas: 6;10
+3° | Contingência: 5 - Índice: 0.6924630767554916 - Sobrecargas: 9
+4° | Contingência: 6 - Índice: 0.29442066046423365 - Sobrecargas: 9
+5° | Contingência: 7 - Índice: 0.29442066046423365 - Sobrecargas: 9
+6° | Contingência: 3 - Índice: 0.2512359066487333 - Sobrecargas: 9
+7° | Contingência: 8 - Índice: 0.20536827756528897 - Sobrecargas: 12
+8° | Contingência: 10 - Índice: 0.11486723305139535 - Sobrecargas: 9
+9° | Contingência: 1 - Índice: 0 - Sobrecargas: 
+10° | Contingência: 9 - Índice: 0 - Sobrecargas: 
+11° | Contingência: 11 - Índice: 0 - Sobrecargas: 
+12° | Contingência: 12 - Índice: 0 - Sobrecargas: 
+13° | Contingência: 13 - Índice: 0 - Sobrecargas: Não converigu
+14° | Contingência: 14 - Índice: 0 - Sobrecargas: 
