@@ -2,6 +2,7 @@ from .newton import *
 from .linearizado import *
 from .sep import *
 from .sistema import *
+from .otimizacao import *
 from .leitura import *
 from .exportacao import *
 from .latex import *

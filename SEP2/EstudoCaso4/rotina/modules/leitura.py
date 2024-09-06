@@ -56,8 +56,11 @@ def lerDados(arquivo: str) -> (list[dict], list[dict]) :
 def tensoesBase(sis):
     arquivo = sis.dados[1]
     print(f'Lendo {arquivo}')
+    tensao_padrao = 500
+    for b in sis.dbarras:
+        b["VBase"] = tensao_padrao
     if not os.path.isfile(arquivo): 
-        print(f'Arquivo {arquivo} não encontrado')
+        print(f'Arquivo {arquivo} não encontrado, aplicando tensao base padrao = 500kV')
         return
     with open(arquivo, 'rb') as f:
         for line in f:
@@ -67,8 +70,8 @@ def tensoesBase(sis):
             if l[0][0] == '#': continue
             numero = ''.join([i for i in l[0] if i.isnumeric()])
             if numero.isnumeric():
-                barra = int(numero) - 1
+                barra = int(numero) 
                 tensao = ''.join([i for i in l[1] if i.isnumeric()])
-                sis.dbarras[barra]["VBase"] = tensao
+                for b in sis.dbarras:
+                    if b["BARRA"] == barra: b["VBase"] = tensao
 
-    # [print(f'Barra: {b["BARRA"]} Tensao: {b["VBase"]}') for b in sistema.dbarras]

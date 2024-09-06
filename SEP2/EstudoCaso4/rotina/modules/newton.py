@@ -232,11 +232,12 @@ def calcularFluxoNewton(sis, silent: bool=False):
         k = barra['BARRA'] - 1
         ativaEsp[k] = barra['PGesp(PU)'] - barra['PD(PU)']
         reativaEsp[k] = - barra['QD(PU)']
+        # print(f'{barra["BARRA"]} - Carga: {barra["PD(PU)"]}')
 
     # Definindo parâmetros iniciais do método de newton
     maxIter = int(config['NEWTON']['MAX_ITER'])
     tol = float(config['NEWTON']['TOLERANCIA'])
-    iter = 1
+    sis.iteracoes = 1
     fimP = 0
     fimQ = 0
 
@@ -260,14 +261,13 @@ def calcularFluxoNewton(sis, silent: bool=False):
     dPk = np.max(np.abs(deltaPks))
     dQk = np.max(np.abs(deltaQks))
 
-    while iter <= maxIter :
+    while sis.iteracoes <= maxIter :
 
         # Testando convergência
         if dPk < tol: fimP = 1
         if dQk < tol: fimQ = 1
         if fimP and fimQ:
-            sis.iteracoes = iter
-            if not silent: print(f'Convergiu em {iter-1} iterações')
+            if not silent: print(f'Convergiu em {sis.iteracoes-1} iterações')
             break
 
         # Matriz Jacobiana
@@ -317,13 +317,13 @@ def calcularFluxoNewton(sis, silent: bool=False):
         deltaPotencias = np.concatenate((deltaPks, deltaQks), axis=0)
 
         # Imprimindo progresso
-        if not silent : print(f'{iter} / {maxIter} || {(iter/maxIter)*100:.2f}% || diff P = {dPk - tol:.6f} ; diff Q = {dQk - tol:.6f} ; ')
+        if not silent : print(f'{sis.iteracoes} / {maxIter} || {(sis.iteracoes/maxIter)*100:.2f}% || diff P = {dPk - tol:.6f} ; diff Q = {dQk - tol:.6f} ; ')
 
-        iter += 1
+        sis.iteracoes += 1
     # Fim While
 
     sis.convergiu = True
-    if iter >= maxIter: 
+    if sis.iteracoes >= maxIter: 
         if not silent: print("Nao convergiu")
         sis.convergiu = False
 

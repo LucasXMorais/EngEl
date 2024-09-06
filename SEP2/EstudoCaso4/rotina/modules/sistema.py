@@ -21,6 +21,7 @@ class Sistema:
         self.contingencias = []
         self.usarFluxoNewton = False
         self.iteracoes = 0
+        self.linearizadoSemPerdas = False
 
     # Montando as matrizes admitancia e impedancia
     def calcularMatrizes(self):

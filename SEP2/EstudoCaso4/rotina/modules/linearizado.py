@@ -88,6 +88,8 @@ def fluxoLinear(sis):
     fim = 0
 
     BLinear, GLinear = matrizes()
+    # print('BLinear')
+    # print(BLinear)
     try:
         sis.convergiu = True
         BLinear = np.linalg.inv(BLinear)
@@ -95,6 +97,9 @@ def fluxoLinear(sis):
         sis.convergiu = False
         BLinear = np.linalg.pinv(BLinear)
     dPk = 1000000
+    # print(sis.convergiu)
+    # print('BLinear Inv')
+    # print(BLinear)
 
     while i <= maxIter:
 
@@ -117,8 +122,15 @@ def fluxoLinear(sis):
 
         deltaAngulos = angLinear - angAntigo
         dPk = np.max(np.abs(deltaAngulos))
+        # print(dPk)
 
         angAntigo = np.copy(angLinear)
+
+        if sis.linearizadoSemPerdas: 
+            sis.iteracoes = i
+            # print('fim calc')
+            break
+
 
         i+=1
     # Fim while
@@ -139,6 +151,9 @@ def fluxoLinear(sis):
     sis.fluxoQmk = np.zeros((sis.ncircuitos,1))
     sis.fluxoSkm = np.zeros((sis.ncircuitos,1))
     sis.fluxoSmk = np.zeros((sis.ncircuitos,1))
+
+    geracao = [[b['PGesp(PU)']] for b in sis.dbarras]
+    sis.pG = geracao
 
     # Considerando perdas
     perdas = np.zeros((sis.ncircuitos,1))

@@ -33,6 +33,7 @@ def carregarSistema() -> sistema.Sistema:
     base = float(config['PU']['BASE'])
     # Armazenando os dados do sistema na classe Sistema
     sis = Sistema(dbarras, dcircuitos, arquivo, base)
+    sis.usarFluxoNewton = True
 
     # Calculando as variáveis - Com o argumento TRUE para rodar em modo silencioso
     sis.resolverFluxo(True)
@@ -368,12 +369,12 @@ def menu(sis: sistema.Sistema):
         print('O comando é feito a partir da CLI')
         print('   B : Exibe informações de uma barra e permite alteração')
         print('   C : Exibe informações de um circuito e permite alteração')
-        print('   f : Roda o fluxo de potência não Linearizado')
-        print('   F : Roda o fluxo de potência Linearizado')
+        print('   f : Roda o fluxo de potência Linearizado')
+        print('   F : Roda o fluxo de potência não Linearizado')
         print('   A : Realiza Ajustes alternados')
         print('   M : Permite a comparação do sistema atual com um sistema na pasta dados')
-        print('   g : Faz a análise de contingencias até n - k usando o fluxo não linearizado')
-        print('   G : Faz a análise de contingencias até n - k usando o fluxo linearizado')
+        print('   g : Faz a análise de contingencias até n - k usando o fluxo linearizado')
+        print('   G : Faz a análise de contingencias até n - k usando o fluxo não linearizado')
         print('   J : Ativa o modo contingência')
         print('   I : Permite inserir um comentário no arquivo de logs')
         print('   S : Sai do modo contingencia')
@@ -415,6 +416,8 @@ def menu(sis: sistema.Sistema):
                     sairModoContingencia()
                 case 'i' | 'I':
                     inserirComentario()
+                case 'o' | 'O':
+                    otimizacao.otimizar(sis)
                 case 'h' | 'H':
                     ajuda()
                 case 'q' | 'Q': 
