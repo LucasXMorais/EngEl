@@ -98,6 +98,37 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
 
         # Criando tabela de fluox de potência ativa
         dados = []
+        cabecalho = ['NCIR', 'BDE', 'BPARA', 'PKM(kVA)', 'PMK(kVA)', 'Cap. Máx.(kVA)', '\% de Sobrecarga']
+        dados.append(cabecalho)
+        for c, k, m in zip(sistema.dcircuitos, sistema.fluxoPkm, sistema.fluxoPmk):
+            violacao = 0
+            capacidade = c['CAP(PU)']
+            maior = k[0]
+            if m[0] > maior: maior = m[0]
+            if maior >= capacidade:
+                violacao = ((maior - capacidade) / capacidade) * 100
+            dados.append( [ c['NCIR'], c['BDE'], c['BPARA'], f'{k[0]*sistema.base:.2f}'.replace('.',','), f'{m[0]*sistema.base:.2f}'.replace('.',','), f'{c["CAP(PU)"]*sistema.base:.2f}'.replace('.',','), f'{violacao:.2f}\%'.replace('.',',') ])
+        tabela(f, 1, dados, 'Fluxos de potência', 5)
+
+        f.write('\n\n')
+
+        # Criando tabela de fluox de potência ativa com % de uso
+        dados = []
+        cabecalho = ['NCIR', 'BDE', 'BPARA', 'PKM(kVA)', 'PMK(kVA)', 'Cap. Máx.(kVA)', '\% de uso']
+        dados.append(cabecalho)
+        for c, k, m in zip(sistema.dcircuitos, sistema.fluxoPkm, sistema.fluxoPmk):
+            puso = 0
+            capacidade = c['CAP(PU)']
+            maior = k[0]
+            if m[0] > maior: maior = m[0]
+            puso = (maior / capacidade) * 100
+            dados.append( [ c['NCIR'], c['BDE'], c['BPARA'], f'{k[0]*sistema.base:.2f}'.replace('.',','), f'{m[0]*sistema.base:.2f}'.replace('.',','), f'{c["CAP(PU)"]*sistema.base:.2f}'.replace('.',','), f'{puso:.2f}\%'.replace('.',',') ])
+        tabela(f, 1, dados, 'Fluxos de potência', 5)
+
+        f.write('\n\n')
+
+        # Criando tabela de fluox de potência ativa
+        dados = []
         cabecalho = ['NCIR', 'BDE', 'BPARA', 'SKM(kVA)', 'SMK(kVA)', 'Cap. Máx.(kVA)', '\% de Sobrecarga']
         dados.append(cabecalho)
         for c, k, m in zip(sistema.dcircuitos, sistema.fluxoSkm, sistema.fluxoSmk):
@@ -199,7 +230,7 @@ def optimization(output: str, tables: dict, sis):
         dados = []
         cabecalho = ['Variavel' , 'Resultado marginal superior', 'Lâmbda superior', 'Resultado marginal inferior', 'Lâmbda inferior']
         dados.append(cabecalho)
-        theta = '\theta'
+        theta = '\\theta'
         bar = -1
         r_count = 0
         #angulos
@@ -244,7 +275,7 @@ def optimization(output: str, tables: dict, sis):
         dados = []
         cabecalho = ['Variavel' , 'Lâmbda superior', 'Lâmbda inferior']
         dados.append(cabecalho)
-        theta = '\theta'
+        theta = '\\theta'
         bar = -1
         barras_angulos = [b['BARRA'] for b in sis.dbarras if b['TIPO'] != 'SW']
         barras_despachos = [b['BARRA'] for b in sis.dbarras if b['PGesp(PU)'] != 0 or b['TIPO'] == 'SW']
@@ -258,7 +289,7 @@ def optimization(output: str, tables: dict, sis):
         dados = []
         cabecalho = ['Variavel' , 'Resultado marginal superior', 'Lâmbda superior', 'Resultado marginal inferior', 'Lâmbda inferior']
         dados.append(cabecalho)
-        theta = '\theta'
+        theta = '\\theta'
         bar = -1
         r_count = 0
         #angulos

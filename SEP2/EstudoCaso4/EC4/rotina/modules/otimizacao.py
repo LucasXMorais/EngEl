@@ -205,6 +205,8 @@ def otimizar(sis):
     logs.log(message, 'OTI')
     if not resultado.success: print('Falha na otimizacao'); return
 
+    print(resultado)
+
     sis.linearizadoSemPerdas = True
 
     barras_angulos = [b['BARRA'] for b in sis.dbarras if b['TIPO'] != 'SW']
