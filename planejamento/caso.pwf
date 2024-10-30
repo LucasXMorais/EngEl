@@ -1,0 +1,63 @@
+TITU
+SISTEMA 12 BARRAS - 18/04/11                                                     
+DOPC IMPR
+(Op) E (Op) E (Op) E (Op) E (Op) E (Op) E (Op) E (Op) E (Op) E (Op) E
+QLIM L VLIM L NEWT L RCVG L RMON L MFCT L
+99999
+DCTE
+(Mn) ( Val) (Mn) ( Val) (Mn) ( Val) (Mn) ( Val) (Mn) ( Val) (Mn) ( Val) 
+BASE   100. DASE   100. TEPA     1. EXST     4. TETP     5. TBPA     5.
+TLPP     1. TEPR     1. QLST     4. TLPR     .1 TLPQ     2. TSBZ    .01
+TSBA     5. ASTP    .05 VSTP     5. TLVC     .1 TLTC    .01 TSFR  .1E-7
+ZMAX   500. TLPV     .5 VDVM   200. VDVN    40. TUDC   .001 TADC    .01
+PGER    30. TPST     2. VFLD    70. ZMIN   .001 HIST   3001 LFIT     10
+ACIT     90 LFCV      1 DCIT     10 VSIT     10 LPIT     50 LFLP     10
+PDIT     10 LCRT     51 LPRT     60 CSTP     5. ASDC     1.
+ICIT     30 DMAX      5 FDIV     2. ICMN    .05 VART     5. TSTP     32
+ICMV     .5 APAS    90. CPAR    70. VAVT     2. VAVF     5. VMVF    15.
+VPVT     2. VPVF     5. VPMF    10. VSVF    20. VINF     1. VSUP     1.
+TLSI     0. NDIR    20. STTR     5. TRPT   100. STIR     1. BFPO     1.
+99999
+DBAR
+(Num)OETGb(   nome   )Gl( V)( A)( Pg)( Qg)( Qn)( Qm)(Bc  )( Pl)( Ql)( Sh)Are(Vf)M(1)(2)(3)(4)(5)(6)(7)(8)(9)(10
+    1 L2  BARRA 1       1000  0.9999.     -.3E529997                       11050                                   
+    2 L   BARRA 2       1000-2.7                           040.            11000                                   
+    3 L   BARRA 3       1000 -.5                           230.            11040                                   
+    4 L   BARRA 4       1000  0.                                           11050                                   
+    5 L   BARRA 5       1000-2.7                                           11000                                   
+    6 L   BARRA 6       1000 -.5                           050.            11040                                   
+    7 L   BARRA 7       1000  0.                                           11050                                   
+    8 L2  BARRA 8       1000-2.7 250.     -.3E529997          .            11000                                   
+    9 L   BARRA 9       1000 -.5                           155.            11040                                   
+   10 L   BARRA10       1000  0.                           140.            11050                                   
+   11 L   BARRA11       1000-2.7                           245.            11000                                   
+   12 L   BARRA12       1000 -.5                                           11040                                   
+99999
+DLIN
+(De )d O d(Pa )NcEP ( R% )( X% )(Mvar)(Tap)(Tmn)(Tmx)(Phs)(Bc  )(Cn)(Ce)Ns(Cq)(1)(2)(3)(4)(5)(6)(7)(8)(9)(10
+    9         2 1          31.91                                125.125.  500.                                
+    9        10 1          23.74                                125.125.  500.                                
+    2         3 1          04.39                                125.125.  500.                                
+    3         6 1          39.63                                125.125.  500.                                
+   10         6 1          42.16                                125.125.  500.                                
+   11         6 1          02.81                                125.125.  500.                                
+   10         3 1          09.83                                 73. 73.  500.                                
+    5         4 1          01.11                                800.800.  500.                                
+    8         7 1          05.02                                800.800.  500.                                
+    1         5 1          03.18                                800.800.  500.                                
+    5         7 1          04.84                                800.800.  500.                                
+    1         9 1          07.71      1.000                     150.150.  500.                                
+    1         9 2          07.71      1.000                     150.150.  500.                                
+    5        10 1          05.00      1.000                     150.150.  500.                                
+    5        10 2          05.00      1.000                     150.150.  500.                                
+    5        10 3          05.00      1.000                     150.150.  500.                                
+    7        11 1          05.00      1.000                     150.150.  500.                                
+    7        11 2          05.00      1.000                     150.150.  500.                                
+    7        11 3          05.00      1.000                     150.150.  500.                                
+    4        12 1          04.36      1.000                     150.150.  500.                                
+99999
+DARE
+(Ar    (Xchg)     (      Identificacao da area       ) (Xmin) (Xmax)
+  1        0.     *        SISTEMA TESTE             *              .
+99999
+FIM
