@@ -50,6 +50,7 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
 
     with open(latexFile, 'w') as f:
 
+        f.write('\nANGULOS E TENSOES\n')
         # Criando tabelas de angulos e tensoes
         dados = []
         cabecalho = ['Barra', 'Ângulo', 'Tensão (PU)', 'Base de tensão (kV)']
@@ -62,18 +63,27 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
 
         f.write('\n\n')
 
+        f.write('\nGERACAO\n')
         # Criando tabela de potência de geração 
         dados = []
-        cabecalho = ['Barra', 'PG(PU)', 'CGmax(PU)']
+        cabecalho = ['Barra', 'PG(PU)', 'QG(PU)', 'SG(PU)', 'CGmax(PU)']
         dados.append(cabecalho)
-        unidades = [' ', 'PU', 'PU']
+        unidades = [' ', 'PU', 'PU', 'PU', 'PU']
         dados.append(unidades)
+        sump = 0
+        sumq = 0 
+        sums = 0
         for k, p, q, s in zip(sistema.dbarras, sistema.pG, sistema.qG, sistema.sG):
-            dados.append( [ k['BARRA'], f'{p[0]:.2f}', f'{k["CGmax(PU)"]:.2f}' ] )
+            sump += p[0]
+            sumq += q[0]
+            sums += s[0]
+            dados.append( [ k['BARRA'], f'{p[0]:.2f}',f'{q[0]:.2f}',f'{s[0]:.2f}', f'{k["CGmax(PU)"]:.2f}' ] )
+        dados.append( [ 'TOTAL' , f'{sump:.2f}',f'{sumq:.2f}',f'{sums:.2f}', '-' ] )
         tabela(f, 2, dados, 'Potência de geração', 2)
 
         f.write('\n\n')
 
+        f.write('\nGERACAO + ANG + TENSOES\n')
         # Juntanod as duas numa só
         dados = []
         cabecalho = ['Barra', 'Ângulo', 'Tensão', 'PG', 'QG', 'SG']
@@ -96,6 +106,37 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
 
         f.write('\n\n')
 
+        f.write('\nPERDAS ATIVAS\n')
+        # Criando tabela de perdas
+        dados = []
+        cabecalho = ['NCIR', 'BDE', 'BPARA', 'PKM(kVA)', 'PMK(kVA)', 'Perdas(kVA)']
+        dados.append(cabecalho)
+        total = 0
+        for c, k, m in zip(sistema.dcircuitos, sistema.fluxoPkm, sistema.fluxoPmk):
+            perda = float(k + m)
+            total += perda
+            dados.append( [ c['NCIR'], c['BDE'], c['BPARA'], f'{k[0]*sistema.base:.2f}'.replace('.',','), f'{m[0]*sistema.base:.2f}'.replace('.',','), f'{perda:.2f}'.replace('.',',')])
+        dados.append( [ 'TOTAL', '-', '-', '-', '-', f'{total:.2f}'.replace('.',',')])
+        tabela(f, 1, dados, 'Perdas', 5)
+
+        f.write('\n\n')
+
+        f.write('\nPERDAS REATIVAS\n')
+        # Criando tabela de perdas
+        dados = []
+        cabecalho = ['NCIR', 'BDE', 'BPARA', 'QKM(kVA)', 'QMK(kVA)', 'Qerdas(kVA)']
+        dados.append(cabecalho)
+        total = 0
+        for c, k, m in zip(sistema.dcircuitos, sistema.fluxoQkm, sistema.fluxoQmk):
+            perda = float(k + m)
+            total += perda
+            dados.append( [ c['NCIR'], c['BDE'], c['BPARA'], f'{k[0]*sistema.base:.2f}'.replace('.',','), f'{m[0]*sistema.base:.2f}'.replace('.',','), f'{perda:.2f}'.replace('.',',')])
+        dados.append( [ 'TOTAL', '-', '-', '-', '-', f'{total:.2f}'.replace('.',',')])
+        tabela(f, 1, dados, 'Perdas', 5)
+
+        f.write('\n\n')
+
+        f.write('\nTABELA POT ATIVA\n')
         # Criando tabela de fluox de potência ativa
         dados = []
         cabecalho = ['NCIR', 'BDE', 'BPARA', 'PKM(kVA)', 'PMK(kVA)', 'Cap. Máx.(kVA)', '\% de Sobrecarga']
@@ -112,6 +153,7 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
 
         f.write('\n\n')
 
+        f.write('\nTABELA POT ATIVA\n')
         # Criando tabela de fluox de potência ativa com % de uso
         dados = []
         cabecalho = ['NCIR', 'BDE', 'BPARA', 'PKM(kVA)', 'PMK(kVA)', 'Cap. Máx.(kVA)', '\% de uso']
@@ -127,6 +169,7 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
 
         f.write('\n\n')
 
+        f.write('\nTABELA POT COMPLEXA\n')
         # Criando tabela de fluox de potência ativa
         dados = []
         cabecalho = ['NCIR', 'BDE', 'BPARA', 'SKM(kVA)', 'SMK(kVA)', 'Cap. Máx.(kVA)', '\% de Sobrecarga']
@@ -143,6 +186,7 @@ def exportarLatex(latexFile: str, sistema: sistema.Sistema, correcoes: list):
 
         f.write('\n\n')
 
+        f.write('\nTABELA POT COMPLEXA\n')
         # Criando tabela de fluox de potência ativa com % de uso
         dados = []
         cabecalho = ['NCIR', 'BDE', 'BPARA', 'SKM(kVA)', 'SMK(kVA)', 'Cap. Máx.(kVA)', '\% de uso']

@@ -180,6 +180,9 @@ def fluxoOtimo(sis):
     inequacoes = ineq['Aub']
     inequacoes_limites = ineq['bub']
 
+    # print(objetivo)
+    # print(inequacoes)
+    # print(inequacoes_limites)
 
     message = f'Problema de otimizacao montado'
     logs.log(message, 'OTI')
@@ -205,7 +208,7 @@ def otimizar(sis):
     logs.log(message, 'OTI')
     if not resultado.success: print('Falha na otimizacao'); return
 
-    print(resultado)
+    # print(resultado)
 
     sis.linearizadoSemPerdas = True
 

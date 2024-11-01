@@ -13,14 +13,12 @@ def cabecalho():
     print(f'{now:^100}')
     print(f'{100*"="}')
     print(f'{"Universidade Federal de São João Del Rei":^100}')
-    print(f'{"Análise de Sistemas Elétricos de Potência II":^100}')
+    print(f'{"Planejamento de Sistemas Elétricos de Potência II":^100}')
     print(f'{100*"-"}')
-    print(f'{"Relatório do Sistema do Estudo de Caso 2":^100}')
+    print(f'{"PLANEJAMENTO DE SEP":^100}')
     print(f'{100*"="}')
-    print(f'{"Autores:":^25} {"Cássia R. A. Freitas":^25} {"Gabriel L. de Sousa":^25} {"Lucas X. Morais":^25}')
-    print(f'{"Matrícula:":^25} {"190900048":^25} {"180950030":^25} {"190950011":^25}')
-    # print(f'{"Autor: Lucas X. Morais":^100}')
-    # print(f'{"Matrícula: 190950011":^100}')
+    print(f'{"Autor: Lucas X. Morais":^100}')
+    print(f'{"Matrícula: 190950011":^100}')
     print(f'{100*"="}')
 # Fim cabecalho
 

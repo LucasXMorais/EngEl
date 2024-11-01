@@ -1,0 +1,414 @@
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c }
+ \hline
+ NCIRC & DE & PARA & Resultado marginal & Lâmbda \\
+ \hline
+ 1 & 9 & 2 & 1,4780 & -0,0000 \\
+ \hline
+ 1 & 9 & 2 & 1,0220 & -0,0000 \\
+ \hline
+ 2 & 9 & 10 & 1,2224 & -0,0000 \\
+ \hline
+ 2 & 9 & 10 & 1,2776 & -0,0000 \\
+ \hline
+ 3 & 2 & 3 & 1,0780 & -0,0000 \\
+ \hline
+ 3 & 2 & 3 & 1,4220 & -0,0000 \\
+ \hline
+ 4 & 3 & 6 & 0,9836 & -0,0000 \\
+ \hline
+ 4 & 3 & 6 & 1,5164 & -0,0000 \\
+ \hline
+ 5 & 10 & 6 & 1,1698 & -0,0000 \\
+ \hline
+ 5 & 10 & 6 & 1,3302 & -0,0000 \\
+ \hline
+ 6 & 11 & 6 & 2,0967 & -0,0000 \\
+ \hline
+ 6 & 11 & 6 & 0,4033 & -0,0000 \\
+ \hline
+ 7 & 10 & 3 & 1,4600 & -0,0000 \\
+ \hline
+ 7 & 10 & 3 & 0,0000 & -397,3569 \\
+ \hline
+ 8 & 5 & 4 & 8,0000 & -0,0000 \\
+ \hline
+ 8 & 5 & 4 & 8,0000 & -0,0000 \\
+ \hline
+ 9 & 8 & 7 & 11,5000 & -0,0000 \\
+ \hline
+ 9 & 8 & 7 & 4,5000 & -0,0000 \\
+ \hline
+ 10 & 1 & 5 & 8,8273 & -0,0000 \\
+ \hline
+ 10 & 1 & 5 & 7,1727 & -0,0000 \\
+ \hline
+ 11 & 5 & 7 & 6,7500 & -0,0000 \\
+ \hline
+ 11 & 5 & 7 & 9,2500 & -0,0000 \\
+ \hline
+ 12 & 1 & 9 & 4,0004 & -0,0000 \\
+ \hline
+ 12 & 1 & 9 & 0,4996 & -0,0000 \\
+ \hline
+ 13 & 1 & 9 & 4,0004 & -0,0000 \\
+ \hline
+ 13 & 1 & 9 & 0,4996 & -0,0000 \\
+ \hline
+ 14 & 5 & 10 & 4,3273 & -0,0000 \\
+ \hline
+ 14 & 5 & 10 & 0,1727 & -0,0000 \\
+ \hline
+ 15 & 5 & 10 & 4,3273 & -0,0000 \\
+ \hline
+ 15 & 5 & 10 & 0,1727 & -0,0000 \\
+ \hline
+ 16 & 5 & 10 & 4,3273 & -0,0000 \\
+ \hline
+ 16 & 5 & 10 & 0,1727 & -0,0000 \\
+ \hline
+ 17 & 7 & 11 & 4,5000 & -0,0000 \\
+ \hline
+ 17 & 7 & 11 & 0,0000 & -361,9500 \\
+ \hline
+ 18 & 7 & 11 & 4,5000 & -0,0000 \\
+ \hline
+ 18 & 7 & 11 & 0,0000 & -0,0000 \\
+ \hline
+ 19 & 7 & 11 & 4,5000 & -0,0000 \\
+ \hline
+ 19 & 7 & 11 & 0,0000 & -0,0000 \\
+ \hline
+ 20 & 4 & 12 & 2,2500 & -0,0000 \\
+ \hline
+ 20 & 4 & 12 & 2,2500 & -0,0000 \\
+ \hline
+\end{tabular}
+\caption{Resultados inequacoes}
+\label{table:1}
+\end{table}
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c }
+ \hline
+ NCIRC & DE & PARA & Lâmbda \\
+ \hline
+ 1 & 9 & 2 & -0,0000 \\
+ \hline
+ 1 & 9 & 2 & -0,0000 \\
+ \hline
+ 2 & 9 & 10 & -0,0000 \\
+ \hline
+ 2 & 9 & 10 & -0,0000 \\
+ \hline
+ 3 & 2 & 3 & -0,0000 \\
+ \hline
+ 3 & 2 & 3 & -0,0000 \\
+ \hline
+ 4 & 3 & 6 & -0,0000 \\
+ \hline
+ 4 & 3 & 6 & -0,0000 \\
+ \hline
+ 5 & 10 & 6 & -0,0000 \\
+ \hline
+ 5 & 10 & 6 & -0,0000 \\
+ \hline
+ 6 & 11 & 6 & -0,0000 \\
+ \hline
+ 6 & 11 & 6 & -0,0000 \\
+ \hline
+ 7 & 10 & 3 & -0,0000 \\
+ \hline
+ 7 & 10 & 3 & -397,3569 \\
+ \hline
+ 8 & 5 & 4 & -0,0000 \\
+ \hline
+ 8 & 5 & 4 & -0,0000 \\
+ \hline
+ 9 & 8 & 7 & -0,0000 \\
+ \hline
+ 9 & 8 & 7 & -0,0000 \\
+ \hline
+ 10 & 1 & 5 & -0,0000 \\
+ \hline
+ 10 & 1 & 5 & -0,0000 \\
+ \hline
+ 11 & 5 & 7 & -0,0000 \\
+ \hline
+ 11 & 5 & 7 & -0,0000 \\
+ \hline
+ 12 & 1 & 9 & -0,0000 \\
+ \hline
+ 12 & 1 & 9 & -0,0000 \\
+ \hline
+ 13 & 1 & 9 & -0,0000 \\
+ \hline
+ 13 & 1 & 9 & -0,0000 \\
+ \hline
+ 14 & 5 & 10 & -0,0000 \\
+ \hline
+ 14 & 5 & 10 & -0,0000 \\
+ \hline
+ 15 & 5 & 10 & -0,0000 \\
+ \hline
+ 15 & 5 & 10 & -0,0000 \\
+ \hline
+ 16 & 5 & 10 & -0,0000 \\
+ \hline
+ 16 & 5 & 10 & -0,0000 \\
+ \hline
+ 17 & 7 & 11 & -0,0000 \\
+ \hline
+ 17 & 7 & 11 & -361,9500 \\
+ \hline
+ 18 & 7 & 11 & -0,0000 \\
+ \hline
+ 18 & 7 & 11 & -0,0000 \\
+ \hline
+ 19 & 7 & 11 & -0,0000 \\
+ \hline
+ 19 & 7 & 11 & -0,0000 \\
+ \hline
+ 20 & 4 & 12 & -0,0000 \\
+ \hline
+ 20 & 4 & 12 & -0,0000 \\
+ \hline
+\end{tabular}
+\caption{Resultados inequacoes}
+\label{table:1}
+\end{table}
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c }
+ \hline
+ GER. BARRA & Resultado marginal & Lâmbda \\
+ \hline
+ 1 & 0,0000 & 100,0000 \\
+ \hline
+ 2 & 0,0000 & 366,4824 \\
+ \hline
+ 3 & 0,0000 & 400,0000 \\
+ \hline
+ 4 & 0,0000 & 81,1509 \\
+ \hline
+ 5 & 0,0000 & 81,1509 \\
+ \hline
+ 6 & 0,0000 & 381,3863 \\
+ \hline
+ 7 & 0,0000 & 49,0902 \\
+ \hline
+ 8 & 0,0000 & 49,0902 \\
+ \hline
+ 9 & 0,0000 & 122,8501 \\
+ \hline
+ 10 & 0,0000 & 82,3120 \\
+ \hline
+ 11 & 0,0000 & 400,0000 \\
+ \hline
+ 12 & 0,0000 & 81,1509 \\
+ \hline
+\end{tabular}
+\caption{Resultados igualdades}
+\label{table:1}
+\end{table}
+\begin{table}
+\centering
+\begin{tabular}{ c  c }
+ \hline
+ GER. BARRA & Lâmbda \\
+ \hline
+ 1 & 100,0000 \\
+ \hline
+ 2 & 366,4824 \\
+ \hline
+ 3 & 400,0000 \\
+ \hline
+ 4 & 81,1509 \\
+ \hline
+ 5 & 81,1509 \\
+ \hline
+ 6 & 381,3863 \\
+ \hline
+ 7 & 49,0902 \\
+ \hline
+ 8 & 49,0902 \\
+ \hline
+ 9 & 122,8501 \\
+ \hline
+ 10 & 82,3120 \\
+ \hline
+ 11 & 400,0000 \\
+ \hline
+ 12 & 81,1509 \\
+ \hline
+\end{tabular}
+\caption{Resultados igualdades}
+\label{table:1}
+\end{table}
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c }
+ \hline
+ Variavel & Resultado marginal superior & Lâmbda superior & Resultado marginal inferior & Lâmbda inferior \\
+ \hline
+ \theta2 & 3,2818 & 0,0000 & 3,0014 & 0,0000 \\
+ \hline
+ \theta3 & 3,2743 & 0,0000 & 3,0089 & 0,0000 \\
+ \hline
+ \theta4 & 3,1679 & 0,0000 & 3,1153 & 0,0000 \\
+ \hline
+ \theta5 & 3,1679 & 0,0000 & 3,1153 & 0,0000 \\
+ \hline
+ \theta6 & 3,1687 & 0,0000 & 3,1145 & 0,0000 \\
+ \hline
+ \theta7 & 3,1074 & 0,0000 & 3,1758 & 0,0000 \\
+ \hline
+ \theta8 & 2,9317 & 0,0000 & 3,3515 & 0,0000 \\
+ \hline
+ \theta9 & 3,2091 & 0,0000 & 3,0741 & 0,0000 \\
+ \hline
+ \theta10 & 3,2025 & 0,0000 & 3,0807 & 0,0000 \\
+ \hline
+ \theta11 & 3,1449 & 0,0000 & 3,1383 & 0,0000 \\
+ \hline
+ \theta12 & 3,1679 & 0,0000 & 3,1153 & 0,0000 \\
+ \hline
+ G1 & 5,4222 & 0,0000 & 2,5778 & 0,0000 \\
+ \hline
+ G8 & 0,0000 & -29,0902 & 3,5000 & 0,0000 \\
+ \hline
+ BARRA 2 & 0,4000 & 0,0000 & 0,0000 & 33,5176 \\
+ \hline
+ BARRA 3 & 0,8245 & 0,0000 & 1,4755 & 0,0000 \\
+ \hline
+ BARRA 6 & 0,5000 & 0,0000 & 0,0000 & 18,6137 \\
+ \hline
+ BARRA 9 & 1,5500 & 0,0000 & 0,0000 & 277,1499 \\
+ \hline
+ BARRA 10 & 1,4000 & 0,0000 & 0,0000 & 317,6880 \\
+ \hline
+ BARRA 11 & 1,4033 & 0,0000 & 1,0467 & 0,0000 \\
+ \hline
+\end{tabular}
+\caption{Resultados Limites}
+\label{table:1}
+\end{table}
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c }
+ \hline
+ Variavel & Resultado marginal superior & Lâmbda superior & Resultado marginal inferior & Lâmbda inferior \\
+ \hline
+ \theta2 & 0,0000 & 0,0000 \\
+ \hline
+ \theta3 & 0,0000 & 0,0000 \\
+ \hline
+ \theta4 & 0,0000 & 0,0000 \\
+ \hline
+ \theta5 & 0,0000 & 0,0000 \\
+ \hline
+ \theta6 & 0,0000 & 0,0000 \\
+ \hline
+ \theta7 & 0,0000 & 0,0000 \\
+ \hline
+ \theta8 & 0,0000 & 0,0000 \\
+ \hline
+ \theta9 & 0,0000 & 0,0000 \\
+ \hline
+ \theta10 & 0,0000 & 0,0000 \\
+ \hline
+ \theta11 & 0,0000 & 0,0000 \\
+ \hline
+ \theta12 & 0,0000 & 0,0000 \\
+ \hline
+ G1 & 0,0000 & 0,0000 \\
+ \hline
+ G8 & -29,0902 & 0,0000 \\
+ \hline
+ BARRA 2 & 0,0000 & 33,5176 \\
+ \hline
+ BARRA 3 & 0,0000 & 0,0000 \\
+ \hline
+ BARRA 6 & 0,0000 & 18,6137 \\
+ \hline
+ BARRA 9 & 0,0000 & 277,1499 \\
+ \hline
+ BARRA 10 & 0,0000 & 317,6880 \\
+ \hline
+ BARRA 11 & 0,0000 & 0,0000 \\
+ \hline
+\end{tabular}
+\caption{Resultados Limites}
+\label{table:1}
+\end{table}
+\begin{table}
+\centering
+\begin{tabular}{ c  c }
+ \hline
+ Barra & Ângulo Ótimo \\
+ \hline
+ 1 & 0,0000 \\
+ \hline
+ 2 & -8,0352 \\
+ \hline
+ 3 & -7,6026 \\
+ \hline
+ 4 & -1,5074 \\
+ \hline
+ 5 & -1,5074 \\
+ \hline
+ 6 & -1,5528 \\
+ \hline
+ 7 & 1,9590 \\
+ \hline
+ 8 & 12,0258 \\
+ \hline
+ 9 & -3,8663 \\
+ \hline
+ 10 & -3,4911 \\
+ \hline
+ 11 & -0,1896 \\
+ \hline
+ 12 & -1,5074 \\
+ \hline
+\end{tabular}
+\caption{Resultados Ângulos Ótimos}
+\label{table:1}
+\end{table}
+\begin{table}
+\centering
+\begin{tabular}{ c  c }
+ \hline
+ Barra & Despacho Ótimo \\
+ \hline
+ 1 & 2,5778 \\
+ \hline
+ 8 & 3,5000 \\
+ \hline
+\end{tabular}
+\caption{Resultados Despachos Ótimos}
+\label{table:1}
+\end{table}
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c }
+ \hline
+ Barra & Carga Atual & Corte & Nova Carga & \% de corte \\
+ \hline
+ 2 & 0,4000 & 0,0000 & 0,4000 & 0,00 \% \\
+ \hline
+ 3 & 2,3000 & 1,4755 & 0,8245 & 64,15 \% \\
+ \hline
+ 6 & 0,5000 & 0,0000 & 0,5000 & 0,00 \% \\
+ \hline
+ 9 & 1,5500 & 0,0000 & 1,5500 & 0,00 \% \\
+ \hline
+ 10 & 1,4000 & 0,0000 & 1,4000 & 0,00 \% \\
+ \hline
+ 11 & 2,4500 & 1,0467 & 1,4033 & 42,72 \% \\
+ \hline
+\end{tabular}
+\caption{Resultados de Cortes de Carga}
+\label{table:1}
+\end{table}
