@@ -208,18 +208,18 @@ def otimizar(sis):
     logs.log(message, 'OTI')
     if not resultado.success: print('Falha na otimizacao'); return
 
-    print("LOWER")
-    for _ in resultado.lower:
-        print(_)
-    print("upper")
-    for _ in resultado.upper:
-        print(_)
-    print("eqlin")
-    for _ in resultado.eqlin:
-        print(_)
-    print("ineqlin")
-    for _ in resultado.ineqlin:
-        print(_)
+    # print("LOWER")
+    # for _ in resultado.lower:
+    #     print(_)
+    # print("upper")
+    # for _ in resultado.upper:
+    #     print(_)
+    # print("eqlin")
+    # for _ in resultado.eqlin:
+    #     print(_)
+    # print("ineqlin")
+    # for _ in resultado.ineqlin:
+    #     print(_)
 
     sis.linearizadoSemPerdas = True
 

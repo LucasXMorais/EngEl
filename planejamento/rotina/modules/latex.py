@@ -206,164 +206,168 @@ def optimization(output: str, tables: dict, sis):
     with open(output, 'w') as f:
 
         resultado = tables['resultado']
-        # Inequacoes
-        # Printando resultados
-        dados = []
-        cabecalho = ['NCIRC', 'DE', 'PARA', 'Resultado marginal', 'Lâmbda']
-        dados.append(cabecalho)
-        circ = 0
-        i = 0
-        for r, m in zip(resultado.ineqlin.residual, resultado.ineqlin.marginals):
-            i += 1
-            ncir = sis.dcircuitos[circ]['NCIR']
-            bde = sis.dcircuitos[circ]['BDE']
-            bpara = sis.dcircuitos[circ]['BPARA']
-            dados.append([ ncir, bde, bpara, f'{r:.4f}'.replace('.',','), f'{m:.4f}'.replace('.',',') ])
-            if i == 2:
-                circ+=1
-                i=0
-        tabela(f, 1, dados, 'Resultados inequacoes', 1)
+        # # Inequacoes
+        # # Printando resultados
+        # dados = []
+        # cabecalho = ['NCIRC', 'DE', 'PARA', 'Resultado marginal', 'Lâmbda']
+        # dados.append(cabecalho)
+        # circ = 0
+        # i = 0
+        # for r, m in zip(resultado.ineqlin.residual, resultado.ineqlin.marginals):
+        #     i += 1
+        #     ncir = sis.dcircuitos[circ]['NCIR']
+        #     bde = sis.dcircuitos[circ]['BDE']
+        #     bpara = sis.dcircuitos[circ]['BPARA']
+        #     dados.append([ ncir, bde, bpara, f'{r:.4f}'.replace('.',','), f'{m:.4f}'.replace('.',',') ])
+        #     if i == 2:
+        #         circ+=1
+        #         i=0
+        # tabela(f, 1, dados, 'Resultados inequacoes', 1)
 
-        # Printando resultados sem marginal
-        dados = []
-        cabecalho = ['NCIRC', 'DE', 'PARA', 'Lâmbda']
-        dados.append(cabecalho)
-        circ = 0
-        i = 0
-        for m in resultado.ineqlin.marginals:
-            i += 1
-            ncir = sis.dcircuitos[circ]['NCIR']
-            bde = sis.dcircuitos[circ]['BDE']
-            bpara = sis.dcircuitos[circ]['BPARA']
-            dados.append([ ncir, bde, bpara, f'{m:.4f}'.replace('.',',') ])
-            if i == 2:
-                circ+=1
-                i=0
-        tabela(f, 1, dados, 'Resultados inequacoes', 1)
+        # # Printando resultados sem marginal
+        # dados = []
+        # cabecalho = ['NCIRC', 'DE', 'PARA', 'Lâmbda']
+        # dados.append(cabecalho)
+        # circ = 0
+        # i = 0
+        # for m in resultado.ineqlin.marginals:
+        #     i += 1
+        #     ncir = sis.dcircuitos[circ]['NCIR']
+        #     bde = sis.dcircuitos[circ]['BDE']
+        #     bpara = sis.dcircuitos[circ]['BPARA']
+        #     dados.append([ ncir, bde, bpara, f'{m:.4f}'.replace('.',',') ])
+        #     if i == 2:
+        #         circ+=1
+        #         i=0
+        # tabela(f, 1, dados, 'Resultados inequacoes', 1)
 
-        # Igualdades
-        # Printando resultados
-        dados = []
-        cabecalho = ['GER. BARRA' , 'Resultado marginal', 'Lâmbda']
-        dados.append(cabecalho)
-        for b, r, m in zip(sis.dbarras, resultado.eqlin.residual, resultado.eqlin.marginals):
-            barra = b['BARRA']
-            dados.append([ barra, f'{r:.4f}'.replace('.',','), f'{m:.4f}'.replace('.',',') ])
-        tabela(f, 1, dados, 'Resultados igualdades', 1)
+        # # Igualdades
+        # # Printando resultados
+        # dados = []
+        # cabecalho = ['GER. BARRA' , 'Resultado marginal', 'Lâmbda']
+        # dados.append(cabecalho)
+        # for b, r, m in zip(sis.dbarras, resultado.eqlin.residual, resultado.eqlin.marginals):
+        #     barra = b['BARRA']
+        #     dados.append([ barra, f'{r:.4f}'.replace('.',','), f'{m:.4f}'.replace('.',',') ])
+        # tabela(f, 1, dados, 'Resultados igualdades', 1)
 
-        # Printando resultados sem marginal
-        dados = []
-        cabecalho = ['GER. BARRA' , 'Lâmbda']
-        dados.append(cabecalho)
-        for b, m in zip(sis.dbarras, resultado.eqlin.marginals):
-            barra = b['BARRA']
-            dados.append([ barra, f'{m:.4f}'.replace('.',',') ])
-        tabela(f, 1, dados, 'Resultados igualdades', 1)
+        # # Printando resultados sem marginal
+        # dados = []
+        # cabecalho = ['GER. BARRA' , 'Lâmbda']
+        # dados.append(cabecalho)
+        # for b, m in zip(sis.dbarras, resultado.eqlin.marginals):
+        #     barra = b['BARRA']
+        #     dados.append([ barra, f'{m:.4f}'.replace('.',',') ])
+        # tabela(f, 1, dados, 'Resultados igualdades', 1)
 
         # Limites
         # Printando resultados
-        barras_angulos = [b['BARRA'] for b in sis.dbarras if b['TIPO'] != 'SW']
-        barras_despachos = [b['BARRA'] for b in sis.dbarras if b['PGesp(PU)'] != 0 or b['TIPO'] == 'SW']
-        barras_cortes = [b['BARRA'] for b in sis.dbarras if b['PD(PU)'] != 0]
-        barraSW = 0
-        for bar in sis.dbarras:
-            if bar["TIPO"] == 'SW': 
-                barraSW = bar["BARRA"]
-                break
-        barraSW = int(barraSW)
-        dados = []
-        cabecalho = ['Variavel' , 'Resultado marginal superior', 'Lâmbda superior', 'Resultado marginal inferior', 'Lâmbda inferior']
-        dados.append(cabecalho)
-        theta = '\\theta'
-        bar = -1
-        r_count = 0
-        #angulos
-        for b in sis.dbarras:
-            ang = theta + str(b['BARRA'])
-            if b['BARRA'] in barras_angulos:
-                ur = f'{resultado.upper.residual[r_count]:.4f}'.replace('.',',')
-                um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
-                lr = f'{resultado.lower.residual[r_count]:.4f}'.replace('.',',')
-                lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
-                r_count+=1
-            else:
-                continue
-            dados.append([ ang, ur, um, lr, lm ])
+        #barras_angulos = [b['BARRA'] for b in sis.dbarras if b['TIPO'] != 'SW']
+        #barras_despachos = [b['BARRA'] for b in sis.dbarras if b['PGesp(PU)'] != 0 or b['TIPO'] == 'SW']
+        #barras_cortes = [b['BARRA'] for b in sis.dbarras if b['PD(PU)'] != 0]
+        #barraSW = 0
+        #for bar in sis.dbarras:
+        #    if bar["TIPO"] == 'SW': 
+        #        barraSW = bar["BARRA"]
+        #        break
+        #barraSW = int(barraSW)
+        #dados = []
+        #cabecalho = ['Variavel' , 'Resultado marginal superior', 'Lâmbda superior', 'Resultado marginal inferior', 'Lâmbda inferior']
+        #dados.append(cabecalho)
+        #theta = '\\theta'
+        #bar = -1
+        #r_count = 0
+        ##angulos
+        #for b in sis.dbarras:
+        #    ang = theta + str(b['BARRA'])
+        #    if b['BARRA'] in barras_angulos:
+        #        ur = f'{resultado.upper.residual[r_count]:.4f}'.replace('.',',')
+        #        um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
+        #        lr = f'{resultado.lower.residual[r_count]:.4f}'.replace('.',',')
+        #        lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
+        #        r_count+=1
+        #    else:
+        #        continue
+        #    dados.append([ ang, ur, um, lr, lm ])
 
-        #despachos
-        for b in sis.dbarras:
-            ger = 'G' + str(b['BARRA'])
-            if b['BARRA'] in barras_despachos:
-                ur = f'{resultado.upper.residual[r_count]:.4f}'.replace('.',',')
-                um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
-                lr = f'{resultado.lower.residual[r_count]:.4f}'.replace('.',',')
-                lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
-                r_count+=1
-                dados.append([ ger, ur, um, lr, lm ])
+        ##despachos
+        #for b in sis.dbarras:
+        #    ger = 'G' + str(b['BARRA'])
+        #    if b['BARRA'] in barras_despachos:
+        #        ur = f'{resultado.upper.residual[r_count]:.4f}'.replace('.',',')
+        #        um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
+        #        lr = f'{resultado.lower.residual[r_count]:.4f}'.replace('.',',')
+        #        lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
+        #        r_count+=1
+        #        dados.append([ ger, ur, um, lr, lm ])
 
-        #cortes
-        for b in sis.dbarras:
-            cut = 'BARRA ' + str(b['BARRA'])
-            if b['BARRA'] in barras_cortes:
-                ur = f'{resultado.upper.residual[r_count]:.4f}'.replace('.',',')
-                um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
-                lr = f'{resultado.lower.residual[r_count]:.4f}'.replace('.',',')
-                lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
-                r_count+=1
-                dados.append([ cut, ur, um, lr, lm ])
-        tabela(f, 1, dados, 'Resultados Limites', 1)
-        # Fim tabela limites
+        ##cortes
+        #for b in sis.dbarras:
+        #    cut = 'BARRA ' + str(b['BARRA'])
+        #    if b['BARRA'] in barras_cortes:
+        #        ur = f'{resultado.upper.residual[r_count]:.4f}'.replace('.',',')
+        #        um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
+        #        lr = f'{resultado.lower.residual[r_count]:.4f}'.replace('.',',')
+        #        lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
+        #        r_count+=1
+        #        dados.append([ cut, ur, um, lr, lm ])
+        #tabela(f, 1, dados, 'Resultados Limites', 1)
+        ## Fim tabela limites
 
 
-        # Printando resultados sem marginal
-        dados = []
-        cabecalho = ['Variavel' , 'Lâmbda superior', 'Lâmbda inferior']
-        dados.append(cabecalho)
-        theta = '\\theta'
-        bar = -1
-        barras_angulos = [b['BARRA'] for b in sis.dbarras if b['TIPO'] != 'SW']
-        barras_despachos = [b['BARRA'] for b in sis.dbarras if b['PGesp(PU)'] != 0 or b['TIPO'] == 'SW']
-        barras_cortes = [b['BARRA'] for b in sis.dbarras if b['PD(PU)'] != 0]
-        barraSW = 0
-        for bar in sis.dbarras:
-            if bar["TIPO"] == 'SW': 
-                barraSW = bar["BARRA"]
-                break
-        barraSW = int(barraSW)
-        dados = []
-        cabecalho = ['Variavel' , 'Resultado marginal superior', 'Lâmbda superior', 'Resultado marginal inferior', 'Lâmbda inferior']
-        dados.append(cabecalho)
-        theta = '\\theta'
-        bar = -1
-        r_count = 0
-        #angulos
-        for b in sis.dbarras:
-            ang = theta + str(b['BARRA'])
-            if b['BARRA'] in barras_angulos:
-                um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
-                lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
-                r_count+=1
-                dados.append([ ang, um, lm ])
+        ## Printando resultados sem marginal
+        #dados = []
+        #cabecalho = ['Variavel' , 'Lâmbda superior', 'Lâmbda inferior']
+        #dados.append(cabecalho)
+        #theta = '\\theta'
+        #bar = -1
+        #barras_angulos = [b['BARRA'] for b in sis.dbarras if b['TIPO'] != 'SW']
+        #barras_despachos = [b['BARRA'] for b in sis.dbarras if b['PGesp(PU)'] != 0 or b['TIPO'] == 'SW']
+        #barras_cortes = [b['BARRA'] for b in sis.dbarras if b['PD(PU)'] != 0]
+        #barraSW = 0
+        #for bar in sis.dbarras:
+        #    if bar["TIPO"] == 'SW': 
+        #        barraSW = bar["BARRA"]
+        #        break
+        #barraSW = int(barraSW)
+        #dados = []
+        #cabecalho = ['Variavel' , 'Resultado marginal superior', 'Lâmbda superior', 'Resultado marginal inferior', 'Lâmbda inferior']
+        #dados.append(cabecalho)
+        #theta = '\\theta'
+        #bar = -1
+        #r_count = 0
+        ##angulos
+        #for b in sis.dbarras:
+        #    ang = theta + str(b['BARRA'])
+        #    if b['BARRA'] in barras_angulos:
+        #        um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
+        #        lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
+        #        r_count+=1
+        #        dados.append([ ang, um, lm ])
 
-        #despachos
-        for b in sis.dbarras:
-            ger = 'G' + str(b['BARRA'])
-            if b['BARRA'] in barras_despachos:
-                um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
-                lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
-                r_count+=1
-                dados.append([ ger, um, lm ])
+        ##despachos
+        #for b in sis.dbarras:
+        #    ger = 'G' + str(b['BARRA'])
+        #    if b['BARRA'] in barras_despachos:
+        #        um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
+        #        lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
+        #        r_count+=1
+        #        dados.append([ ger, um, lm ])
 
-        for b in sis.dbarras:
-            cut = 'BARRA ' + str(b['BARRA'])
-            if b['BARRA'] in barras_cortes:
-                um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
-                lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
-                r_count+=1
-                dados.append([ cut, um, lm ])
-        tabela(f, 1, dados, 'Resultados Limites', 1)
-        # Fim tabela limites
+        #for b in sis.dbarras:
+        #    cut = 'BARRA ' + str(b['BARRA'])
+        #    if b['BARRA'] in barras_cortes:
+        #        um = f'{resultado.upper.marginals[r_count]:.4f}'.replace('.',',')
+        #        lm = f'{resultado.lower.marginals[r_count]:.4f}'.replace('.',',')
+        #        r_count+=1
+        #        dados.append([ cut, um, lm ])
+        #tabela(f, 1, dados, 'Resultados Limites', 1)
+        ## Fim tabela limites
 
+        f.write('\n\n')
+
+        f.write('\nANGULOS\n')
+        f.write('\n\n')
         # ANGULOS
         dados = []
         cabecalho = ['Barra' , 'Ângulo Ótimo']
@@ -374,6 +378,10 @@ def optimization(output: str, tables: dict, sis):
             dados.append([ b, ang ])
         tabela(f, 1, dados, 'Resultados Ângulos Ótimos', 1)
 
+        f.write('\n\n')
+
+        f.write('\nDESPACHOS\n')
+        f.write('\n\n')
         # DESPACHOS
         dados = []
         cabecalho = ['Barra' , 'Despacho Ótimo']
@@ -384,6 +392,10 @@ def optimization(output: str, tables: dict, sis):
             dados.append([ b, desp ])
         tabela(f, 1, dados, 'Resultados Despachos Ótimos', 1)
 
+        f.write('\n\n')
+
+        f.write('\nCORTES\n')
+        f.write('\n\n')
         # CORTES
         dados = []
         cabecalho = ['Barra' , 'Carga Atual', 'Corte', 'Nova Carga', '\% de corte']
@@ -397,6 +409,36 @@ def optimization(output: str, tables: dict, sis):
             dados.append([ b, f'{pd:.4f}'.replace('.',','), f'{cut:.4f}'.replace('.',','), f'{new_pd:.4f}'.replace('.',','), cut_percentage ])
         tabela(f, 1, dados, 'Resultados de Cortes de Carga', 1)
 
+        f.write('\n\n')
+
+        f.write('\nCUSTOS\n')
+        f.write('\n\n')
+        # CUSTOS
+        dados = []
+        resultado = tables['resultado']
+        # print(resultado)
+        cabecalho = ['Tipo custo' , 'Custo R\$', 'Quantidade MWh', 'Valor R\$/MWh']
+        dados.append(cabecalho)
+        # Monta custos geração
+        max_custo = 0
+        custo_total = 0
+        for g in sis.dbarras:
+            if g['PGesp(PU)'] == 0: continue 
+            if g['Cus'] > max_custo: max_custo = g['Cus']
+            custo_ger = g['PGesp(PU)']*g['Cus']*sis.base
+            custo_total += custo_ger
+            dados.append([ f'GERADOR {g["BARRA"]}', f'{g["Cus"]:.2f}'.replace('.',','), f'{g["PGesp(PU)"]*sis.base:.2f}'.replace('.',','), f'{custo_ger:.2f}'.replace('.',',')])
+        max_custo = max_custo*4
+        # Monta custos corte
+        for r in tables['cortes']:
+            b = r[0]
+            cut = float(r[2])
+            if cut == 0: continue
+            custo_cut = cut*max_custo*sis.base
+            custo_total += custo_cut
+            dados.append([ f'CARGA {b}', f'{max_custo:.2f}'.replace('.',','), f'{cut*sis.base:.2f}'.replace('.',','), f'{custo_cut:.2f}'.replace('.',',')])
+        dados.append([ 'TOTAL', ' ', ' ', f'{custo_total:.2f}'.replace('.',',')])
+        tabela(f, 1, dados, 'Custos', 1)
 
 
 
