@@ -64,19 +64,24 @@ def menu(sis: sistema.Sistema):
             bar = input('Barra: ')
             if bar.isnumeric():
                 bar = int(bar)
-                nbars = [n["NCIR"] for n in sis.dcircuitos]
+                nbars = [n["BARRA"] for n in sis.dbarras]
                 if bar in nbars:
                     bar = nbars.index(bar)
                     exibir.dadosBarras(sis, bar)
 
                     dados = modificar.valorDicionario(sis.dbarras[bar])
-                    if dados[0] == 'q': break
-                    campo = dados[0]
-                    valor = dados[1]
-                    valorAntigo = sis.dbarras[bar][dados[0]]
-                    sis.alterarBarra(bar, campo, valor)
-                    message = f'Barra {bar+1} mudou {campo} de {valorAntigo} para {valor}'
-                    logs.log(message, 'ALT')
+                    if dados[0] == 'r': 
+                        pass
+                        # sis.removerBarra(bar+1)
+                    elif dados[0] == 'q':
+                        break
+                    else:
+                        campo = dados[0]
+                        valor = dados[1]
+                        valorAntigo = sis.dbarras[bar][dados[0]]
+                        sis.alterarBarra(bar, campo, valor)
+                        message = f'Barra {bar+1} mudou {campo} de {valorAntigo} para {valor}'
+                        logs.log(message, 'ALT')
 
                     exibir.dadosBarras(sis, bar)
 

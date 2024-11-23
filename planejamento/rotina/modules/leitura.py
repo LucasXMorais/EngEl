@@ -75,3 +75,28 @@ def tensoesBase(sis):
                 for b in sis.dbarras:
                     if b["BARRA"] == barra: b["VBase"] = tensao
 
+def posicao(sis):
+    # Inicializando arquivo
+    arquivo = 'dados/posicoes.txt'
+    if not os.path.isfile(arquivo): 
+        print(f'Arquivo {arquivo} não encontrado')
+        return
+    
+    print(f'Lendo {arquivo}')
+    with open(arquivo, 'rb') as f:
+        for line in f:
+            l = line.decode(errors='replace')
+            l = l.split('=')
+            l = [i for i in l if i]
+            if l[0][0] == '#': continue
+            numero = ''.join([i for i in l[0] if i.isnumeric()])
+            if numero.isnumeric():
+                barra = int(numero) 
+                posicao = ''.join([_ for _ in l[1] ]).split(',')
+                x = ''.join([i for i in posicao[0] if i.isnumeric()])
+                y = ''.join([i for i in posicao[1] if i.isnumeric()])
+                for b in sis.dbarras:
+                    if b["BARRA"] == barra:
+                        b["x"] = int(x)
+                        b["y"] = int(y)
+

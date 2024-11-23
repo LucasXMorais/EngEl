@@ -14,6 +14,9 @@ class Sistema:
         self.base = base
         self.calcularMatrizes()
         self.lerTensaoBase()
+        self.lerPosicoes()
+        self.calcularDistanciaCircuitos()
+        self.calcularReatanciaMedia()
         self.convergiu = True
         self.dbarrasBackup = self.dbarras
         self.dcircuitosBackup = self.dcircuitos
@@ -35,6 +38,10 @@ class Sistema:
     # Obtendo as informaçẽos das tensões bases 
     def lerTensaoBase(self):
         leitura.tensoesBase(self)
+
+    # Obtendo as informaçẽos das tensões bases 
+    def lerPosicoes(self):
+        leitura.posicao(self)
 
     # Resolvendo o problema de fluxo de potencia e calculando os angulos e tensoes
     def resolverFluxo(self, silent: bool=False):
@@ -71,6 +78,50 @@ class Sistema:
     def alterarBarra(self, barra: int, campo: str, valor):
         self.dbarras[barra][campo] = valor
         self.dbarrasBackup[barra][campo] = valor
+
+    def removerCircuito(self, circuito: int):
+        print('removendo circuito')
+        print(len(self.dbarras), len(self.dcircuitos))
+        auxCircuitos = [c for c in self.dcircuitos if c["NCIR"] != circuito]
+        if len(self.dcircuitos) == len(auxCircuitos): print("Circuito não encontrado"); return
+        print('circuito removido')
+        self.dcircuitos = auxCircuitos
+        print(len(self.dbarras), len(self.dcircuitos))
+
+    def removerBarra(self, barra: int):
+        print('removendo barra')
+        print(len(self.dbarras), len(self.dcircuitos))
+        auxBarra = [b for b in self.dbarras if b["BARRA"] != barra]
+        if len(self.dbarras) == len(auxBarra): print("Barra não encontrada"); return
+        self.dbarras = auxBarra
+        circuitos_barra = [c["NCIR"] for c in self.dcircuitos if c["BDE"] == barra or c["BPARA"] == barra]
+        for circuito in circuitos_barra: self.removerCircuito(circuito) 
+        print('barra removida')
+        print(len(self.dbarras), len(self.dcircuitos))
+
+    def getBarra(self, barra: int):
+        for b in self.dbarras:
+            if b["BARRA"] == barra: return b
+
+    def calcularDistanciaCircuitos(self):
+        for c in self.dcircuitos:
+            bDE = self.getBarra(c["BDE"])
+            posDE = (bDE['x'], bDE['y'])
+            bPARA = self.getBarra(c["BPARA"])
+            posPARA = (bPARA['x'], bPARA['y'])
+            c['distancia'] = np.sqrt( (posDE[0] - posPARA[0])**2 + (posDE[1] - posPARA[1])**2 )
+
+    def calcularReatanciaMedia(self):
+        reatancia_media = 0
+        circuitos_diferentes_zero = 0
+        for c in self.dcircuitos:
+            if c['distancia'] == 0: continue
+            reatancia_por_km = c['REAT(PU)'] / c['distancia']
+            reatancia_media += reatancia_por_km
+            circuitos_diferentes_zero += 1
+        self.reatancia_media = reatancia_media / circuitos_diferentes_zero
+        print(self.reatancia_media)
+
 
 
 

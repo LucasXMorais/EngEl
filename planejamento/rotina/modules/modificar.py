@@ -23,6 +23,9 @@ def valorDicionario(dicionario: dict) -> tuple:
                 if isinstance(tipo, str): valor = str(valor)
                 # dicionario[key] = valor
                 return (key, valor)
+        if campo in ['r','R']: 
+            confirma = input('Remover barra? (S/N)  ')
+            if confirma in ['s','S']: return ('r','r')
         if campo == 'q' or campo == 'Q': return ('q','q')
 
 
