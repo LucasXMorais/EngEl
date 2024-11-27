@@ -441,6 +441,31 @@ def optimization(output: str, tables: dict, sis):
         tabela(f, 1, dados, 'Custos', 1)
 
 
+def candidatosTabela(output: str, candidatos: list, sis):
+    with open(output, 'w') as f:
+
+        f.write('\nCANDIDATOs\n')
+        f.write('\n\n')
+        # candidatos
+        dados = []
+        cabecalho = ['Candidato', 'Tipo', 'Barra DE',  'Barra PARA' , 'Distância', 'Reatância', 'Custo']
+        dados.append(cabecalho)
+        reatancia_nivel_138 = sis.reatancias_medias[1][1]
+        count = 1 
+        for c in candidatos:
+            bde = c[0]
+            bpara = c[1]
+            distancia = c[2]
+            reatancia = distancia * reatancia_nivel_138
+            custo = distancia * 180
+            tipo = c[3]
+            dados.append([ count, tipo, bde, bpara, f'{distancia:.2f}'.replace('.',','), f'{reatancia*100:.2f}'.replace('.',','), f'{custo:.2f}'.replace('.',',') ])
+            count += 1
+        tabela(f, 1, dados, 'Resultados Ângulos Ótimos', 1)
+
+        f.write('\n\n')
+
+
 
 
 

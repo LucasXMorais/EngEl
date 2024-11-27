@@ -4,6 +4,7 @@ from .sep import *
 from .sistema import *
 from .otimizacao import *
 from .leitura import *
+from .expansao import *
 from .exportacao import *
 from .latex import *
 from .alternados import *

@@ -1,0 +1,42 @@
+
+CANDIDATOs
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c  c  c  c  c }
+ \hline
+ Candidato & Tipo & Barra DE & Barra PARA & Distância & Reatância & Custo \\
+ \hline
+ 1 & E & 2 & 3 & 21,60 & 4,52 & 3888,00 \\
+ \hline
+ 2 & E & 2 & 9 & 141,60 & 29,61 & 25488,00 \\
+ \hline
+ 3 & E & 2 & 10 & 70,59 & 14,76 & 12705,50 \\
+ \hline
+ 4 & E & 2 & 12 & 29,71 & 6,21 & 5347,91 \\
+ \hline
+ 5 & E & 3 & 9 & 143,24 & 29,95 & 25782,84 \\
+ \hline
+ 6 & E & 3 & 10 & 50,46 & 10,55 & 9082,28 \\
+ \hline
+ 7 & E & 3 & 12 & 20,40 & 4,27 & 3672,00 \\
+ \hline
+ 8 & E & 6 & 10 & 161,06 & 33,68 & 28989,90 \\
+ \hline
+ 9 & E & 6 & 11 & 13,20 & 2,76 & 2376,00 \\
+ \hline
+ 10 & E & 9 & 10 & 137,53 & 28,76 & 24756,28 \\
+ \hline
+ 11 & E & 9 & 12 & 123,11 & 25,74 & 22159,75 \\
+ \hline
+ 12 & E & 10 & 11 & 174,14 & 36,42 & 31346,06 \\
+ \hline
+ 13 & E & 10 & 12 & 45,62 & 9,54 & 8210,84 \\
+ \hline
+\end{tabular}
+\caption{Resultados Ângulos Ótimos}
+\label{table:1}
+\end{table}
+
+

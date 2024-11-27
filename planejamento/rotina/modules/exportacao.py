@@ -401,6 +401,7 @@ def contingenciasRankeadas(output: str, ranking: list):
             f.write(message)
             c += 1
 
+
     
 
 

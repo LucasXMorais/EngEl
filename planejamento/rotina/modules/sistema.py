@@ -79,29 +79,29 @@ class Sistema:
         self.dbarras[barra][campo] = valor
         self.dbarrasBackup[barra][campo] = valor
 
-    def removerCircuito(self, circuito: int):
-        print('removendo circuito')
-        print(len(self.dbarras), len(self.dcircuitos))
-        auxCircuitos = [c for c in self.dcircuitos if c["NCIR"] != circuito]
-        if len(self.dcircuitos) == len(auxCircuitos): print("Circuito não encontrado"); return
-        print('circuito removido')
-        self.dcircuitos = auxCircuitos
-        print(len(self.dbarras), len(self.dcircuitos))
-
-    def removerBarra(self, barra: int):
-        print('removendo barra')
-        print(len(self.dbarras), len(self.dcircuitos))
-        auxBarra = [b for b in self.dbarras if b["BARRA"] != barra]
-        if len(self.dbarras) == len(auxBarra): print("Barra não encontrada"); return
-        self.dbarras = auxBarra
-        circuitos_barra = [c["NCIR"] for c in self.dcircuitos if c["BDE"] == barra or c["BPARA"] == barra]
-        for circuito in circuitos_barra: self.removerCircuito(circuito) 
-        print('barra removida')
-        print(len(self.dbarras), len(self.dcircuitos))
-
     def getBarra(self, barra: int):
         for b in self.dbarras:
             if b["BARRA"] == barra: return b
+
+    # def removerCircuito(self, circuito: int):
+    #     print('removendo circuito')
+    #     print(len(self.dbarras), len(self.dcircuitos))
+    #     auxCircuitos = [c for c in self.dcircuitos if c["NCIR"] != circuito]
+    #     if len(self.dcircuitos) == len(auxCircuitos): print("Circuito não encontrado"); return
+    #     print('circuito removido')
+    #     self.dcircuitos = auxCircuitos
+    #     print(len(self.dbarras), len(self.dcircuitos))
+
+    # def removerBarra(self, barra: int):
+    #     print('removendo barra')
+    #     print(len(self.dbarras), len(self.dcircuitos))
+    #     auxBarra = [b for b in self.dbarras if b["BARRA"] != barra]
+    #     if len(self.dbarras) == len(auxBarra): print("Barra não encontrada"); return
+    #     self.dbarras = auxBarra
+    #     circuitos_barra = [c["NCIR"] for c in self.dcircuitos if c["BDE"] == barra or c["BPARA"] == barra]
+    #     for circuito in circuitos_barra: self.removerCircuito(circuito) 
+    #     print('barra removida')
+    #     print(len(self.dbarras), len(self.dcircuitos))
 
     def calcularDistanciaCircuitos(self):
         for c in self.dcircuitos:
@@ -109,18 +109,40 @@ class Sistema:
             posDE = (bDE['x'], bDE['y'])
             bPARA = self.getBarra(c["BPARA"])
             posPARA = (bPARA['x'], bPARA['y'])
-            c['distancia'] = np.sqrt( (posDE[0] - posPARA[0])**2 + (posDE[1] - posPARA[1])**2 )
+            c['distancia'] = 1.2 * np.sqrt( (posDE[0] - posPARA[0])**2 + (posDE[1] - posPARA[1])**2 )
+            print(c['BDE'], c['BPARA'], c['distancia'])
 
     def calcularReatanciaMedia(self):
+        #inicialização dos parâmetros
         reatancia_media = 0
-        circuitos_diferentes_zero = 0
-        for c in self.dcircuitos:
-            if c['distancia'] == 0: continue
-            reatancia_por_km = c['REAT(PU)'] / c['distancia']
-            reatancia_media += reatancia_por_km
-            circuitos_diferentes_zero += 1
-        self.reatancia_media = reatancia_media / circuitos_diferentes_zero
-        print(self.reatancia_media)
+
+        #Obtem todos os niveis de tensao
+        niveis_tensao = []
+        for b in self.dbarras:
+            if b['VBase'] not in niveis_tensao: niveis_tensao.append(b['VBase'])
+
+        #Calcula a reatancia para cada nivel de tensão
+        reatancias_medias = []
+        for nivel in niveis_tensao:
+            circuitos = 0 
+            reatancia_media = 0
+            for c in self.dcircuitos:
+                if c['distancia'] == 0: continue
+                #Verficiando o nivel de tensao das duas barras
+                bDE = self.getBarra(c["BDE"])
+                bPARA = self.getBarra(c["BPARA"])
+                #Para niveis diferentes o circuito é um trafo
+                if bDE['VBase'] != nivel or bDE['VBase'] != bPARA['VBase']: continue
+
+                # Faz o cálculo da reatância
+                reatancia_por_km = c['REAT(PU)'] / c['distancia']
+                reatancia_media += reatancia_por_km
+                circuitos += 1
+            # fim circuito
+            reatancias_medias.append( (nivel, reatancia_media / circuitos) )
+        self.reatancias_medias = reatancias_medias
+        print(self.reatancias_medias)
+        # Fim todos os niveis
 
 
 

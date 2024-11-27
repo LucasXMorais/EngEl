@@ -345,6 +345,18 @@ def menu(sis: sistema.Sistema):
         latex.contingenciasLatex('resultados/tabelasContingencias.txt', ranking)
     # FIm contingencias
 
+    def menu_expansao():
+        candidatos = expansao.candidatos(sis, '138')
+        message = f'Foram analisadas {len(candidatos)} candidatos'
+        print(message)
+        logs.log(message, 'SIS')
+        latex.candidatosTabela('resultados/candidatos.txt', candidatos, sis)
+        # message = f'Foram analisadas {len(ranking)} contingencias'
+        # logs.log(message, 'SIS')
+        # exportacao.contingenciasRankeadas('resultados/contingencias.txt', ranking)
+        # latex.contingenciasLatex('resultados/tabelasContingencias.txt', ranking)
+    # FIm contingencias
+
     def modoContingencia():
         while True:
             cont = input('Insira as contingencias separas por virgulas: ')
@@ -423,6 +435,8 @@ def menu(sis: sistema.Sistema):
                     inserirComentario()
                 case 'o' | 'O':
                     otimizacao.otimizar(sis)
+                case 'e' | 'E':
+                    menu_expansao()
                 case 'h' | 'H':
                     ajuda()
                 case 'q' | 'Q': 
