@@ -450,6 +450,8 @@ def candidatosTabela(output: str, candidatos: list, sis):
         dados = []
         cabecalho = ['Candidato', 'Tipo', 'Barra DE',  'Barra PARA' , 'Distância', 'Reatância', 'Custo']
         dados.append(cabecalho)
+        unidades = ['\#', 'E / R', '', '', 'm', '\%', '1MR\$']
+        dados.append(unidades)
         reatancia_nivel_138 = sis.reatancias_medias[1][1]
         count = 1 
         for c in candidatos:
@@ -459,9 +461,9 @@ def candidatosTabela(output: str, candidatos: list, sis):
             reatancia = distancia * reatancia_nivel_138
             custo = distancia * 180
             tipo = c[3]
-            dados.append([ count, tipo, bde, bpara, f'{distancia:.2f}'.replace('.',','), f'{reatancia*100:.2f}'.replace('.',','), f'{custo:.2f}'.replace('.',',') ])
+            dados.append([ count, tipo, bde, bpara, f'{distancia:.2f}'.replace('.',','), f'{reatancia*100:.2f}'.replace('.',','), f'{custo/1000:.4f}'.replace('.',',') ])
             count += 1
-        tabela(f, 1, dados, 'Resultados Ângulos Ótimos', 1)
+        tabela(f, 2, dados, 'Resultados Ângulos Ótimos', 1)
 
         f.write('\n\n')
 

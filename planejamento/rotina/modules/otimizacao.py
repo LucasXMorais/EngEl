@@ -111,8 +111,48 @@ def fluxoOtimo(sis):
         barras_angulos = [b['BARRA'] for b in sis.dbarras if b['TIPO'] != 'SW']
         barras_despachos = [b['BARRA'] for b in sis.dbarras if b['PGesp(PU)'] != 0 or b['TIPO'] == 'SW']
         barras_cortes = [b['BARRA'] for b in sis.dbarras if b['PD(PU)'] != 0]
+        
+        # Primeiro montando um vetor para ajustar a capacidade para o cálculo do fluxo ótimo
+        def parExisteNaLista(par: tuple, lista: list[tuple] ):
+            par_positivo = par
+            par_negativo = ( par[1], par[0] )
+            for item in lista:
+                if item == par_positivo or item == par_negativo: return True
+            return False
+        # montando vetor com todos os circuitos ÚNICOS existentes
+        circuitos_pares = []
+        for c in sis.dcircuitos:
+            par_do_circuito = ( c['BDE'], c['BPARA'] )
+            if parExisteNaLista(par_do_circuito, circuitos_pares): continue
+            circuitos_pares.append( par_do_circuito )
+        # montando lista com as capacidades para cada circuito único
+        capacidades_pares = []
+        for par in circuitos_pares:
+            # Para cada par, somar a capacidade
+            capacidade = 0
+            for c in sis.dcircuitos:
+                par_do_circuito_positivo = ( c['BDE'], c['BPARA'] )
+                par_do_circuito_negativo = ( c['BPARA'], c['BDE'] )
+                if par == par_do_circuito_positivo or par == par_do_circuito_negativo: 
+                    capacidade += float(c['CAP(PU)'])
+            # fim todos os circuitos
+            # Armazenando a capacidade total de cada par
+            capacidade_dict = {
+                    "par" : par,
+                    "capacidade" : capacidade
+                    }
+            capacidades_pares.append( capacidade_dict )
+        # Fim todos os pares
+        def getCapacidadeDoPar(par: tuple, lista: list[dict]):
+            par_positivo = par
+            par_negativo = ( par[1], par[0] )
+            for i in lista:
+                item = i["par"]
+                if item == par_positivo or item == par_negativo: return i["capacidade"]
+            return False
 
         for cir in sis.dcircuitos:
+            par_do_circuito = ( cir['BDE'], cir['BPARA'] )
             k = int(cir['BDE'])
             m = int(cir['BPARA'])
             inequacao_km = []
@@ -160,7 +200,8 @@ def fluxoOtimo(sis):
             inequacoes.append(inequacao_km)
             inequacoes.append(inequacao_mk)
             
-            capacidade = float(cir['CAP(PU)'])
+            capacidade = getCapacidadeDoPar( par_do_circuito, capacidades_pares )
+            # capacidade = float(cir['CAP(PU)'])
             # Deve ter um limite para cada direcao (km ou mk)
             inequacoes_limites.append(capacidade)
             inequacoes_limites.append(capacidade)

@@ -54,7 +54,9 @@ def candidatos(sis, nivel_tensao):
             bde = c['BDE']
             bpara = c['BPARA']
             tipo = 'E'
-            if cand == [bde, bpara] or cand == [bpara, bde]: tipo = 'R'
+            if cand == [bde, bpara] or cand == [bpara, bde]: 
+                tipo = 'R'
+                break
 
         if tipo == 'E': 
             candidatos_retorno.append( (cand_de, cand_para, distancia, tipo) )
