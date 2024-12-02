@@ -13,5 +13,6 @@ from .exibir import *
 from .modificar import *
 from .compara import *
 from .contingencia import *
+from .melhorias import *
 from .logs import *
 from .app import *

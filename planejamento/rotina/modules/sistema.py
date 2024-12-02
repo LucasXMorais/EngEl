@@ -110,7 +110,7 @@ class Sistema:
             bPARA = self.getBarra(c["BPARA"])
             posPARA = (bPARA['x'], bPARA['y'])
             c['distancia'] = 1.2 * np.sqrt( (posDE[0] - posPARA[0])**2 + (posDE[1] - posPARA[1])**2 )
-            print(c['BDE'], c['BPARA'], c['distancia'])
+            # print(c['BDE'], c['BPARA'], c['distancia'])
 
     def calcularReatanciaMedia(self):
         #inicialização dos parâmetros
@@ -141,7 +141,7 @@ class Sistema:
             # fim circuito
             reatancias_medias.append( (nivel, reatancia_media / circuitos) )
         self.reatancias_medias = reatancias_medias
-        print(self.reatancias_medias)
+        # print(self.reatancias_medias)
         # Fim todos os niveis
 
 

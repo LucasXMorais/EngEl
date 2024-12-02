@@ -243,7 +243,7 @@ def fluxoOtimo(sis):
 
     return resultado
 
-def otimizar(sis):
+def otimizar(sis, quiet=False):
     resultado = fluxoOtimo(sis)
     message = f'Otimizacao terminada com sucesso: {resultado.success} e mensagem: {resultado.message}'
     logs.log(message, 'OTI')
@@ -277,15 +277,18 @@ def otimizar(sis):
     r_count = 0
     angulos_otimos = []
     tabela_latex_angulos = []
-    print('ANGULOS OTIMOS')
+    if not quiet:
+        print('ANGULOS OTIMOS')
     for b in sis.dbarras:
         if b['BARRA'] in barras_angulos:
             ang_otimo = resultado.x[r_count]*180/np.pi
-            print(f'Barra {b["BARRA"]}: angulo: {ang_otimo:.4f}')
+            if not quiet:
+                print(f'Barra {b["BARRA"]}: angulo: {ang_otimo:.4f}')
             r_count+=1
         else:
             ang_otimo = 0
-            print(f'Barra {b["BARRA"]}: angulo: {0:.4f}')
+            if not quiet:
+                print(f'Barra {b["BARRA"]}: angulo: {0:.4f}')
         angulos_otimos.append(ang_otimo)
         message = f'Angulo da barra {b["BARRA"]}: {ang_otimo:.6f}'
         logs.log(message, 'OTI')
@@ -293,11 +296,13 @@ def otimizar(sis):
 
     despachos_otimos = []
     tabela_latex_despachos = []
-    print('DESPACHOS OTIMOS')
+    if not quiet:
+        print('DESPACHOS OTIMOS')
     for b in sis.dbarras:
         if b['BARRA'] in barras_despachos:
             desp_otimo = resultado.x[r_count]
-            print(f'Barra {b["BARRA"]}: Trocando despacho {b["PGesp(PU)"]} para {desp_otimo:.4f}')
+            if not quiet:
+                print(f'Barra {b["BARRA"]}: Trocando despacho {b["PGesp(PU)"]} para {desp_otimo:.4f}')
             message = f'Gerador {b["BARRA"]} mudou despacho {b["PGesp(PU)"]} para {desp_otimo:.4f}'
             logs.log(message, 'OTI')
             tabela_latex_despachos.append( (b["BARRA"], desp_otimo) )
@@ -310,11 +315,15 @@ def otimizar(sis):
 
     cortes_otimos = []
     tabela_latex_cortes = []
-    print('CORTES')
+    corte_total = 0
+    if not quiet:
+        print('CORTES')
     for b in sis.dbarras:
         if b['BARRA'] in barras_cortes:
             cut_otimo = resultado.x[r_count]
-            print(f'Barra {b["BARRA"]}: Fazendo corte {b["PD(PU)"]} - {cut_otimo:.4f} = {b["PD(PU)"] - cut_otimo:.4f} ')
+            corte_total += cut_otimo
+            if not quiet:#print('quiet')
+                print(f'Barra {b["BARRA"]}: Fazendo corte {b["PD(PU)"]} - {cut_otimo:.4f} = {b["PD(PU)"] - cut_otimo:.4f} ')
             message = f'Carga {b["BARRA"]} sofreu corte: {b["PD(PU)"]} - {cut_otimo:.4f} = {b["PD(PU)"] - cut_otimo:.4f}'
             logs.log(message, 'OTI')
             tabela_latex_cortes.append( (b["BARRA"], b["PD(PU)"], cut_otimo) )
@@ -331,6 +340,8 @@ def otimizar(sis):
             'cortes':tabela_latex_cortes,
             }
     latex.optimization('resultados/tabelasOtimizacao.txt', tables, sis)
+
+    return corte_total
 
 
 

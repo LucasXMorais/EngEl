@@ -122,6 +122,67 @@ def menu(sis: sistema.Sistema):
 
                     break
             # Fim Circuito
+            # Adicionando novo circuito
+            if circ in ['a','A']:
+                novo_bDE = int(input('BDE: '))
+                novo_bPARA = int(input('BPARA: '))
+
+                # Incluindo os circuitos de melhorias
+                proximo_circuito = 0
+                for c in sis.dcircuitos:
+                    if c["NCIR"] > proximo_circuito:
+                        proximo_circuito = c["NCIR"]
+                #Fim for
+                proximo_circuito += 1
+                # Pegando a reatancia media. Por enquanto deixando fixo em 138
+                reatancia = sis.reatancias_medias[1][1]
+                #Calculando as distancias e reatancia
+                bDE = sis.getBarra(novo_bDE)
+                posDE = (bDE['x'], bDE['y'])
+                bPARA = sis.getBarra(novo_bPARA)
+                posPARA = (bPARA['x'], bPARA['y'])
+                distancia = 1.2 * np.sqrt( (posDE[0] - posPARA[0])**2 + (posDE[1] - posPARA[1])**2 )
+                reatancia_circuito = reatancia * distancia
+
+                # Montando o circuito novo
+                circuito = {
+                    'BDE' : novo_bDE,
+                    'BPARA' : novo_bPARA,
+                    'NCIR' : proximo_circuito,
+                    'RES(PU)' : 0,
+                    'REAT(PU)' : reatancia_circuito,
+                    'SUCsh(PU)' : 0,
+                    'TAP(PU)' : 1.0,
+                    'DEF(GRAUS)' : 0.0,
+                    'LIG(L)DESL(D)' : 'L',
+                    'CAP(PU)' : 1.25,
+                    'distancia' : distancia
+                }
+                sis.dcircuitos.append(circuito)
+                sis.ncircuitos = len(sis.dcircuitos)
+                sis.calcularMatrizes()
+                sis.emContingencia = False
+                sis.fluxoLinearizado()
+                break
+            # Fim novo circuito
+            # Removendo circuito
+            if circ in ['r','R']:
+                ncir_removido = int(input('NCIR: '))
+
+                sis.dcircuitos = [c for c in sis.dcircuitos if c["NCIR"] != ncir_removido]
+                sis.ncircuitos = len(sis.dcircuitos)
+                #Resetando os numeros de circuitos
+                ncir_count = 1
+                for c in sis.dcircuitos:
+                    c["NCIR"] = ncir_count
+                    ncir_count += 1
+                #fim for
+                sis.calcularMatrizes()
+                sis.emContingencia = False
+                sis.fluxoLinearizado()
+            # Fim novo circuito
+                break
+
             if circ == 'q' or circ == 'Q':break
         # Fim While
     # Fim circuitos
@@ -345,17 +406,30 @@ def menu(sis: sistema.Sistema):
         latex.contingenciasLatex('resultados/tabelasContingencias.txt', ranking)
     # FIm contingencias
 
+    # Menu Expansão... tem muita coisa que está bruto aqui... não vale a pena perder tempo pra fazer flexivel
     def menu_expansao():
+        # Primeiro monta a tabela no latex
         candidatos = expansao.candidatos(sis, '138')
         message = f'Foram analisadas {len(candidatos)} candidatos'
         print(message)
         logs.log(message, 'SIS')
         latex.candidatosTabela('resultados/candidatos.txt', candidatos, sis)
-        # message = f'Foram analisadas {len(ranking)} contingencias'
-        # logs.log(message, 'SIS')
+
+        # Agora passa por todas as exp/ref e analisa a otimizacao
+        candidatos = expansao.candidatosMelhorias(sis, '138')
+        while True:
+            k = input('Número máximo de contingências analisados: ')
+            if k.isnumeric():
+                k = int(k)
+                # Limitando à 6 expansoes máximas
+                if k <= 6: break
+                print('Número alto de contingências')
+        ranking = melhorias.analiseNMenosK(sis, k, candidatos)
+        message = f'Foram analisadas {len(ranking)} melhorias'
+        logs.log(message, 'SIS')
         # exportacao.contingenciasRankeadas('resultados/contingencias.txt', ranking)
         # latex.contingenciasLatex('resultados/tabelasContingencias.txt', ranking)
-    # FIm contingencias
+    # FIm expansao
 
     def modoContingencia():
         while True:
