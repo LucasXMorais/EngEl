@@ -1,0 +1,52 @@
+
+MELHORES CANDIDATOS
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c }
+ \hline
+ Candidato & Pares Expansão & Custo \\
+ \hline
+ 1 \° & (3, 10),(3, 12) & 911,70 \\
+ \hline
+ 2 \° & (2, 10),(3, 12) & 1203,13 \\
+ \hline
+ 3 \° & (3, 10),(3, 10) & 1301,75 \\
+ \hline
+ 4 \° & (3, 10),(6, 10) & 2721,48 \\
+ \hline
+ 5 \° & (2, 10),(6, 10) & 3063,05 \\
+ \hline
+\end{tabular}
+\caption{Relação das 10 melhorias mais baratas}
+\label{table:1}
+\end{table}
+
+
+
+CANDIDATOS
+
+
+\begin{table}
+\centering
+\begin{tabular}{ c  c  c }
+ \hline
+ Candidato & Pares Expansão & Custo \\
+ \hline
+ 1 & (3, 10),(3, 12) & 911,70 \\
+ \hline
+ 2 & (2, 10),(3, 12) & 1203,13 \\
+ \hline
+ 3 & (3, 10),(3, 10) & 1301,75 \\
+ \hline
+ 4 & (3, 10),(6, 10) & 2721,48 \\
+ \hline
+ 5 & (2, 10),(6, 10) & 3063,05 \\
+ \hline
+\end{tabular}
+\caption{Tabela com todas melhorias}
+\label{table:1}
+\end{table}
+
+

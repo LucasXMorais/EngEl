@@ -12,27 +12,27 @@ ANGULOS
  \hline
  1 & 0,0000 \\
  \hline
- 2 & -12,7968 \\
+ 2 & -10,5703 \\
  \hline
- 3 & -12,8645 \\
+ 3 & -10,4048 \\
  \hline
- 4 & -7,9418 \\
+ 4 & -4,7470 \\
  \hline
- 5 & -6,9968 \\
+ 5 & -4,5590 \\
  \hline
- 6 & -11,2168 \\
+ 6 & -9,1106 \\
  \hline
- 7 & -8,1730 \\
+ 7 & -5,6415 \\
  \hline
- 8 & -0,9824 \\
+ 8 & 1,5491 \\
  \hline
- 9 & -4,9914 \\
+ 9 & -4,4596 \\
  \hline
- 10 & -8,8398 \\
+ 10 & -6,2933 \\
  \hline
- 11 & -10,9654 \\
+ 11 & -8,4016 \\
  \hline
- 12 & -11,6538 \\
+ 12 & -5,4855 \\
  \hline
 \end{tabular}
 \caption{Resultados Ângulos Ótimos}
@@ -50,7 +50,7 @@ DESPACHOS
  \hline
  Barra & Despacho Ótimo \\
  \hline
- 1 & 6,1000 \\
+ 1 & 4,5212 \\
  \hline
  8 & 2,5000 \\
  \hline
@@ -72,7 +72,7 @@ CORTES
  \hline
  2 & 0,4000 & 0,0000 & 0,4000 & 0,00 \% \\
  \hline
- 3 & 2,3000 & 0,0000 & 2,3000 & 0,00 \% \\
+ 3 & 2,3000 & 1,5788 & 0,7212 & 68,64 \% \\
  \hline
  6 & 0,5000 & 0,0000 & 0,5000 & 0,00 \% \\
  \hline
@@ -98,11 +98,13 @@ CUSTOS
  \hline
  Tipo custo & Custo R\$ & Quantidade MWh & Valor R\$/MWh \\
  \hline
- GERADOR 1 & 150,00 & 610,00 & 91500,00 \\
+ GERADOR 1 & 150,00 & 452,12 & 67818,35 \\
  \hline
  GERADOR 8 & 50,00 & 250,00 & 12500,00 \\
  \hline
- TOTAL &   &   & 104000,00 \\
+ CARGA 3 & 600,00 & 157,88 & 94726,58 \\
+ \hline
+ TOTAL &   &   & 175044,94 \\
  \hline
 \end{tabular}
 \caption{Custos}

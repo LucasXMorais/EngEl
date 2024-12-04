@@ -37,7 +37,7 @@ def listarCombinacoesNMenosk(circuitos, nmenos) -> list:
 # Calcula o indice de sobrecarga
 def indiceMelhorias(sis):
     indice = 0
-    sobrecargas = []
+    folga = 0
     for circ, km, mk in zip(sis.dcircuitos, sis.fluxoPkm, sis.fluxoPmk):
         pkm = km[0]
         pmk = mk[0]
@@ -46,14 +46,23 @@ def indiceMelhorias(sis):
         maiorFluxo = pkm.copy()
         if pmk > maiorFluxo: maiorFluxo = pmk.copy()
 
-        toleranciaMaxima = 1.10
+        # Tolerancia máxima permitida 2% a mais só por enquanto
+        toleranciaMaxima = 1.02
+        # toleranciaMaxima = 1.10
+        folga_circuito = 0
         if maiorFluxo > capacidade*toleranciaMaxima: 
+            # SOBRECARGA
             sobrecarga = (maiorFluxo - capacidade) / capacidade
-            sobrecargas.append(circ["NCIR"])
 
         indice += sobrecarga
+
+        # FOLGA
+        folga_circuito = (capacidade - maiorFluxo) / capacidade
+
+        if folga_circuito > 0 : folga += folga_circuito
+    if folga < 0: folga = np.abs(folga)
     # Fim for
-    return indice
+    return (indice, folga)
 # Fim indice
 
 #Calcula todos os indices e exclui as possibilidades que estouram o limite
@@ -184,7 +193,9 @@ def calcularIndices(sis, k: int, candidatos: list) -> list:
                 copiaSistema.resolverFluxo(True)
                 # copiaSistema.fluxoLinearizado()
 
-                indiceSobrecarga = indiceMelhorias(copiaSistema)
+                retorno_indices = indiceMelhorias(copiaSistema)
+                indiceSobrecarga = retorno_indices[0]
+                folgasSobrecarga = retorno_indices[1]
 
         circs = ','.join([str(h) for h in lista_combinacoes])
         indString = f'{indiceSobrecarga:.6f}'.replace('.',',')
@@ -202,9 +213,7 @@ def calcularIndices(sis, k: int, candidatos: list) -> list:
         if not copiaSistema.convergiu: 
             circuitosSobrecarga = ['Não converigu']
 
-        indices.append( (lista_combinacoes, custo_total, indiceSobrecarga) )
-
-
+        indices.append( (lista_combinacoes, custo_total, indiceSobrecarga, folgasSobrecarga) )
     # print(indices)
 
     return indices
@@ -240,7 +249,17 @@ def analiseNMenosK(sis, k: int, candidatos) -> list:
     indices = calcularIndices(sis, k, candidatos)
     # print(len(indices))
     print('Ordenando as melhorias')
-    ranking = ordenar(indices)
+    # Fazendo um ranking com o indice baseado na folga
+    ranking_organizado = []
+    for r in indices:
+        # Quanto menor a folga maior o indice
+        indice_custo_folga = r[1] / r[3]
+        ranking_organizado.append( (r[0],
+                                    indice_custo_folga,
+                                    r[2], 
+                                    r[3], 
+                                    r[1]) )
+    ranking = ordenar(ranking_organizado)
     mostrarTopoRanking(ranking)
     return ranking
 
@@ -249,9 +268,11 @@ def mostrarTopoRanking(ranking):
     c = 1
     for r in ranking:
         melhoria = ','.join([str(h) for h in r[0]])
-        custo = f'{r[1]:.2f}'.replace('.',',')
-        indice = f'{r[2]:.6f}'.replace('.',',')
-        message = f'{c: >2}° | Melhoria: {melhoria:^8} - Custo: {custo} - Índice: {indice} '
+        custo_folga = f'{r[1]:.2f}'.replace('.',',')
+        # indice = f'{r[2]:.6f}'.replace('.',',')
+        folgas = f'{r[3]:.4f}'.replace('.',',')
+        custo = f'{r[4]:.2f}'.replace('.',',')
+        message = f'{c: >2}° | Melhoria: {melhoria:^8} - Custo de Folga: {custo_folga} - Custo: {custo} - Índice Folga: {folgas} '
         print(message)
         c += 1
         if c > 10: break

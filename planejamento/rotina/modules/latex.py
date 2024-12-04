@@ -467,6 +467,49 @@ def candidatosTabela(output: str, candidatos: list, sis):
 
         f.write('\n\n')
 
+def expansaoLatex(output: str, candidatos: list):
+    with open(output, 'w') as f:
+
+        f.write('\nMELHORES CANDIDATOS\n')
+        f.write('\n\n')
+        # candidatos
+        dados = []
+        cabecalho = ['Candidato', 'Pares Expansão',  'Custo']
+        dados.append(cabecalho)
+        # unidades = ['\#', 'E / R', '', '', 'm', '\%', '1MR\$']
+        # dados.append(unidades)
+        # reatancia_nivel_138 = sis.reatancias_medias[1][1]
+        count = 1 
+        for r in candidatos:
+            rank = f'{count} \°'
+            melhoria = ','.join([str(h) for h in r[0]])
+            custo = f'{r[1]:.2f}'.replace('.',',')
+            dados.append([ rank, melhoria, custo])
+            count += 1
+            if count > 10: break
+        tabela(f, 1, dados, 'Relação das 10 melhorias mais baratas', 1)
+
+        f.write('\n\n')
+
+        f.write('\nCANDIDATOS\n')
+        f.write('\n\n')
+        # candidatos
+        dados = []
+        cabecalho = ['Candidato', 'Pares Expansão',  'Custo']
+        dados.append(cabecalho)
+        # unidades = ['\#', 'E / R', '', '', 'm', '\%', '1MR\$']
+        # dados.append(unidades)
+        # reatancia_nivel_138 = sis.reatancias_medias[1][1]
+        count = 1 
+        for r in candidatos:
+            rank = count
+            melhoria = ','.join([str(h) for h in r[0]])
+            custo = f'{r[1]:.2f}'.replace('.',',')
+            dados.append([ rank, melhoria, custo])
+            count += 1
+        tabela(f, 1, dados, 'Tabela com todas melhorias', 1)
+
+        f.write('\n\n')
 
 
 

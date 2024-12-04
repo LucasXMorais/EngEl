@@ -427,8 +427,7 @@ def menu(sis: sistema.Sistema):
         ranking = melhorias.analiseNMenosK(sis, k, candidatos)
         message = f'Foram analisadas {len(ranking)} melhorias'
         logs.log(message, 'SIS')
-        # exportacao.contingenciasRankeadas('resultados/contingencias.txt', ranking)
-        # latex.contingenciasLatex('resultados/tabelasContingencias.txt', ranking)
+        latex.expansaoLatex('resultados/tabelasExpansao.txt', ranking)
     # FIm expansao
 
     def modoContingencia():
