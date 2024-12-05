@@ -481,9 +481,9 @@ def expansaoLatex(output: str, candidatos: list):
         # reatancia_nivel_138 = sis.reatancias_medias[1][1]
         count = 1 
         for r in candidatos:
-            rank = f'{count} \°'
+            rank = count
             melhoria = ','.join([str(h) for h in r[0]])
-            custo = f'{r[1]:.2f}'.replace('.',',')
+            custo = f'{r[4]:.2f}'.replace('.',',')
             dados.append([ rank, melhoria, custo])
             count += 1
             if count > 10: break

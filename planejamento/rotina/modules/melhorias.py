@@ -1,6 +1,8 @@
 # Lucas Xavier de Morais
 # 27/11/24 - Programas para a expansão de sistemas
 # PLANEJAMENTO - Engenharia Elétrica (UFSJ)
+import time
+import progressbar
 import numpy as np
 import configparser
 import copy
@@ -31,6 +33,7 @@ def combinacoes(lista, k) -> list:
 def listarCombinacoesNMenosk(circuitos, nmenos) -> list:
     lista = []
     for i in range(nmenos):
+        print(f'Combinações {i+1} a {i+1}')
         lista += combinacoes(circuitos, i+1)
     return lista
 
@@ -78,7 +81,15 @@ def calcularIndices(sis, k: int, candidatos: list) -> list:
     combinacoes_unicas = []
     combinacoes_unicas_pares = []
     print(f'Organizando Os dados')
+
+
+    # Inicializando barra de status - Demora muito para 6
+    # bar = progressbar.ProgressBar(max_value=totalCombinacoes)
+    iterator_barra_status = 1
+    start_time = time.perf_counter()
+
     for comb in combinacoesMelhorias:
+
         # Pega os pares de cada id
         pares = []
         for comb_id in comb:
@@ -87,6 +98,9 @@ def calcularIndices(sis, k: int, candidatos: list) -> list:
                     par = ( c[1], c[2] )
                     break
             pares.append(par)
+
+            #atualiza barra
+
         
         # Ordenando todas as combinações para achar melhor
         lista_aux = []
@@ -110,6 +124,7 @@ def calcularIndices(sis, k: int, candidatos: list) -> list:
         # ta muito feio isso rs
         pares = lista_aux
 
+
         combinacao_equivalente = False
         for par in combinacoes_unicas_pares:
             if par == pares: 
@@ -119,14 +134,34 @@ def calcularIndices(sis, k: int, candidatos: list) -> list:
         if not combinacao_equivalente:
             combinacoes_unicas_pares.append(pares)
             combinacoes_unicas.append(comb)
-    # Fim de combinações equivalentes
-    # print(combinacoes_unicas_pares)
-    # combinacoesMelhorias = combinacoes_unicas_pares
+        # Fim de combinações equivalentes
+
+        # time.sleep(0.01)
+        # bar.update(iterator_barra_status)
+        iterator_barra_status+=1
+        print(f'\rOrganizando dados | Total {totalCombinacoes} - {iterator_barra_status * 100 / totalCombinacoes :.2f} % ', end="", flush=True)
+    # FIm todas combinações
+
+    # Calculate elapsed time
+    end_time = time.perf_counter()
+    elapsed_time = end_time - start_time
+    elapsed_time_minutes = 0
+    if elapsed_time > 60: elapsed_time_minutes = int(f'{elapsed_time/60:.0f}')
+    print("")
+    if elapsed_time_minutes > 0:
+        print(f"Time elapsed: {elapsed_time_minutes} minutes {elapsed_time - (elapsed_time_minutes*60):.2f} seconds")
+    else:
+        print(f"Time elapsed: {elapsed_time:.6f} seconds")
+
     combinacoesMelhorias = combinacoes_unicas
     totalCombinacoes = len(combinacoesMelhorias)
-    # print(totalCombinacoes)
 
     print(f'Iniciando o processo')
+    
+    # Inicializando barra de status
+    bar = progressbar.ProgressBar(max_value=totalCombinacoes)
+    iterator_barra_status = 1
+
     indices = []
     count = 1
     for combinacao_pares in combinacoesMelhorias:
@@ -147,6 +182,7 @@ def calcularIndices(sis, k: int, candidatos: list) -> list:
         # Pega os pares de cada id
         lista_combinacoes = []
         custo_total = 0
+        numero_de_pares = 0
         for comb_id in combinacao_pares:
             #pega as informações de cada combinação
             for c in candidatos:
@@ -156,6 +192,7 @@ def calcularIndices(sis, k: int, candidatos: list) -> list:
                     distancia = c[3]
                     reatancia_circuito = reatancia * distancia
                     custo_total += c[4]
+                    numero_de_pares += 1
                     lista_combinacoes.append( ( novo_cir_de, novo_cir_para ) )
                     break
 
@@ -202,17 +239,25 @@ def calcularIndices(sis, k: int, candidatos: list) -> list:
         corte_string = f'{corte:.4f}'.replace('.',',')
         percString = f'{count*100/totalCombinacoes:.2f}'
         message = f'| {count: >3} / {totalCombinacoes: ^3} || {percString: >6} % || {circs:^9} - Indice: {indString:^12} | {sis.iteracoes: >2} iterações | Corte: {corte_string: >2} | Custo: {custo_total: >2}'
-        print(message)
+        # print(message)
         count += 1
 
+
+        if not copiaSistema.convergiu: 
+            circuitosSobrecarga = ['Não converigu']
+
+        time.sleep(0.01)
+        bar.update(iterator_barra_status)
+        iterator_barra_status+=1
+
+        # Separando apenas para organização
         # Pula onde precisou de cortar
         if corte: continue
         # Pula opções que deram sobrecarga mesmo com otimizacao
         if indiceSobrecarga > 0: continue
 
-        if not copiaSistema.convergiu: 
-            circuitosSobrecarga = ['Não converigu']
-
+        # Incluindo custo do bay de ligação
+        custo_total = custo_total + ( numero_de_pares * 7000 )
         indices.append( (lista_combinacoes, custo_total, indiceSobrecarga, folgasSobrecarga) )
     # print(indices)
 
@@ -248,6 +293,7 @@ def ordenar(ranking):
 def analiseNMenosK(sis, k: int, candidatos) -> list:
     indices = calcularIndices(sis, k, candidatos)
     # print(len(indices))
+    print("")
     print('Ordenando as melhorias')
     # Fazendo um ranking com o indice baseado na folga
     ranking_organizado = []
@@ -272,6 +318,7 @@ def mostrarTopoRanking(ranking):
         # indice = f'{r[2]:.6f}'.replace('.',',')
         folgas = f'{r[3]:.4f}'.replace('.',',')
         custo = f'{r[4]:.2f}'.replace('.',',')
+        custo_total = f'{r[4]*len(r[0]):.2f}'.replace('.',',')
         message = f'{c: >2}° | Melhoria: {melhoria:^8} - Custo de Folga: {custo_folga} - Custo: {custo} - Índice Folga: {folgas} '
         print(message)
         c += 1

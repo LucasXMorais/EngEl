@@ -418,12 +418,12 @@ def menu(sis: sistema.Sistema):
         # Agora passa por todas as exp/ref e analisa a otimizacao
         candidatos = expansao.candidatosMelhorias(sis, '138')
         while True:
-            k = input('Número máximo de contingências analisados: ')
+            k = input('Número máximo de combinações analisados: ')
             if k.isnumeric():
                 k = int(k)
                 # Limitando à 6 expansoes máximas
                 if k <= 6: break
-                print('Número alto de contingências')
+                print('Número alto de combinações')
         ranking = melhorias.analiseNMenosK(sis, k, candidatos)
         message = f'Foram analisadas {len(ranking)} melhorias'
         logs.log(message, 'SIS')
