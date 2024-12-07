@@ -158,11 +158,17 @@ def menu(sis: sistema.Sistema):
                     'CAP(PU)' : 1.25,
                     'distancia' : distancia
                 }
+
                 sis.dcircuitos.append(circuito)
                 sis.ncircuitos = len(sis.dcircuitos)
                 sis.calcularMatrizes()
                 sis.emContingencia = False
                 sis.fluxoLinearizado()
+
+                # Salvando alterações
+                sis.calcularMatrizes()
+                exportacao.exportarSistema('dados/dados_sistema_modificado.txt', sis)
+
                 break
             # Fim novo circuito
             # Removendo circuito
@@ -180,8 +186,13 @@ def menu(sis: sistema.Sistema):
                 sis.calcularMatrizes()
                 sis.emContingencia = False
                 sis.fluxoLinearizado()
-            # Fim novo circuito
+
+                # Salvando alterações
+                sis.calcularMatrizes()
+                exportacao.exportarSistema('dados/dados_sistema_modificado.txt', sis)
+
                 break
+            # Fim remover circuito
 
             if circ == 'q' or circ == 'Q':break
         # Fim While

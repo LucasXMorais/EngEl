@@ -1,0 +1,253 @@
+1° | Contingência: 9,10 - Índice: 10.985103228246775 - Sobrecargas: Não converigu
+2° | Contingência: 2,10 - Índice: 9.757678167335895 - Sobrecargas: 1;4;14;15;19;20;21
+3° | Contingência: 1,10 - Índice: 7.740371639698845 - Sobrecargas: 3;14;15;19;20;21
+4° | Contingência: 9,11 - Índice: 7.652290761036172 - Sobrecargas: Não converigu
+5° | Contingência: 3,10 - Índice: 7.393761224546064 - Sobrecargas: 2;14;15;19;20;21
+6° | Contingência: 10,20 - Índice: 7.047521602593514 - Sobrecargas: 1;2;3;7;13;14;18;19;21
+7° | Contingência: 8,10 - Índice: 7.0475216025935 - Sobrecargas: 1;2;3;7;14;15;19;20;21
+8° | Contingência: 5,10 - Índice: 7.025980673683046 - Sobrecargas: 1;2;3;14;15;19;20;21
+9° | Contingência: 4,10 - Índice: 6.921517457053557 - Sobrecargas: 1;2;3;14;15;19;20;21
+10° | Contingência: 7,10 - Índice: 6.853428706290031 - Sobrecargas: 1;2;3;14;15;19;20;21
+11° | Contingência: 10,14 - Índice: 6.788831517253987 - Sobrecargas: 1;2;3;13;15;19;20;21
+12° | Contingência: 10,15 - Índice: 6.788831517253987 - Sobrecargas: 1;2;3;13;14;19;20;21
+13° | Contingência: 10,16 - Índice: 6.788831517253987 - Sobrecargas: 1;2;3;13;14;19;20;21
+14° | Contingência: 8,9 - Índice: 6.707935218529357 - Sobrecargas: Não converigu
+15° | Contingência: 10,17 - Índice: 6.518424954524802 - Sobrecargas: 1;2;3;13;14;20;21
+16° | Contingência: 10,18 - Índice: 6.518424954524802 - Sobrecargas: 1;2;3;13;14;19;21
+17° | Contingência: 10,11 - Índice: 6.474078152588786 - Sobrecargas: 1;2;3;14;15;19;20;21
+18° | Contingência: 6,10 - Índice: 6.212641775956698 - Sobrecargas: 1;2;3;14;15;21
+19° | Contingência: 10,22 - Índice: 6.0777963774188475 - Sobrecargas: 1;2;3;7;13;14;18;19;20
+20° | Contingência: 10,21 - Índice: 5.883977206371372 - Sobrecargas: 1;2;3;13;14;18;19;20
+21° | Contingência: 10 - Índice: 5.8431482814005635 - Sobrecargas: 1;2;3;13;14;18;19;20
+22° | Contingência: 12,13 - Índice: 5.83430148349669 - Sobrecargas: 7;16;17;18;19;20;21;22
+23° | Contingência: 8,11 - Índice: 5.706435291351601 - Sobrecargas: 7;12;16;17;18;19;20;21
+24° | Contingência: 12,20 - Índice: 5.666301325117725 - Sobrecargas: 7;15;16;17;18;19;21
+25° | Contingência: 13,20 - Índice: 5.666301325117725 - Sobrecargas: 7;15;16;17;18;19;21
+26° | Contingência: 8,12 - Índice: 5.666301325117721 - Sobrecargas: 7;16;17;18;19;20;21
+27° | Contingência: 8,13 - Índice: 5.666301325117721 - Sobrecargas: 7;16;17;18;19;20;21
+28° | Contingência: 10,19 - Índice: 5.584551377679775 - Sobrecargas: 1;2;3;13;14;18;20
+29° | Contingência: 9,20 - Índice: 5.126927569744427 - Sobrecargas: Não converigu
+30° | Contingência: 11,20 - Índice: 5.093385585573481 - Sobrecargas: 7;15;16;17;18;19;21
+31° | Contingência: 10,12 - Índice: 5.090535666610684 - Sobrecargas: 1;2;3;15;19;20;21
+32° | Contingência: 10,13 - Índice: 5.090535666610684 - Sobrecargas: 1;2;3;14;19;20;21
+33° | Contingência: 8,20 - Índice: 5.059912078805295 - Sobrecargas: Não converigu
+34° | Contingência: 8,14 - Índice: 4.764993014359645 - Sobrecargas: 7;13;15;17;18;19;20;21
+35° | Contingência: 8,15 - Índice: 4.764993014359645 - Sobrecargas: 7;13;14;16;18;19;20;21
+36° | Contingência: 8,16 - Índice: 4.764993014359645 - Sobrecargas: 7;13;14;15;17;19;20;21
+37° | Contingência: 14,20 - Índice: 4.764993014359643 - Sobrecargas: 7;12;13;16;17;18;19;21
+38° | Contingência: 15,20 - Índice: 4.764993014359643 - Sobrecargas: 7;12;13;14;17;18;19;21
+39° | Contingência: 16,20 - Índice: 4.764993014359643 - Sobrecargas: 7;12;13;14;15;18;19;21
+40° | Contingência: 8,17 - Índice: 4.7571663082181415 - Sobrecargas: 7;15;16;18;20;21
+41° | Contingência: 8,18 - Índice: 4.7571663082181415 - Sobrecargas: 7;15;16;17;19;21
+42° | Contingência: 17,20 - Índice: 4.7571663082181415 - Sobrecargas: 7;14;15;16;19;21
+43° | Contingência: 18,20 - Índice: 4.7571663082181415 - Sobrecargas: 7;14;15;16;17;21
+44° | Contingência: 1,8 - Índice: 4.688967622627226 - Sobrecargas: 12;16;17;18;19;20;21
+45° | Contingência: 22 - Índice: 4.586709565777029 - Sobrecargas: 7;14;15;16;17;18;19;21
+46° | Contingência: 20 - Índice: 4.58670956577702 - Sobrecargas: 7;14;15;16;17;18;19;22
+47° | Contingência: 8 - Índice: 4.586709565777016 - Sobrecargas: 7;15;16;17;18;19;20;22
+48° | Contingência: 12,22 - Índice: 4.583674511162948 - Sobrecargas: 7;15;16;17;18;19;20
+49° | Contingência: 13,22 - Índice: 4.583674511162948 - Sobrecargas: 7;15;16;17;18;19;20
+50° | Contingência: 2,8 - Índice: 4.438364854485335 - Sobrecargas: 12;16;17;18;19;20;21
+51° | Contingência: 11,22 - Índice: 4.204496696684594 - Sobrecargas: 7;15;16;17;18;19;20
+52° | Contingência: 9,22 - Índice: 4.196446595395809 - Sobrecargas: Não converigu
+53° | Contingência: 3,8 - Índice: 4.1483647533436825 - Sobrecargas: 12;16;17;18;19;20;21
+54° | Contingência: 7,8 - Índice: 4.03925002328291 - Sobrecargas: 12;14;15;16;17;18;19;20;21
+55° | Contingência: 5,8 - Índice: 3.991154741336958 - Sobrecargas: 12;16;17;18;19;20;21
+56° | Contingência: 20,22 - Índice: 3.9868136114140893 - Sobrecargas: Não converigu
+57° | Contingência: 8,22 - Índice: 3.9868136114140817 - Sobrecargas: Não converigu
+58° | Contingência: 2,9 - Índice: 3.945776188860509 - Sobrecargas: Não converigu
+59° | Contingência: 4,8 - Índice: 3.875142743958968 - Sobrecargas: 12;16;17;18;19;20;21
+60° | Contingência: 1,20 - Índice: 3.8737718292963628 - Sobrecargas: 15;16;17;18;19;21
+61° | Contingência: 1,2 - Índice: 3.842348544724191 - Sobrecargas: 12;16;17;18;19;20;21
+62° | Contingência: 5,9 - Índice: 3.8367702827086734 - Sobrecargas: Não converigu
+63° | Contingência: 17,22 - Índice: 3.7110476054353607 - Sobrecargas: 7;14;15;16;19;20
+64° | Contingência: 18,22 - Índice: 3.7110476054353607 - Sobrecargas: 7;14;15;16;17;20
+65° | Contingência: 19,22 - Índice: 3.7110476054353607 - Sobrecargas: 7;14;15;16;17;18
+66° | Contingência: 8,19 - Índice: 3.7110476054353585 - Sobrecargas: 7;15;16;17;18;20
+67° | Contingência: 19,20 - Índice: 3.7110476054353585 - Sobrecargas: 7;14;15;16;17;18
+68° | Contingência: 21,22 - Índice: 3.6915937217422856 - Sobrecargas: 7;12;13;14;15;16;17;18;19
+69° | Contingência: 20,21 - Índice: 3.6915937217422803 - Sobrecargas: 7;12;13;14;15;16;17;18;19
+70° | Contingência: 8,21 - Índice: 3.691593721742277 - Sobrecargas: 7;13;14;15;16;17;18;19;20
+71° | Contingência: 1,9 - Índice: 3.6915555940452363 - Sobrecargas: Não converigu
+72° | Contingência: 2,20 - Índice: 3.681221961838969 - Sobrecargas: 15;16;17;18;19;21
+73° | Contingência: 6,8 - Índice: 3.6701768214494566 - Sobrecargas: 12;14;15;16;17;18;21
+74° | Contingência: 14,22 - Índice: 3.667358625709137 - Sobrecargas: 7;12;13;16;17;18;19;20
+75° | Contingência: 15,22 - Índice: 3.667358625709137 - Sobrecargas: 7;12;13;14;17;18;19;20
+76° | Contingência: 16,22 - Índice: 3.667358625709137 - Sobrecargas: 7;12;13;14;15;18;19;20
+77° | Contingência: 4,9 - Índice: 3.596929909826912 - Sobrecargas: Não converigu
+78° | Contingência: 3,20 - Índice: 3.4642958863676565 - Sobrecargas: 15;16;17;18;19;21
+79° | Contingência: 7,20 - Índice: 3.454702998555967 - Sobrecargas: 13;14;15;16;17;18;19;21
+80° | Contingência: 7,9 - Índice: 3.419538700867186 - Sobrecargas: Não converigu
+81° | Contingência: 5,20 - Índice: 3.3515090387297177 - Sobrecargas: 15;16;17;18;19;21
+82° | Contingência: 2,3 - Índice: 3.3220232057172816 - Sobrecargas: 12;16;17;18;19;20;21
+83° | Contingência: 3,9 - Índice: 3.3033338823243437 - Sobrecargas: Não converigu
+84° | Contingência: 2,5 - Índice: 3.2585318417670415 - Sobrecargas: 12;16;17;18;19;20;21
+85° | Contingência: 4,20 - Índice: 3.2466558183658805 - Sobrecargas: 15;16;17;18;19;21
+86° | Contingência: 2,4 - Índice: 3.183883542268985 - Sobrecargas: 12;16;17;18;19;20;21
+87° | Contingência: 1,4 - Índice: 3.0866075865025167 - Sobrecargas: 12;16;17;18;19;20;21
+88° | Contingência: 1,7 - Índice: 3.079773299277954 - Sobrecargas: 12;19;20;21;22
+89° | Contingência: 6,20 - Índice: 3.059532855169169 - Sobrecargas: 13;14;15;16;17;21
+90° | Contingência: 6,9 - Índice: 2.963276257684072 - Sobrecargas: Não converigu
+91° | Contingência: 11,12 - Índice: 2.952541725683216 - Sobrecargas: 7;16;17;18;19;20;21
+92° | Contingência: 11,13 - Índice: 2.952541725683216 - Sobrecargas: 7;16;17;18;19;20;21
+93° | Contingência: 1,5 - Índice: 2.9263350203951912 - Sobrecargas: 12;19;20;21
+94° | Contingência: 2,11 - Índice: 2.9164652447655848 - Sobrecargas: 12;16;17;18;19;20;21
+95° | Contingência: 12,17 - Índice: 2.8438244578225387 - Sobrecargas: 7;15;16;18;20;21
+96° | Contingência: 12,18 - Índice: 2.8438244578225387 - Sobrecargas: 7;15;16;17;19;21
+97° | Contingência: 13,17 - Índice: 2.8438244578225387 - Sobrecargas: 7;15;16;18;20;21
+98° | Contingência: 13,18 - Índice: 2.8438244578225387 - Sobrecargas: 7;15;16;17;19;21
+99° | Contingência: 1,11 - Índice: 2.825999604554977 - Sobrecargas: 12;16;17;18;19;20;21
+100° | Contingência: 5,7 - Índice: 2.80538170262042 - Sobrecargas: 12;19;20;21
+101° | Contingência: 1,22 - Índice: 2.778920713325924 - Sobrecargas: 15;16;17;18;19;20
+102° | Contingência: 2,7 - Índice: 2.75814829178797 - Sobrecargas: 12;19;20;21
+103° | Contingência: 3,5 - Índice: 2.7445411383679863 - Sobrecargas: 12;19;20;21
+104° | Contingência: 9,12 - Índice: 2.7096199471486817 - Sobrecargas: Não converigu
+105° | Contingência: 9,13 - Índice: 2.7096199471486817 - Sobrecargas: Não converigu
+106° | Contingência: 2,6 - Índice: 2.700600096127679 - Sobrecargas: 12;16;17;18;21
+107° | Contingência: 3,7 - Índice: 2.681471513225822 - Sobrecargas: 12;19;20;21
+108° | Contingência: 4,5 - Índice: 2.6812401366463074 - Sobrecargas: 12;19;20;21
+109° | Contingência: 1,6 - Índice: 2.6102614094956165 - Sobrecargas: 12;16;17;18;21
+110° | Contingência: 2,22 - Índice: 2.6047620112724412 - Sobrecargas: 15;16;17;18;19;20
+111° | Contingência: 1,3 - Índice: 2.586167524591925 - Sobrecargas: Não converigu
+112° | Contingência: 1,12 - Índice: 2.571922998867052 - Sobrecargas: 16;17;18;19;20;21
+113° | Contingência: 1,13 - Índice: 2.571922998867052 - Sobrecargas: 16;17;18;19;20;21
+114° | Contingência: 2,12 - Índice: 2.548055827743114 - Sobrecargas: 16;17;18;19;20;21
+115° | Contingência: 2,13 - Índice: 2.548055827743114 - Sobrecargas: 16;17;18;19;20;21
+116° | Contingência: 3,4 - Índice: 2.539591200536142 - Sobrecargas: 12;19;20;21
+117° | Contingência: 12,14 - Índice: 2.5353878285110376 - Sobrecargas: 7;19;20;21
+118° | Contingência: 12,15 - Índice: 2.5353878285110376 - Sobrecargas: 7;19;20;21
+119° | Contingência: 12,16 - Índice: 2.5353878285110376 - Sobrecargas: 7;19;20;21
+120° | Contingência: 13,14 - Índice: 2.5353878285110376 - Sobrecargas: 7;19;20;21
+121° | Contingência: 13,15 - Índice: 2.5353878285110376 - Sobrecargas: 7;19;20;21
+122° | Contingência: 13,16 - Índice: 2.5353878285110376 - Sobrecargas: 7;19;20;21
+123° | Contingência: 4,11 - Índice: 2.5263619288176438 - Sobrecargas: 12;16;17;18;19;20;21
+124° | Contingência: 4,7 - Índice: 2.4998871883114626 - Sobrecargas: 12;19;20;21
+125° | Contingência: 3,11 - Índice: 2.4910026149747826 - Sobrecargas: 12;16;17;18;19;20;21
+126° | Contingência: 5,12 - Índice: 2.470840283232967 - Sobrecargas: 16;17;18;19;20;21
+127° | Contingência: 5,13 - Índice: 2.470840283232967 - Sobrecargas: 16;17;18;19;20;21
+128° | Contingência: 11,17 - Índice: 2.4242210292772173 - Sobrecargas: 7;15;16;18;20;21
+129° | Contingência: 11,18 - Índice: 2.4242210292772173 - Sobrecargas: 7;15;16;17;19;21
+130° | Contingência: 3,12 - Índice: 2.389364159869224 - Sobrecargas: 16;17;18;19;20;21
+131° | Contingência: 3,13 - Índice: 2.389364159869224 - Sobrecargas: 16;17;18;19;20;21
+132° | Contingência: 3,22 - Índice: 2.3855399342614056 - Sobrecargas: 15;16;17;18;19;20
+133° | Contingência: 4,12 - Índice: 2.3844415947532434 - Sobrecargas: 16;17;18;19;20;21
+134° | Contingência: 4,13 - Índice: 2.3844415947532434 - Sobrecargas: 16;17;18;19;20;21
+135° | Contingência: 9,14 - Índice: 2.3548353689556762 - Sobrecargas: Não converigu
+136° | Contingência: 9,15 - Índice: 2.3548353689556762 - Sobrecargas: Não converigu
+137° | Contingência: 9,16 - Índice: 2.3548353689556762 - Sobrecargas: Não converigu
+138° | Contingência: 7,22 - Índice: 2.3401025802824913 - Sobrecargas: 13;14;15;16;17;18;19;20
+139° | Contingência: 5,11 - Índice: 2.327396944400471 - Sobrecargas: 12;16;17;18;19;20;21
+140° | Contingência: 4,6 - Índice: 2.3196996924888293 - Sobrecargas: 12;16;17;18;21
+141° | Contingência: 3,6 - Índice: 2.275264419915419 - Sobrecargas: 12;16;17;18;21
+142° | Contingência: 6,11 - Índice: 2.2666816464134785 - Sobrecargas: Não converigu
+143° | Contingência: 17,18 - Índice: 2.2599395123038493 - Sobrecargas: 7;14;15;16;21
+144° | Contingência: 5,22 - Índice: 2.252270441155061 - Sobrecargas: 15;16;17;18;19;20
+145° | Contingência: 14,15 - Índice: 2.23600833585311 - Sobrecargas: 7;19;20;21
+146° | Contingência: 14,16 - Índice: 2.23600833585311 - Sobrecargas: 7;19;20;21
+147° | Contingência: 15,16 - Índice: 2.23600833585311 - Sobrecargas: 7;19;20;21
+148° | Contingência: 4,22 - Índice: 2.2187941101126127 - Sobrecargas: 15;16;17;18;19;20
+149° | Contingência: 12 - Índice: 2.1040124006567558 - Sobrecargas: 7;15;16;17;18;19;20
+150° | Contingência: 13 - Índice: 2.1040124006567558 - Sobrecargas: 7;15;16;17;18;19;20
+151° | Contingência: 2,17 - Índice: 2.1008894453101403 - Sobrecargas: 15;16;18;20;21
+152° | Contingência: 2,18 - Índice: 2.1008894453101403 - Sobrecargas: 15;16;17;19;21
+153° | Contingência: 6,22 - Índice: 2.099532855169172 - Sobrecargas: 13;14;15;16;17
+154° | Contingência: 5,6 - Índice: 2.0986274875808117 - Sobrecargas: 12;16;17;18;21
+155° | Contingência: 5,14 - Índice: 2.066226666015434 - Sobrecargas: 19;20;21
+156° | Contingência: 5,15 - Índice: 2.066226666015434 - Sobrecargas: 19;20;21
+157° | Contingência: 5,16 - Índice: 2.066226666015434 - Sobrecargas: 19;20;21
+158° | Contingência: 14,17 - Índice: 2.0655913532825396 - Sobrecargas: 7;20;21
+159° | Contingência: 14,18 - Índice: 2.0655913532825396 - Sobrecargas: 7;19;21
+160° | Contingência: 15,17 - Índice: 2.0655913532825396 - Sobrecargas: 7;20;21
+161° | Contingência: 15,18 - Índice: 2.0655913532825396 - Sobrecargas: 7;19;21
+162° | Contingência: 16,17 - Índice: 2.0655913532825396 - Sobrecargas: 7;20;21
+163° | Contingência: 16,18 - Índice: 2.0655913532825396 - Sobrecargas: 7;19;21
+164° | Contingência: 1,14 - Índice: 2.0258477106700092 - Sobrecargas: 19;20;21
+165° | Contingência: 1,15 - Índice: 2.0258477106700092 - Sobrecargas: 19;20;21
+166° | Contingência: 1,16 - Índice: 2.0258477106700092 - Sobrecargas: 19;20;21
+167° | Contingência: 9,17 - Índice: 2.018381617670462 - Sobrecargas: Não converigu
+168° | Contingência: 9,18 - Índice: 2.018381617670462 - Sobrecargas: Não converigu
+169° | Contingência: 11,14 - Índice: 2.015707542894245 - Sobrecargas: 7;17;18;19;20;21
+170° | Contingência: 11,15 - Índice: 2.015707542894245 - Sobrecargas: 7;16;18;19;20;21
+171° | Contingência: 11,16 - Índice: 2.015707542894245 - Sobrecargas: 7;15;17;19;20;21
+172° | Contingência: 7,14 - Índice: 2.0133927340384883 - Sobrecargas: 19;20;21
+173° | Contingência: 7,15 - Índice: 2.0133927340384883 - Sobrecargas: 19;20;21
+174° | Contingência: 7,16 - Índice: 2.0133927340384883 - Sobrecargas: 19;20;21
+175° | Contingência: 7,11 - Índice: 2.0090703724263266 - Sobrecargas: 12;19;20;21;22
+176° | Contingência: 2,14 - Índice: 1.995190777925672 - Sobrecargas: 19;20;21
+177° | Contingência: 2,15 - Índice: 1.995190777925672 - Sobrecargas: 19;20;21
+178° | Contingência: 2,16 - Índice: 1.995190777925672 - Sobrecargas: 19;20;21
+179° | Contingência: 7,12 - Índice: 1.9908707696884669 - Sobrecargas: 19;20;21
+180° | Contingência: 7,13 - Índice: 1.9908707696884669 - Sobrecargas: 19;20;21
+181° | Contingência: 1,17 - Índice: 1.9896704679780424 - Sobrecargas: 15;16;18;20;21
+182° | Contingência: 1,18 - Índice: 1.9896704679780424 - Sobrecargas: 15;16;17;19;21
+183° | Contingência: 3,14 - Índice: 1.9754276713959644 - Sobrecargas: 19;20;21
+184° | Contingência: 3,15 - Índice: 1.9754276713959644 - Sobrecargas: 19;20;21
+185° | Contingência: 3,16 - Índice: 1.9754276713959644 - Sobrecargas: 19;20;21
+186° | Contingência: 6,12 - Índice: 1.9045991156902304 - Sobrecargas: 16;17;18;21
+187° | Contingência: 6,13 - Índice: 1.9045991156902304 - Sobrecargas: 16;17;18;21
+188° | Contingência: 4,14 - Índice: 1.8849800405957897 - Sobrecargas: 19;20;21
+189° | Contingência: 4,15 - Índice: 1.8849800405957897 - Sobrecargas: 19;20;21
+190° | Contingência: 4,16 - Índice: 1.8849800405957897 - Sobrecargas: 19;20;21
+191° | Contingência: 12,19 - Índice: 1.831932175824941 - Sobrecargas: 7;15;16;17;18;20
+192° | Contingência: 13,19 - Índice: 1.831932175824941 - Sobrecargas: 7;15;16;17;18;20
+193° | Contingência: 6,7 - Índice: 1.7562336384817128 - Sobrecargas: 12;21;22
+194° | Contingência: 5,17 - Índice: 1.6526204666318787 - Sobrecargas: 20;21
+195° | Contingência: 5,18 - Índice: 1.6526204666318787 - Sobrecargas: 19;21
+196° | Contingência: 11 - Índice: 1.6464432514994403 - Sobrecargas: 7;15;16;17;18;19;20
+197° | Contingência: 7,17 - Índice: 1.5597172512564383 - Sobrecargas: 20;21
+198° | Contingência: 7,18 - Índice: 1.5597172512564383 - Sobrecargas: 19;21
+199° | Contingência: 6,17 - Índice: 1.5578047044950671 - Sobrecargas: 15;16;18;21
+200° | Contingência: 6,18 - Índice: 1.5578047044950671 - Sobrecargas: 15;16;17;21
+201° | Contingência: 11,19 - Índice: 1.535332140388327 - Sobrecargas: 7;15;16;17;18;20
+202° | Contingência: 3,17 - Índice: 1.5218172070897624 - Sobrecargas: 20;21
+203° | Contingência: 3,18 - Índice: 1.5218172070897624 - Sobrecargas: 19;21
+204° | Contingência: 4,17 - Índice: 1.5072096541597377 - Sobrecargas: 20;21
+205° | Contingência: 4,18 - Índice: 1.5072096541597377 - Sobrecargas: 19;21
+206° | Contingência: 7,21 - Índice: 1.5021204939017485 - Sobrecargas: 18;19;20;22
+207° | Contingência: 9 - Índice: 1.4908411531857833 - Sobrecargas: Não converigu
+208° | Contingência: 1 - Índice: 1.422269146585393 - Sobrecargas: 15;16;17;18;19;20;22
+209° | Contingência: 14 - Índice: 1.4013516058124542 - Sobrecargas: 7;18;19;20
+210° | Contingência: 15 - Índice: 1.4013516058124542 - Sobrecargas: 7;18;19;20
+211° | Contingência: 16 - Índice: 1.4013516058124542 - Sobrecargas: 7;18;19;20
+212° | Contingência: 2 - Índice: 1.3817416466081553 - Sobrecargas: 15;16;17;18;19;20
+213° | Contingência: 17,19 - Índice: 1.3264670840470791 - Sobrecargas: 7;14;15;16;20
+214° | Contingência: 18,19 - Índice: 1.3264670840470791 - Sobrecargas: 7;14;15;16;17
+215° | Contingência: 6,14 - Índice: 1.191459786544914 - Sobrecargas: 17;18;21
+216° | Contingência: 6,15 - Índice: 1.191459786544914 - Sobrecargas: 16;18;21
+217° | Contingência: 6,16 - Índice: 1.191459786544914 - Sobrecargas: 15;17;21
+218° | Contingência: 12,21 - Índice: 1.19028627671149 - Sobrecargas: 7;18;19;20
+219° | Contingência: 13,21 - Índice: 1.19028627671149 - Sobrecargas: 7;18;19;20
+220° | Contingência: 17 - Índice: 1.1766261156623004 - Sobrecargas: 7;19;20
+221° | Contingência: 18 - Índice: 1.1766261156623004 - Sobrecargas: 7;17;20
+222° | Contingência: 19 - Índice: 1.1766261156623004 - Sobrecargas: 7;17;18
+223° | Contingência: 1,21 - Índice: 1.1422613408469657 - Sobrecargas: 18;19;20;22
+224° | Contingência: 9,21 - Índice: 1.1222640520605363 - Sobrecargas: Não converigu
+225° | Contingência: 21 - Índice: 1.1165655294374104 - Sobrecargas: 7;17;18;19
+226° | Contingência: 2,19 - Índice: 1.092385174731425 - Sobrecargas: 15;16;17;18;20
+227° | Contingência: 9,19 - Índice: 1.069849907328168 - Sobrecargas: Não converigu
+228° | Contingência: 14,19 - Índice: 1.045668269633358 - Sobrecargas: 7;18;20
+229° | Contingência: 15,19 - Índice: 1.045668269633358 - Sobrecargas: 7;18;20
+230° | Contingência: 16,19 - Índice: 1.045668269633358 - Sobrecargas: 7;18;20
+231° | Contingência: 5,21 - Índice: 1.0341158592237238 - Sobrecargas: 18;19;20
+232° | Contingência: 5 - Índice: 0.9755282701788275 - Sobrecargas: 18;19;20
+233° | Contingência: 1,19 - Índice: 0.9738816417031781 - Sobrecargas: 15;16;17;18;20
+234° | Contingência: 14,21 - Índice: 0.9546842246634337 - Sobrecargas: 18;19;20
+235° | Contingência: 15,21 - Índice: 0.9546842246634337 - Sobrecargas: 18;19;20
+236° | Contingência: 16,21 - Índice: 0.9546842246634337 - Sobrecargas: 18;19;20
+237° | Contingência: 3,21 - Índice: 0.9183024891663276 - Sobrecargas: 18;19;20
+238° | Contingência: 2,21 - Índice: 0.9181611415034403 - Sobrecargas: 18;19;20
+239° | Contingência: 7 - Índice: 0.914360972536328 - Sobrecargas: 18;19;20
+240° | Contingência: 3 - Índice: 0.8729473725696526 - Sobrecargas: 18;19;20
+241° | Contingência: 4 - Índice: 0.816923295127874 - Sobrecargas: 18;19;20
+242° | Contingência: 4,21 - Índice: 0.8053939612446565 - Sobrecargas: 18;19;20
+243° | Contingência: 17,21 - Índice: 0.7630720504610781 - Sobrecargas: 7;19;20
+244° | Contingência: 18,21 - Índice: 0.7630720504610781 - Sobrecargas: 7;17;20
+245° | Contingência: 19,21 - Índice: 0.7630720504610781 - Sobrecargas: 7;17;18
+246° | Contingência: 11,21 - Índice: 0.636216731759054 - Sobrecargas: 7;18;19;20
+247° | Contingência: 5,19 - Índice: 0.6090146190227704 - Sobrecargas: 18;20
+248° | Contingência: 6,19 - Índice: 0.5978047044950667 - Sobrecargas: 15;16;17
+249° | Contingência: 6 - Índice: 0.5978047044950626 - Sobrecargas: 15;16;17
+250° | Contingência: 7,19 - Índice: 0.5426551794688845 - Sobrecargas: 18;20
+251° | Contingência: 3,19 - Índice: 0.5155837193498303 - Sobrecargas: 18;20
+252° | Contingência: 4,19 - Índice: 0.5051497529712413 - Sobrecargas: 18;20
+253° | Contingência: 6,21 - Índice: 0.1067461413933822 - Sobrecargas: 22
