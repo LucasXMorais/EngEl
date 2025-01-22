@@ -439,6 +439,9 @@ def menu(sis: sistema.Sistema):
         message = f'Foram analisadas {len(ranking)} melhorias'
         logs.log(message, 'SIS')
         latex.expansaoLatex('resultados/tabelasExpansao.txt', ranking)
+
+        # Fazer analize de validade de cada melhoria
+        validade = melhorias.calcularTempoObsolescencia(sis, ranking)
     # FIm expansao
 
     def modoContingencia():

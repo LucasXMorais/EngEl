@@ -474,7 +474,7 @@ def expansaoLatex(output: str, candidatos: list):
         f.write('\n\n')
         # candidatos
         dados = []
-        cabecalho = ['Candidato', 'Pares Expansão',  'Custo']
+        cabecalho = ['Candidato', 'Pares Expansão',  'Custo Real', 'Custo Folga']
         dados.append(cabecalho)
         # unidades = ['\#', 'E / R', '', '', 'm', '\%', '1MR\$']
         # dados.append(unidades)
@@ -483,8 +483,9 @@ def expansaoLatex(output: str, candidatos: list):
         for r in candidatos:
             rank = count
             melhoria = ','.join([str(h) for h in r[0]])
-            custo = f'{r[4]:.2f}'.replace('.',',')
-            dados.append([ rank, melhoria, custo])
+            custo_real = f'{r[4]:.2f}'.replace('.',',')
+            custo_folga = f'{r[1]:.2f}'.replace('.',',')
+            dados.append([ rank, melhoria, custo_real, custo_folga])
             count += 1
             if count > 10: break
         tabela(f, 1, dados, 'Relação das 10 melhorias mais baratas', 1)
@@ -495,7 +496,7 @@ def expansaoLatex(output: str, candidatos: list):
         f.write('\n\n')
         # candidatos
         dados = []
-        cabecalho = ['Candidato', 'Pares Expansão',  'Custo']
+        cabecalho = ['Candidato', 'Pares Expansão',  'Custo Real', 'Custo Folga']
         dados.append(cabecalho)
         # unidades = ['\#', 'E / R', '', '', 'm', '\%', '1MR\$']
         # dados.append(unidades)
@@ -504,8 +505,9 @@ def expansaoLatex(output: str, candidatos: list):
         for r in candidatos:
             rank = count
             melhoria = ','.join([str(h) for h in r[0]])
-            custo = f'{r[1]:.2f}'.replace('.',',')
-            dados.append([ rank, melhoria, custo])
+            custo_real = f'{r[4]:.2f}'.replace('.',',')
+            custo_folga = f'{r[1]:.2f}'.replace('.',',')
+            dados.append([ rank, melhoria, custo_real, custo_folga])
             count += 1
         tabela(f, 1, dados, 'Tabela com todas melhorias', 1)
 

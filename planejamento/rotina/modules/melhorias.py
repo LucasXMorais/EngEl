@@ -242,7 +242,6 @@ def calcularIndices(sis, k: int, candidatos: list) -> list:
         # print(message)
         count += 1
 
-
         if not copiaSistema.convergiu: 
             circuitosSobrecarga = ['Não converigu']
 
@@ -323,4 +322,155 @@ def mostrarTopoRanking(ranking):
         print(message)
         c += 1
         if c > 10: break
+
+def calcularTempoObsolescencia(sis, ranking: list) -> list:
+
+    count = 0
+    total_testes = 20 # Testa 20 na esperança de encontrar pelo menos 10
+    # Incluindo os circuitos de melhorias
+    validade = []
+    for melhoria in ranking:
+
+        #Faz uma cópia do sistema para aplicar a melhoria
+        copiaSistema = copy.deepcopy(sis)
+
+        combinacoes_melhoria = melhoria[0]
+        lista_combinacoes = []
+        # Encontra o número do próximo circuito à ser adicionado
+        proximo_circuito = 0
+        for c in copiaSistema.dcircuitos:
+            if c["NCIR"] > proximo_circuito:
+                proximo_circuito = c["NCIR"]
+        proximo_circuito += 1
+        for combinacao_pares in combinacoes_melhoria:
+
+            # Pegando a reatancia media. Por enquanto deixando fixo em 138
+            reatancia = copiaSistema.reatancias_medias[1][1]
+
+            # Pega os pares de cada id para inserir os circuitos novos
+            custo_total = 0
+            numero_de_pares = 0
+
+            novo_cir_de = combinacao_pares[0]
+            novo_cir_para = combinacao_pares[1]
+
+            bDE = copiaSistema.getBarra(novo_cir_de)
+            posDE = (bDE['x'], bDE['y'])
+            bPARA = copiaSistema.getBarra(novo_cir_para)
+            posPARA = (bPARA['x'], bPARA['y'])
+            distancia = 1.2 * np.sqrt( (posDE[0] - posPARA[0])**2 + (posDE[1] - posPARA[1])**2 )
+            reatancia_circuito = reatancia * distancia
+
+            numero_de_pares += 1
+            lista_combinacoes.append( ( novo_cir_de, novo_cir_para ) )
+
+            # Montando o circuito novo
+            circuito = {
+                'BDE' : novo_cir_de,
+                'BPARA' : novo_cir_para,
+                'NCIR' : proximo_circuito,
+                'RES(PU)' : 0,
+                'REAT(PU)' : reatancia_circuito,
+                'SUCsh(PU)' : 0,
+                'TAP(PU)' : 1.0,
+                'DEF(GRAUS)' : 0.0,
+                'LIG(L)DESL(D)' : 'L',
+                'CAP(PU)' : 1.25
+            }
+
+            copiaSistema.dcircuitos.append(circuito)
+            proximo_circuito += 1
+        # Fim todos os circuitos novos
+
+        copiaSistema.ncircuitos = len(copiaSistema.dcircuitos)
+        copiaSistema.calcularMatrizes()
+        copiaSistema.emContingencia = False
+
+        # Limitar o total de iterações
+        ano_limite = 50
+        incremento_carga = 1.034 # 3,4% de aumento por ano
+        # ano_atual = 0
+        corte = 0
+        # print(lista_combinacoes, ano_atual)
+        foi_corte = False
+        foi_sobrecarga = False
+        for ano in range(ano_limite):
+
+            #Incrementando a carga anualmente
+            for b in copiaSistema.dbarras:
+                b["PD(PU)"] = b["PD(PU)"]*incremento_carga
+                b["QD(PU)"] = b["QD(PU)"]*incremento_carga
+            # FIM FOR
+
+            # TESTAR O SISTEMA
+
+            # Otimizando o sistema
+            corte = otimizacao.otimizar(copiaSistema, True)
+
+            # Interrompe se houve corte de carga
+            foi_corte = False
+            if corte: 
+                foi_corte = True
+                break
+
+            # Analize de sobrecarga
+            indiceSobrecarga = 0
+            copiaSistema.resolverFluxo(True)
+            # copiaSistema.fluxoLinearizado()
+            
+            retorno_indices = indiceMelhorias(copiaSistema)
+            indiceSobrecarga = retorno_indices[0]
+
+            # Pula opções que deram sobrecarga mesmo com otimizacao
+            foi_sobrecarga = False
+            if indiceSobrecarga > 0:
+                foi_sobrecarga = True
+                break
+
+            # Só incrementa o ano se deu certo
+            # ano_atual = ano + 1
+        # FIM FOR TODOS OS ANOS
+        # print(lista_combinacoes, ano)
+
+        validade.append( (lista_combinacoes, ano) )
+
+        circs = ','.join([str(h) for h in lista_combinacoes])
+        message = f'| {count: >2} / {total_testes: ^3} || {circs:^30} - Anos de Incremento: {ano:^4} | Terminou por => Corte: {foi_corte: >2} Sobrecarga: {foi_sobrecarga: >2} '
+        print(message)
+        count += 1
+        if count > total_testes: break # Limitando a 10 
+
+    print(validade)
+
+    #TODO
+    # Pegando o ranking dos melhores
+    print('Ordenando as melhorias')
+    # Fazendo um ranking com o indice baseado na folga
+    # validade_organizado = []
+    # for v in validade:
+    #     # Quanto menor a folga maior o indice
+    #     indice_custo_folga = r[1] / r[3]
+    #     ranking_organizado.append( (r[0],
+    #                                 indice_custo_folga,
+    #                                 r[2], 
+    #                                 r[3], 
+    #                                 r[1]) )
+    # ranking = ordenar(ranking_organizado)
+    # mostrarTopoRanking(ranking)
+    # return ranking
+
+    # c = 1
+    # for r in ranking:
+    #     melhoria = ','.join([str(h) for h in r[0]])
+    #     custo_folga = f'{r[1]:.2f}'.replace('.',',')
+    #     # indice = f'{r[2]:.6f}'.replace('.',',')
+    #     folgas = f'{r[3]:.4f}'.replace('.',',')
+    #     custo = f'{r[4]:.2f}'.replace('.',',')
+    #     custo_total = f'{r[4]*len(r[0]):.2f}'.replace('.',',')
+    #     message = f'{c: >2}° | Melhoria: {melhoria:^8} - Custo de Folga: {custo_folga} - Custo: {custo} - Índice Folga: {folgas} '
+    #     print(message)
+    #     c += 1
+    #     if c > 10: break
+
+    return validade
 
