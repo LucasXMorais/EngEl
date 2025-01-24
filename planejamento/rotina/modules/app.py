@@ -435,13 +435,16 @@ def menu(sis: sistema.Sistema):
                 # Limitando à 6 expansoes máximas
                 if k <= 6: break
                 print('Número alto de combinações')
-        ranking = melhorias.analiseNMenosK(sis, k, candidatos)
-        message = f'Foram analisadas {len(ranking)} melhorias'
+        custos_folga = melhorias.analiseNMenosK(sis, k, candidatos)
+        message = f'Foram analisadas {len(custos_folga)} melhorias'
         logs.log(message, 'SIS')
-        latex.expansaoLatex('resultados/tabelasExpansao.txt', ranking)
+        latex.expansaoLatex('resultados/tabelasCustoFolga.txt', custos_folga)
 
         # Fazer analize de validade de cada melhoria
-        validade = melhorias.calcularTempoObsolescencia(sis, ranking)
+        validade = melhorias.calcularTempoObsolescencia(sis, custos_folga)
+        message = f'Foram analisadas {len(validade)} melhorias e calculadas suas validades'
+        logs.log(message, 'SIS')
+        latex.validadesTabelas('resultados/tabelasValidades.txt', validade)
     # FIm expansao
 
     def modoContingencia():

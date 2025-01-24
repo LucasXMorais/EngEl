@@ -513,6 +513,53 @@ def expansaoLatex(output: str, candidatos: list):
 
         f.write('\n\n')
 
+    print('Relatório gravado em ', output)
+    return
+
+def validadesTabelas(output: str, candidatos: list):
+    with open(output, 'w') as f:
+
+        f.write('\n10 MELHORES CANDIDATOS\n')
+        f.write('\n\n')
+        # candidatos
+        dados = []
+        cabecalho = ['Candidato', 'Pares Expansão',  'Custo Real', 'Anos Disponibilidade', 'Custo Anual' ]
+        dados.append(cabecalho)
+        count = 1 
+        for r in candidatos:
+            rank = count
+            melhoria = ','.join([str(h) for h in r[0]])
+            anos_disponibilidade = f'{r[2]}'
+            custo_total = f'{r[3]:.2f}'.replace('.',',')
+            custo_anual = f'{r[1]:.2f}'.replace('.',',')
+            dados.append([ rank, melhoria, custo_total, anos_disponibilidade, custo_anual])
+            count += 1
+            if count > 10: break
+        tabela(f, 1, dados, 'Relação das 10 melhorias mais baratas', 1)
+
+        f.write('\n\n')
+
+        f.write('\nTODOS CANDIDATOS\n')
+        f.write('\n\n')
+        # candidatos
+        dados = []
+        cabecalho = ['Candidato', 'Pares Expansão',  'Custo Real', 'Anos Disponibilidade', 'Custo Anual' ]
+        dados.append(cabecalho)
+        count = 1 
+        for r in candidatos:
+            rank = count
+            melhoria = ','.join([str(h) for h in r[0]])
+            anos_disponibilidade = f'{r[2]}'
+            custo_total = f'{r[3]:.2f}'.replace('.',',')
+            custo_anual = f'{r[1]:.2f}'.replace('.',',')
+            dados.append([ rank, melhoria, custo_total, anos_disponibilidade, custo_anual])
+            count += 1
+        tabela(f, 1, dados, 'Relação de todas as melhorias', 1)
+
+        f.write('\n\n')
+
+    print('Relatório gravado em ', output)
+    return
 
 
 

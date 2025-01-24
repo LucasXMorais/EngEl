@@ -326,7 +326,7 @@ def mostrarTopoRanking(ranking):
 def calcularTempoObsolescencia(sis, ranking: list) -> list:
 
     count = 0
-    total_testes = 20 # Testa 20 na esperança de encontrar pelo menos 10
+    total_testes = len(ranking)+1 # Deixando o máximo por enquanto
     # Incluindo os circuitos de melhorias
     validade = []
     for melhoria in ranking:
@@ -435,42 +435,46 @@ def calcularTempoObsolescencia(sis, ranking: list) -> list:
         validade.append( (lista_combinacoes, ano) )
 
         circs = ','.join([str(h) for h in lista_combinacoes])
-        message = f'| {count: >2} / {total_testes: ^3} || {circs:^30} - Anos de Incremento: {ano:^4} | Terminou por => Corte: {foi_corte: >2} Sobrecarga: {foi_sobrecarga: >2} '
-        print(message)
+        # message = f'| {count: >2} / {total_testes: ^3} || {circs:^30} - Anos de Incremento: {ano:^4} | Terminou por => Corte: {foi_corte: >2} Sobrecarga: {foi_sobrecarga: >2} '
+        # print(message)
+        message = f'\r {(count * 100 / total_testes):.2f} %      '
+        print(message, end='', flush=True) 
         count += 1
-        if count > total_testes: break # Limitando a 10 
+        if count > total_testes: break # Limitando 
 
-    print(validade)
+    # print(validade)
 
-    #TODO
-    # Pegando o ranking dos melhores
-    print('Ordenando as melhorias')
-    # Fazendo um ranking com o indice baseado na folga
-    # validade_organizado = []
-    # for v in validade:
-    #     # Quanto menor a folga maior o indice
-    #     indice_custo_folga = r[1] / r[3]
-    #     ranking_organizado.append( (r[0],
-    #                                 indice_custo_folga,
-    #                                 r[2], 
-    #                                 r[3], 
-    #                                 r[1]) )
-    # ranking = ordenar(ranking_organizado)
-    # mostrarTopoRanking(ranking)
-    # return ranking
+    print('\nOrdenando as validades e retirando as validades nulas')
+    # Fazendo uma lista com as soluções 
+    # melhoria: [ COMBINACOES, CUSTO_FOLGA, I_FOLGA, CUSTO_TOTAL ]
+    validade_organizado = []
+    count = -1
+    taxa_inflacao = 0.03 
+    for v in validade:
+        count += 1
+        anos_beneficio = v[1]
+        if anos_beneficio < 1: continue # Ignora as validades nulas 
+        # Validade: [ COMBINACOES, CUSTO_ANUAL_INFLACAO, ANOS_DISPONIBILIDADE, CUSTO_TOTAL  ]
+        custo_total = ranking[count][4]
+        custo_anual_inflacao = ( custo_total * taxa_inflacao ) / ( 1 - ( (1 + taxa_inflacao )**(-anos_beneficio)) )
+        validade_organizado.append( ( v[0], custo_anual_inflacao, anos_beneficio, custo_total   ) )
 
-    # c = 1
-    # for r in ranking:
-    #     melhoria = ','.join([str(h) for h in r[0]])
-    #     custo_folga = f'{r[1]:.2f}'.replace('.',',')
-    #     # indice = f'{r[2]:.6f}'.replace('.',',')
-    #     folgas = f'{r[3]:.4f}'.replace('.',',')
-    #     custo = f'{r[4]:.2f}'.replace('.',',')
-    #     custo_total = f'{r[4]*len(r[0]):.2f}'.replace('.',',')
-    #     message = f'{c: >2}° | Melhoria: {melhoria:^8} - Custo de Folga: {custo_folga} - Custo: {custo} - Índice Folga: {folgas} '
-    #     print(message)
-    #     c += 1
-    #     if c > 10: break
+    validades_ranqueadas_por_custo = validade_organizado
+    validades_ranqueadas_por_custo = ordenar(validades_ranqueadas_por_custo)
 
-    return validade
+    c = 1
+    # Mostrando as 10 primeiras
+    # for v in validade_organizado:
+    for v in validades_ranqueadas_por_custo:
+        melhoria = ','.join([str(h) for h in v[0]])
+        anos_disponibilidade = f'{v[2]}'
+        custo_total = f'{v[3]:.2f}'.replace('.',',')
+        custo_anual = f'{v[1]:.2f}'.replace('.',',')
+        message = f'{c: >2}° | Melhoria: {melhoria:^30} - Anos disponíveis: {anos_disponibilidade} - Custo: {custo_total} - Custo anual: {custo_anual} '
+        print(message)
+        c += 1
+        if c > 20: break
+
+    # return validade_organizado
+    return validades_ranqueadas_por_custo
 
