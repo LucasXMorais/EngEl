@@ -4,6 +4,7 @@
 import time
 import progressbar
 import numpy as np
+import matplotlib.pyplot as plt
 import configparser
 import copy
 from modules import otimizacao
@@ -461,6 +462,18 @@ def calcularTempoObsolescencia(sis, ranking: list) -> list:
 
     validades_ranqueadas_por_custo = validade_organizado
     validades_ranqueadas_por_custo = ordenar(validades_ranqueadas_por_custo)
+
+    # Apresentando correlação de custo de anos
+    # lista_custo = []
+    # lista_anos = []
+    # for v in validades_ranqueadas_por_custo:
+    #     lista_custo.append(v[3])
+    #     lista_anos.append(v[2])
+
+    # print('hi', len(lista_anos))
+    # plt.plot(lista_custo, lista_anos, 'ro')
+    # # plt.axis((0, 6, 0, 20))
+    # plt.show()
 
     c = 1
     # Mostrando as 10 primeiras
